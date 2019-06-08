@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Geo from './views/Geo'
+import Home from './views/Home'
 import Loc from './views/Loc'
 import Faq from './views/Faq'
 
@@ -16,7 +16,7 @@ export default new Router({
     routes: [
         {
             path: '/',
-            redirect: "/geo"
+            component: Home
         },
         {
             path: '/faq',
@@ -26,13 +26,6 @@ export default new Router({
         {
             path: '/loc/:id',
             component: Loc
-        },
-
-        {
-            path: '/geo',
-            name: 'geo',
-            component: Geo,
-            reloadOnSearch: false
         }
     ]
 })

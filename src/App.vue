@@ -4,6 +4,7 @@
 
 
   <v-content>
+    <main-header></main-header>
     <v-container fluid fill-height class="pa-0">
       <v-layout
         justify-center
