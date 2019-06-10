@@ -2,7 +2,7 @@
 
     <v-toolbar flat color="white">
         <v-toolbar-title>
-            <a class="site-logo" href="/search">
+            <a class="site-logo" href="/search" v-show="!isOnBasepage">
                 <img src="https://i.imgur.com/hp1oH5u.png" alt="">
             </a>
 
