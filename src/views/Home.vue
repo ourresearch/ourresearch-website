@@ -12,7 +12,7 @@
 
                                 <v-img  class="main" src="https://i.imgur.com/hQEffrN.png" alt=""></v-img>
                         <div class="headline pt-5 text-xs-center">
-                                We build digital tools to make scholarly research more open, connected, and reusable&mdash;for everyone. Because knowledge belongs to all of us.
+                                We build digital tools to make scholarly research more open, connected, and reusable&mdash;for everyone.
 
                         </div>
                     </v-flex>
