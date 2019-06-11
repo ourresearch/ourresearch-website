@@ -32,11 +32,15 @@
                 <v-layout fill-height row v-bind="valuesLayout">
                     <v-flex xs12 v-for="value in values">
                         <div class="my-card px-3 py-5 white--text" :style="{background: value.color}">
-                            <h3 class=" value-name  display-1 py-3">
-                                <img :src="getImgUrl(value.img)" alt="">
-                                {{value.name}}
+                            <v-layout class="pb-3" fill-height align-center>
+                                <v-flex shrink class="pr-3">
+                                    <img :src="getImgUrl(value.img)" style="height: 50px;">
+                                </v-flex>
+                                <v-flex class="headline">
+                                    {{value.name}}
 
-                            </h3>
+                                </v-flex>
+                            </v-layout>
                             <div class="pb-5">
                                 {{value.text}}
                             </div>
