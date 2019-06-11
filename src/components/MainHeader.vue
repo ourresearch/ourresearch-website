@@ -8,7 +8,7 @@
 
         </v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-toolbar-items>
+        <v-toolbar-items class="hidden-sm-and-down">
             <v-btn flat>Values</v-btn>
             <v-btn flat>Projects</v-btn>
             <v-btn flat>Team</v-btn>
@@ -38,14 +38,6 @@
 <style scoped lang="scss">
     img {
         width: 200px;
-    }
-    .main-header {
-        /*padding: 10px;*/
-        /*display: flex;*/
-        /*align-items: center;*/
-        /*.logo {*/
-        /*    margin-right: 20px;*/
-        /*}*/
     }
 
 

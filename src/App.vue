@@ -33,7 +33,7 @@
 
 
     @import url("https://use.fontawesome.com/releases/v5.8.1/css/all.css");
-    @import url("https://fonts.googleapis.com/css?family=Lato:300,400,700,400italic");
+    @import url("https://fonts.googleapis.com/css?family=Lato:100,300,400,700,400italic");
 
 
     html {
@@ -45,7 +45,13 @@
     body {
         background: #fff;
         font-size: 16px;
-        font-family: Lato, sans-serif;
+        .application {
+            font-family: Lato!important;
+            .body-1, .body-2, .headline, .title, .display-1, .display-2, .display-3 {
+                font-family: Lato!important;
+            }
+
+        }
 
         &.noscroll {
             overflow: hidden !important;
