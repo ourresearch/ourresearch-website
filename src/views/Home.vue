@@ -24,9 +24,9 @@
 
 
         <section style="padding: 50px 0 0 0;">
-            <v-container fluid class="px-0 pt-0 pb-2" style="background:#555;">
+            <v-container fluid class="px-0 pt-0 pb-2" style="background:#eee;">
                 <v-layout row align-center class="py-4">
-                    <v-flex class="text-xs-center display-1 font-weight-light white--text">These are our values:
+                    <v-flex class="text-xs-center display-1 font-weight-light ">These are our values:
                     </v-flex>
                 </v-layout>
                 <v-layout fill-height row v-bind="valuesLayout">
@@ -55,7 +55,7 @@
 
         </section>
 
-        <section style="background: #fafafa;">
+        <section>
 
 
             <v-container class="py-5" >
@@ -66,75 +66,26 @@
                 </v-layout>
                 <v-container fluid grid-list-lg>
                     <v-layout wrap justify-center>
-                        <v-flex class="my-card" xs12 sm6>
-                            <v-card>
-                                <v-layout fill-height>
-                                    <v-flex xs4 style="background: #42a0f2">
-                                        <v-container fill-height>
-                                            <v-layout align-center justify-center>
-                                                <div>depsy</div>
-                                            </v-layout>
-                                        </v-container>
-                                    </v-flex>
-                                    <v-flex xs8>
-                                        Lorem ipsum dolor amet sriracha pug distillery chicharrones banh mi, next level tofu edison bulb gluten-free portland vice art party heirloom venmo chia. Locavore yuccie live-edge, green juice cold-pressed pickled mixtape taiyaki beard air plant pabst unicorn biodiesel truffaut gentrify. Single-origin coffee letterpress green juice schlitz enamel pin hot chicken kombucha celiac leggings. Swag etsy before they sold out, blog kogi chicharrones pop-up meh live-edge jean shorts portland seitan. Trust fund palo santo pug, man braid kogi craft beer bitters williamsburg kinfolk locavore hoodie.
 
-    Whatever waistcoat scenester lyft locavore thundercats. Marfa vaporware bicycle rights pinterest kogi roof party. Selfies enamel pin post-ironic twee 90's vexillologist. Before they sold out messenger bag pug, church-key austin knausgaard prism paleo man bun chillwave narwhal. Drinking vinegar scenester swag, pabst cardigan umami air plant try-hard vinyl. Affogato farm-to-table direct trade irony, wayfarers raclette seitan ramps pork belly small batch scenester.
+                        <v-flex class="my-card" xs12 sm4 v-for="project in projects">
+                            <v-layout class="header">
+                                <v-flex>
+                                    <img :src="getImgUrl('logos/' + project.id + '.png')" style="height: 50px;" >
+                                </v-flex>
+                            </v-layout>
+                            <v-layout>
+                                <div>
+                                    {{project.name}}
+                                </div>
+                            </v-layout>
+                            <div class="body">
 
-
-                                    </v-flex>
-                                </v-layout>
-
-                            </v-card>
-
+                            </div>
                         </v-flex>
 
 
 
 
-
-
-    <!--                    <v-flex sm12 md3>-->
-    <!--                        <v-card>-->
-    <!--                            <v-img src="https://i.imgur.com/05HieLu.png"></v-img>-->
-    <!--                            <v-card-text>Lorem ipsum dolor amet pok pok normcore seitan umami, pickled freegan iceland-->
-    <!--                                asymmetrical crucifix jianbing.-->
-    <!--                            </v-card-text>-->
-    <!--                        </v-card>-->
-
-    <!--                    </v-flex>-->
-
-
-    <!--                    <v-flex sm12 md3>-->
-    <!--                        <v-card>-->
-    <!--                            <v-img src="https://i.imgur.com/xLwYhap.png"></v-img>-->
-    <!--                            <v-card-text>Lorem ipsum dolor amet pok pok normcore seitan umami, pickled freegan iceland-->
-    <!--                                asymmetrical crucifix jianbing.-->
-    <!--                            </v-card-text>-->
-
-    <!--                        </v-card>-->
-
-    <!--                    </v-flex>-->
-
-    <!--                    <v-flex sm12 md3>-->
-    <!--                        <v-card>-->
-    <!--                            <v-img src="https://i.imgur.com/4WLDRPI.png"></v-img>-->
-    <!--                            <v-card-text>Lorem ipsum dolor amet pok pok normcore seitan umami, pickled freegan iceland-->
-    <!--                                asymmetrical crucifix jianbing.-->
-    <!--                            </v-card-text>-->
-
-    <!--                        </v-card>-->
-    <!--                    </v-flex>-->
-
-    <!--                    <v-flex sm12 md3>-->
-    <!--                        <v-card>-->
-    <!--                            <v-img src="https://i.imgur.com/xFLO2H5.png"></v-img>-->
-    <!--                            <v-card-text>Lorem ipsum dolor amet pok pok normcore seitan umami, pickled freegan iceland-->
-    <!--                                asymmetrical crucifix jianbing.-->
-    <!--                            </v-card-text>-->
-
-    <!--                        </v-card>-->
-    <!--                    </v-flex>-->
 
 
                     </v-layout>
@@ -154,43 +105,15 @@
 </template>
 
 <script>
+    import {projectsList} from "../data/projectDescriptions";
+    import {valuesList} from "../data/valueDescriptions";
 
 
     export default {
         name: 'home',
         data: () => ({
-            values: [
-                {
-                    name: "Openness",
-                    img: "white-star-top-left.png",
-                    color: "#427F21",
-                    text: "We work for Open: scholarly articles, datasets, metadata, and software. And we make our own code and data open, too."
-                },
-                {
-                    name: "Progress",
-                    color: "#C94430",
-                    img: "white-star-top.png",
-                    text: "We build infrastructure to power faster, more connected, web-native ways of creating knowledge. We push beyond the paper."
-                },
-                {
-                    name: "Pragmatism",
-                    color: "#419CCD",
-                    img: "white-star-top-right.png",
-                    text: "We'd rather build it than talk about it. We try to make what's possible, right now, and keep improving it over time."
-                },
-                {
-                    name: "Sustainability",
-                    color: "#D57433",
-                    img: "white-star-bottom-right.png",
-                    text: "We're a lean, hustling, resilient nonprofit. After 8yrs, we're now 100% self-sustaining via earned revenue."
-                },
-                {
-                    name: "Community",
-                    color: "#C84A75",
-                    img: "white-star-bottom-left.png",
-                    text: "We believe research communication infrastructure should be open, nonprofit, and responsive to the research community."
-                },
-            ]
+            projects: projectsList,
+            values: valuesList,
         }),
         computed: {
             valuesLayout() {
@@ -201,8 +124,9 @@
         },
         methods: {
             getImgUrl(pic) {
-                console.log("looking for", pic)
                 if (pic){
+                    let url = "../assets/" + pic
+                    console.log("getting this", url)
                     return require('../assets/' + pic)
                 }
             }

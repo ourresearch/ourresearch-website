@@ -8,7 +8,7 @@
 
         </v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-toolbar-items class="hidden-sm-and-down">
+        <v-toolbar-items class="hidden-sm-and-down8">
             <v-btn flat>Values</v-btn>
             <v-btn flat>Projects</v-btn>
             <v-btn flat>Team</v-btn>
