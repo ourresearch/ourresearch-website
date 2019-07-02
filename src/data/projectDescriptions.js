@@ -4,6 +4,7 @@ export const projectsList = [
     {
         name: "Depsy",
         id: "depsy",
+        imgHeight: 100,
         datesActive: [2015, 2018],
         url: "http://depsy.org",
         description: "A tool to show the impact of research software",
@@ -32,6 +33,7 @@ export const projectsList = [
     {
         name: "Impactstory",
         id: "impactstory-profiles",
+        imgHeight: 100,
         datesActive: [2011, null],
         url: "https://profiles.impactstory.org",
         description: "researcher impact profiles highlighting altmetrics",
@@ -69,10 +71,14 @@ export const projectsList = [
     },
 
 
+
+
+
     // UNPAYWALL
     {
         name: "Unpaywall",
         id: "unpaywall",
+        imgHeight: 100,
         datesActive: [2016, null],
         url: "https://unpaywall.org",
         description: "A free, comprehensive database of open access scholarly articles",
@@ -102,10 +108,14 @@ export const projectsList = [
     },
 
 
+
+
+
     // GETTHERESEARCH
     {
         name: "GetTheResearch",
         id: "gettheresearch",
+        imgHeight: 100,
         datesActive: [2018, null],
         url: "https://gettheresearch.org",
         description: "An academic search engine for regular people",
@@ -134,10 +144,13 @@ export const projectsList = [
     },
 
 
+
+
     // PAPERBUZZ
     {
         name: "PaperBuzz",
         id: "paperbuzz",
+        imgHeight: 100,
         datesActive: [2018, null],
         url: "https://paperbuzz.org",
         description: "An open source of altmetrics data, based on Crossref Event Data",
@@ -162,10 +175,13 @@ export const projectsList = [
     },
 
 
+
+
     // CITEAS
     {
         name: "CiteAs",
         id: "citeas",
+        imgHeight: 100,
         datesActive: [2015, null],
         url: "https://citeas.org",
         description: "A simple tool to help researchers correctly cite the research software they use",

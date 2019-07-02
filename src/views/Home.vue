@@ -3,14 +3,14 @@
 
 
         <section class="top">
-            <v-container style="height: 90vh;">
+            <v-container>
                 <v-layout fill-height align-center justify-center>
 
 
                     <v-flex xs12 sm6>
 
 
-                        <v-img class="main" src="https://i.imgur.com/hQEffrN.png" alt=""></v-img>
+                        <!--                        <v-img class="main" src="https://i.imgur.com/hQEffrN.png" alt="" style="max-width:200px"></v-img>-->
                         <div class="headline pt-5 text-xs-center">
                             We build digital tools to make scholarly research more open, connected, and reusable&mdash;for
                             everyone.
@@ -20,6 +20,88 @@
 
                 </v-layout>
             </v-container>
+        </section>
+
+
+        <section>
+            <v-tabs
+                    v-model="active"
+            >
+                <v-tab
+                        v-for="project in projects"
+                        :key="''+project.id"
+                        ripple
+                >
+                    {{ project.name }}
+
+                </v-tab>
+
+                <v-tab-item
+                        v-for="project in projects"
+                        :key="'tab-item'+project.id"
+                >
+
+                    <v-card>
+                        <v-card-text>
+                            <v-layout class="header" align-center justify-center
+                                      style="min-height: 82px">
+                                <v-flex style="text-align: center">
+                                    <img :src="getImgUrl('logos/' + project.id + '.png')"
+                                         :style="{width: '50%'}">
+                                </v-flex>
+                            </v-layout>
+                            <v-layout>
+                                <div>
+                                    {{project.description}}
+                                </div>
+                            </v-layout>
+                            <v-layout>
+                                <div>
+                                    <em>Goal:</em>
+                                    <span>
+                                                {{project.goal}}
+                                            </span>
+                                </div>
+                            </v-layout>
+
+                            <v-layout>
+                                <em>Funding:</em>
+                                <div class="funder" v-for="funder in project.funders">
+
+                                </div>
+                            </v-layout>
+
+
+                            <v-layout>
+                                <div>
+                                    <div>
+                                        <em>Coverage:</em>
+                                    </div>
+                                    <ul>
+                                        <li v-for="coverageItem in project.press">
+                                            <a :href="coverageItem.link">
+                                                {{coverageItem.title}}
+                                            </a>
+                                            <span>({{coverageItem.source}})</span>
+
+
+                                        </li>
+                                    </ul>
+                                    <span>
+
+                                            </span>
+                                </div>
+                            </v-layout>
+
+                        </v-card-text>
+
+                    </v-card>
+
+
+                </v-tab-item>
+            </v-tabs>
+
+
         </section>
 
 
@@ -57,42 +139,6 @@
 
         <section>
 
-
-            <v-container class="py-5" >
-
-
-                <v-layout row align-center>
-                    <v-flex class="display-2 text-xs-center">This is what we build:</v-flex>
-                </v-layout>
-                <v-container fluid grid-list-lg>
-                    <v-layout wrap justify-center>
-
-                        <v-flex class="my-card" xs12 sm4 v-for="project in projects">
-                            <v-layout class="header">
-                                <v-flex>
-                                    <img :src="getImgUrl('logos/' + project.id + '.png')" style="height: 50px;" >
-                                </v-flex>
-                            </v-layout>
-                            <v-layout>
-                                <div>
-                                    {{project.name}}
-                                </div>
-                            </v-layout>
-                            <div class="body">
-
-                            </div>
-                        </v-flex>
-
-
-
-
-
-
-                    </v-layout>
-
-                </v-container>
-
-            </v-container>
         </section>
 
 
@@ -114,6 +160,7 @@
         data: () => ({
             projects: projectsList,
             values: valuesList,
+            active: null
         }),
         computed: {
             valuesLayout() {
@@ -124,7 +171,7 @@
         },
         methods: {
             getImgUrl(pic) {
-                if (pic){
+                if (pic) {
                     let url = "../assets/" + pic
                     console.log("getting this", url)
                     return require('../assets/' + pic)
