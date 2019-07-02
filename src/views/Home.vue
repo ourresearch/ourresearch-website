@@ -46,9 +46,9 @@
                         <v-card-text>
                             <v-layout class="header" align-center justify-center
                                       style="min-height: 82px">
-                                <v-flex style="text-align: center">
+                                <v-flex >
                                     <img :src="getImgUrl('logos/' + project.id + '.png')"
-                                         :style="{width: '50%'}">
+                                         :style="{width: '200px'}">
                                 </v-flex>
                             </v-layout>
                             <v-layout>
@@ -76,21 +76,16 @@
                             <v-layout>
                                 <div>
                                     <div>
-                                        <em>Coverage:</em>
-                                    </div>
-                                    <ul>
-                                        <li v-for="coverageItem in project.press">
+                                        Read coverage in
+                                        <span v-for="(coverageItem, index) in project.press">
                                             <a :href="coverageItem.link">
-                                                {{coverageItem.title}}
+                                                {{coverageItem.source}}
+
+                                                <template v-if="index+1 < project.press.length">,</template>
+
                                             </a>
-                                            <span>({{coverageItem.source}})</span>
-
-
-                                        </li>
-                                    </ul>
-                                    <span>
-
-                                            </span>
+                                        </span>
+                                    </div>
                                 </div>
                             </v-layout>
 
