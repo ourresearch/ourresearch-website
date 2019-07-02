@@ -25,10 +25,11 @@
 
         <section>
             <v-tabs
-                    v-model="active"
+                    v-model="activeTab"
             >
                 <v-tab
                         v-for="project in projects"
+                        @click="userHasClickedAnyTab=true"
                         :key="''+project.id"
                         ripple
                 >
@@ -160,7 +161,9 @@
         data: () => ({
             projects: projectsList,
             values: valuesList,
-            active: null
+            activeTab: 0,
+            userHasClickedAnyTab: false,
+            tabCycleInterval: 3000
         }),
         computed: {
             valuesLayout() {
@@ -173,10 +176,37 @@
             getImgUrl(pic) {
                 if (pic) {
                     let url = "../assets/" + pic
-                    console.log("getting this", url)
                     return require('../assets/' + pic)
                 }
+            },
+            cycleActiveTab() {
+                let numProjects = this.projects.length
+                if (this.activeTab + 1 < numProjects) {
+                    this.activeTab += 1
+                } else {
+                    this.activeTab = 0
+                }
             }
+
+        },
+        mounted() {
+
+            let that = this
+            let tick = function () {
+                if (that.userHasClickedAnyTab) {
+                    return false
+                }
+
+
+                console.log("tick!")
+                that.cycleActiveTab()
+                setTimeout(function () {
+                    return tick()
+                }, that.tabCycleInterval)
+            }
+
+            setTimeout(tick, that.tabCycleInterval)
+
         }
     }
 </script>

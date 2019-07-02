@@ -1,5 +1,43 @@
 export const projectsList = [
 
+
+
+    // UNPAYWALL
+    {
+        name: "Unpaywall",
+        id: "unpaywall",
+        imgHeight: 100,
+        datesActive: [2016, null],
+        url: "https://unpaywall.org",
+        description: "A free, comprehensive database of open access scholarly articles",
+        goal: "Integrate open access into scholarly reading workflows",
+        audience: [
+            "scholars",
+            "general public"
+        ],
+        press: [
+            {
+                title: "How Unpaywall is transforming open science",
+                link: "https://www.nature.com/articles/d41586-018-05968-3",
+                source: "Nature"
+            },
+            {
+                title: "Unpaywall scours the web for free versions of scientific papers",
+                link: "https://techcrunch.com/2017/04/05/unpaywall-scours-the-web-for-free-versions-of-scientific-papers/",
+                source: "TechCrunch"
+            }
+        ],
+        funders: [
+            {
+                name: "Funded via commercial SLAs subscription by users including Clarivate Analytics, Elsevier, Digital Science, OCLC, ProQuest",
+                url: ""
+            }
+        ]
+    },
+
+
+
+
     // DEPSY
     {
         name: "Depsy",
@@ -74,38 +112,6 @@ export const projectsList = [
 
 
 
-    // UNPAYWALL
-    {
-        name: "Unpaywall",
-        id: "unpaywall",
-        imgHeight: 100,
-        datesActive: [2016, null],
-        url: "https://unpaywall.org",
-        description: "A free, comprehensive database of open access scholarly articles",
-        goal: "Integrate open access into scholarly reading workflows",
-        audience: [
-            "scholars",
-            "general public"
-        ],
-        press: [
-            {
-                title: "How Unpaywall is transforming open science",
-                link: "https://www.nature.com/articles/d41586-018-05968-3",
-                source: "Nature"
-            },
-            {
-                title: "Unpaywall scours the web for free versions of scientific papers",
-                link: "https://techcrunch.com/2017/04/05/unpaywall-scours-the-web-for-free-versions-of-scientific-papers/",
-                source: "TechCrunch"
-            }
-        ],
-        funders: [
-            {
-                name: "Funded via commercial SLAs subscription by users including Clarivate Analytics, Elsevier, Digital Science, OCLC, ProQuest",
-                url: ""
-            }
-        ]
-    },
 
 
 
