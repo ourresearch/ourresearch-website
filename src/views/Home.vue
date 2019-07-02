@@ -40,6 +40,7 @@
                 <v-tab-item
                         v-for="project in projects"
                         :key="'tab-item'+project.id"
+                        :reverse-transition="false"
                 >
 
                     <v-card>
