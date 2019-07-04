@@ -44,7 +44,7 @@
 
     body {
         background: #fff;
-        font-size: 16px;
+        font-size: 18px;
         .application {
             font-family: Lato!important;
             .body-1, .body-2, .headline, .title, .display-1, .display-2, .display-3 {

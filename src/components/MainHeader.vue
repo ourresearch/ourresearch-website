@@ -2,17 +2,16 @@
 
     <v-toolbar flat color="white">
         <v-toolbar-title>
-            <a class="site-logo" href="/" v-show="true">
+            <router-link class="site-logo" to="./" v-show="true">
                 <img src="https://i.imgur.com/gf3pl49.png" alt="">
-            </a>
+            </router-link>
 
         </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items class="hidden-sm-and-down8">
-            <v-btn flat>Values</v-btn>
-            <v-btn flat>Projects</v-btn>
-            <v-btn flat>Team</v-btn>
-            <v-btn flat>Press</v-btn>
+            <v-btn flat v-if="!isOnBasepage" to="/">Home</v-btn>
+            <v-btn flat to="./team">Team</v-btn>
+            <v-btn flat to="./contact">Contact</v-btn>
         </v-toolbar-items>
 
 
@@ -29,7 +28,8 @@
         name: 'MainHeader',
         computed: {
           isOnBasepage(){
-              return window.location.pathname == "/"
+              console.log("pathname",this.$route )
+              return this.$route.path == "/"
           }
         }
     }

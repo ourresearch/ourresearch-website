@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home'
-import Loc from './views/Loc'
-import Faq from './views/Faq'
+import Team from './views/Team'
+import Contact from './views/Contact'
 
 import Meta from 'vue-meta'
 
@@ -19,13 +19,12 @@ export default new Router({
             component: Home
         },
         {
-            path: '/faq',
-            component: Faq
+            path: '/team',
+            component: Team
         },
-
         {
-            path: '/loc/:id',
-            component: Loc
+            path: '/contact',
+            component: Contact
         }
     ]
 })

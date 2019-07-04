@@ -38,6 +38,47 @@ export const projectsList = [
 
 
 
+
+
+
+
+
+    // GETTHERESEARCH
+    {
+        name: "GetTheResearch",
+        id: "gettheresearch",
+        imgHeight: 100,
+        datesActive: [2018, null],
+        url: "https://gettheresearch.org",
+        description: "An academic search engine for regular people",
+        goal: "Leverage Open Access and AI to help nonspecialists find, read, and understand scholarly research",
+        audience: [
+            "general public"
+        ],
+        press: [
+            {
+                title: "Get The Research: Impactstory Announces a New Science-Finding Tool for the General Public",
+                link: "https://scholarlykitchen.sspnet.org/2018/11/12/get-the-research-impactstory-announces-a-new-science-finding-tool-for-the-general-public/",
+                source: "Scholarly Kitchen"
+            },
+            {
+                title: "New Tool for Open-Access Research",
+                link: "https://www.insidehighered.com/quicktakes/2018/07/09/new-tool-open-access-research",
+                source: "Inside Higher Ed"
+            }
+        ],
+        funders: [
+            {
+                name: "Arcadia—A charitable fund of Lisbet Rausing and Peter Baldwin.",
+                url: "https://www.arcadiafund.org.uk/"
+            }
+        ]
+    },
+
+
+
+
+
     // DEPSY
     {
         name: "Depsy",
@@ -110,44 +151,6 @@ export const projectsList = [
 
 
 
-
-
-
-
-
-
-
-    // GETTHERESEARCH
-    {
-        name: "GetTheResearch",
-        id: "gettheresearch",
-        imgHeight: 100,
-        datesActive: [2018, null],
-        url: "https://gettheresearch.org",
-        description: "An academic search engine for regular people",
-        goal: "Leverage Open Access and AI to help nonspecialists find, read, and understand scholarly research",
-        audience: [
-            "general public"
-        ],
-        press: [
-            {
-                title: "Get The Research: Impactstory Announces a New Science-Finding Tool for the General Public",
-                link: "https://scholarlykitchen.sspnet.org/2018/11/12/get-the-research-impactstory-announces-a-new-science-finding-tool-for-the-general-public/",
-                source: "Scholarly Kitchen"
-            },
-            {
-                title: "New Tool for Open-Access Research",
-                link: "https://www.insidehighered.com/quicktakes/2018/07/09/new-tool-open-access-research",
-                source: "Inside Higher Ed"
-            }
-        ],
-        funders: [
-            {
-                name: "Arcadia—A charitable fund of Lisbet Rausing and Peter Baldwin.",
-                url: "https://www.arcadiafund.org.uk/"
-            }
-        ]
-    },
 
 
 

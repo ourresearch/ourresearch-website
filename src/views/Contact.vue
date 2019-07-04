@@ -1,0 +1,37 @@
+<template>
+
+    <v-container>
+            <h1 class="display-1 pb-3">Contact</h1>
+            <p>
+                Thanks for your interest in getting in touch! We'd love to hear from you. Drop us a line at <a
+                    href="mailto:team@ourresearch.org">team@ourresearch.org</a>.
+            </p>
+            <p>
+                If you'd like to keep up with our goings-on, there are a few more options. You can
+            </p>
+            <ul>
+                <li>
+                    <a href="https://twitter.com/ourresearch_org">follow us on Twitter,</a>
+                </li>
+                <li>
+                    <a href="http://eepurl.com/RaRZ1">subscribe to our mailing list,</a> and
+                </li>
+                <li>
+                    <a href="https://github.com/ourresearch">follow us on GitHub.</a>
+                </li>
+            </ul>
+
+    </v-container>
+
+
+</template>
+
+<script>
+    export default {
+        name: "Contact"
+    }
+</script>
+
+<style scoped>
+
+</style>

@@ -2,7 +2,7 @@
     <div class="home">
 
 
-        <section class="top" style="min-height: 50vh;">
+        <section class="top">
             <v-container>
                 <v-layout fill-height align-center justify-center>
 
@@ -26,10 +26,12 @@
         <section>
             <v-container>
                 <v-toolbar dark  tabs class="text-xs-center" color="grey darken-3">
-                    <v-toolbar-title >Our recent projects:</v-toolbar-title>
+                    <v-spacer></v-spacer>
+                    <v-toolbar-title class="headline">Featured tools:</v-toolbar-title>
+                    <v-spacer></v-spacer>
 
                     <template v-slot:extension>
-                        <v-tabs v-model="activeTab"  color="grey darken-3">
+                        <v-tabs v-model="activeTab" centered color="grey darken-3">
                             <v-tab
                                     v-for="project in projects"
                                     @click="userHasClickedAnyTab=true"
@@ -83,7 +85,7 @@
                                 <v-layout>
                                     <em>Funding:</em>
                                     <div class="funder" v-for="funder in project.funders">
-
+                                        {{funder.name}}
                                     </div>
                                 </v-layout>
 
