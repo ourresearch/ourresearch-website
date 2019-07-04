@@ -3,55 +3,50 @@
 
 
         <section class="top">
-            <v-container>
-                <v-layout fill-height align-center justify-center>
+            <v-container grid-list-xl>
+                <v-layout fill-height align-center justify-center class="py-5">
 
 
-                    <v-flex xs12 sm6>
+                    <v-flex xs12 sm8>
 
 
                         <!--                        <v-img class="main" src="https://i.imgur.com/hQEffrN.png" alt="" style="max-width:200px"></v-img>-->
-                        <div class="headline pt-5 text-xs-center">
+                        <div class="display-2 font-weight-light">
                             We build tools to make scholarly research more open, connected, and reusable&mdash;for
                             everyone.
-
                         </div>
+
+                        <div class="pt-3 tools-list">
+                            Our free, open-source tools serve millions of API requests every day, and are relied on by research funders, universities, researchers, and thousands of academic libraries worldwide. Our projects include
+                            <a href="https://unpaywall.org">Unpaywall,</a>
+                            <a href="https://gettheresearch.org">GetTheResearch,</a>
+                            <a href="https://paperbuzz.org">PaperBuzz,</a>
+                            <a href="https://citeas.org">CiteAs,</a> and
+                            <a href="http://depsy.org">Depsy</a>&mdash;and more are on the way :).
+                        </div>
+
                     </v-flex>
+
 
                 </v-layout>
             </v-container>
         </section>
 
 
-        <section>
+        <section v-if="false">
             <v-container>
-                <v-toolbar dark  tabs class="text-xs-center" color="grey darken-3">
-                    <v-spacer></v-spacer>
-                    <v-toolbar-title class="headline">Featured tools:</v-toolbar-title>
-                    <v-spacer></v-spacer>
 
-                    <template v-slot:extension>
-                        <v-tabs v-model="activeTab" centered color="grey darken-3">
-                            <v-tab
-                                    v-for="project in projects"
-                                    @click="userHasClickedAnyTab=true"
-                                    :key="''+project.id"
-                                    ripple
-                            >
-                                {{ project.name }}
+                <div class="text-xs-center headline">Here's some of the stuff we make:</div>
+                <v-tabs v-model="activeTab" dark centered color="grey darken-3">
+                    <v-tab
+                            v-for="project in projects"
+                            @click="userHasClickedAnyTab=true"
+                            :key="''+project.id"
+                            ripple
+                    >
+                        {{ project.name }}
 
-                            </v-tab>
-                        </v-tabs>
-
-
-                    </template>
-
-
-                </v-toolbar>
-
-
-                <v-tabs-items v-model="activeTab">
-
+                    </v-tab>
 
 
                     <v-tab-item
@@ -61,50 +56,52 @@
 
                         <v-card>
                             <v-card-text>
-                                <v-layout class="header" align-center justify-center
-                                          style="min-height: 82px">
-                                    <v-flex>
-                                        <img :src="getImgUrl('logos/' + project.id + '.png')"
-                                             :style="{width: '200px'}">
+                                <v-layout>
+                                    <v-flex xs4>
+                                        <v-img src="https://i.imgur.com/73miYzT.png"></v-img>
                                     </v-flex>
-                                </v-layout>
-                                <v-layout>
-                                    <div>
-                                        {{project.description}}
-                                    </div>
-                                </v-layout>
-                                <v-layout>
-                                    <div>
-                                        <em>Goal:</em>
-                                        <span>
-                                                    {{project.goal}}
-                                                </span>
-                                    </div>
-                                </v-layout>
-
-                                <v-layout>
-                                    <em>Funding:</em>
-                                    <div class="funder" v-for="funder in project.funders">
-                                        {{funder.name}}
-                                    </div>
-                                </v-layout>
-
-
-                                <v-layout>
-                                    <div>
+                                    <v-flex xs8>
                                         <div>
-                                            Read coverage in
-                                            <span v-for="(coverageItem, index) in project.press">
-                                                <a :href="coverageItem.link">
-                                                    {{coverageItem.source}}
-
-                                                    <template v-if="index+1 < project.press.length">, </template>
-
-                                                </a>
-                                            </span>
+                                            <img :src="getImgUrl('logos/' + project.id + '.png')"
+                                                 :style="{height: '30px'}">
                                         </div>
-                                    </div>
+                                        <div class="headline">
+                                            {{project.description}}
+                                        </div>
+                                        <div>
+                                            <em>Goal:</em>
+                                            <span>
+                                                        {{project.goal}}
+                                                    </span>
+                                        </div>
+                                        <div>
+                                            <em>Funding:</em>
+                                            <div class="funder" v-for="funder in project.funders">
+                                                {{funder.name}}
+                                            </div>
+                                        </div>
+
+
+                                        <div>
+                                            <div>
+                                                Read coverage in
+                                                <span v-for="(coverageItem, index) in project.press">
+                                                    <a :href="coverageItem.link">
+                                                        {{coverageItem.source}}
+
+                                                        <template v-if="index+1 < project.press.length">, </template>
+
+                                                    </a>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </v-flex>
+
+
                                 </v-layout>
+
+
+
 
                             </v-card-text>
 
@@ -112,7 +109,7 @@
 
 
                     </v-tab-item>
-                </v-tabs-items>
+                </v-tabs>
 
 
             </v-container>
@@ -124,8 +121,7 @@
         <section style="padding: 50px 0 0 0;">
             <v-container fluid class="px-0 pt-0 pb-2" style="background:#333;">
                 <v-layout row align-center class="py-4">
-                    <v-flex class="text-xs-center display-1 font-weight-black white--text ">We're a nonprofit that
-                        values:
+                    <v-flex class="text-xs-center display-1  white--text ">We're a nonprofit that values:
                     </v-flex>
                 </v-layout>
                 <hr style="opacity: .05">
@@ -230,6 +226,11 @@
         .value-name {
             img {
                 height: 30px;
+            }
+        }
+        .tools-list {
+            a {
+                margin-left: 5px;
             }
         }
 

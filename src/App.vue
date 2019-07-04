@@ -24,7 +24,7 @@
         },
         metaInfo: {
             // if no subcomponents specify a metaInfo.title, this title will be used
-            title: 'OurResearch'
+            title: 'Our Research'
         }
     }
 </script>

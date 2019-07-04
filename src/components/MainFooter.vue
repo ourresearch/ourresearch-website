@@ -3,7 +3,7 @@
 
 
 <template>
-    <v-footer color="white" height="auto" class="site-footer d-block pa-5">
+    <v-footer  height="auto" class="site-footer d-block pa-3">
 
 
         <div class="pb-2 pt-4 headline text-xs-center">
@@ -23,7 +23,7 @@
 
 
         <div class="text-xs-center nonprofit">
-            Our Research is a 501(c)3 nonprofit headquartered in Sanford, NC, USA.
+            Our Research is proud to be a 501(c)3 nonprofit.
         </div>
 
 
