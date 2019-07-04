@@ -11,7 +11,7 @@
             </p>
             <ul>
                 <li>
-                    <a href="https://twitter.com/ourresearch_org">follow us on Twitter,</a>
+                    <a href="https://twitter.com/our_research">follow us on Twitter,</a>
                 </li>
                 <li>
                     <a href="http://eepurl.com/RaRZ1">subscribe to our mailing list,</a> and
