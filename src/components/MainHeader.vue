@@ -2,8 +2,8 @@
 
     <v-toolbar flat color="white">
         <v-toolbar-title>
-            <a class="site-logo" href="/search" v-show="true">
-                <img src="https://i.imgur.com/hp1oH5u.png" alt="">
+            <a class="site-logo" href="/" v-show="true">
+                <img src="https://i.imgur.com/gf3pl49.png" alt="">
             </a>
 
         </v-toolbar-title>
@@ -37,7 +37,7 @@
 
 <style scoped lang="scss">
     img {
-        width: 200px;
+        width: 150px;
     }
 
 

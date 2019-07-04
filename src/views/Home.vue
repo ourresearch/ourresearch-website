@@ -2,7 +2,7 @@
     <div class="home">
 
 
-        <section class="top">
+        <section class="top" style="min-height: 50vh;">
             <v-container>
                 <v-layout fill-height align-center justify-center>
 
@@ -12,7 +12,7 @@
 
                         <!--                        <v-img class="main" src="https://i.imgur.com/hQEffrN.png" alt="" style="max-width:200px"></v-img>-->
                         <div class="headline pt-5 text-xs-center">
-                            We build digital tools to make scholarly research more open, connected, and reusable&mdash;for
+                            We build tools to make scholarly research more open, connected, and reusable&mdash;for
                             everyone.
 
                         </div>
@@ -82,7 +82,7 @@
                                             <a :href="coverageItem.link">
                                                 {{coverageItem.source}}
 
-                                                <template v-if="index+1 < project.press.length">,</template>
+                                                <template v-if="index+1 < project.press.length">, </template>
 
                                             </a>
                                         </span>
@@ -103,19 +103,20 @@
 
 
         <section style="padding: 50px 0 0 0;">
-            <v-container fluid class="px-0 pt-0 pb-2" style="background:#eee;">
+            <v-container fluid class="px-0 pt-0 pb-2" style="background:#333;">
                 <v-layout row align-center class="py-4">
-                    <v-flex class="text-xs-center display-1 font-weight-light ">These are our values:
+                    <v-flex class="text-xs-center display-1 font-weight-black white--text ">We're a nonprofit that values:
                     </v-flex>
                 </v-layout>
-                <v-layout fill-height row v-bind="valuesLayout">
+                <hr style="opacity: .05">
+                <v-layout fill-height row v-bind="valuesLayout" style="background: #333">
                     <v-flex xs12 v-for="value in values">
-                        <div class="my-card px-3 py-5 white--text" :style="{background: value.color}">
+                        <div class="my-card px-3 py-5 white--text" :style="{background: '#333'}">
                             <v-layout class="pb-3" fill-height align-center>
                                 <v-flex shrink class="pr-3">
-                                    <img :src="getImgUrl(value.img)" style="height: 50px;">
+                                    <img :src="getImgUrl('venn/' + value.img)" style="height: 50px;">
                                 </v-flex>
-                                <v-flex class="headline">
+                                <v-flex class="headline font-weight-bold" :style="{color: value.color}">
                                     {{value.name}}
 
                                 </v-flex>
@@ -138,10 +139,6 @@
 
         </section>
 
-
-        <section style="height: 100vh">
-
-        </section>
 
 
     </div>
@@ -201,7 +198,7 @@
                 }, that.tabCycleInterval)
             }
 
-            setTimeout(tick, that.tabCycleInterval)
+            // setTimeout(tick, that.tabCycleInterval)
 
         }
     }
