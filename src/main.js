@@ -37,7 +37,7 @@ Vue.use(Vuetify, {
 })
 Vue.use(VueScrollTo)
 Vue.use(VueAnalytics, {
-  id: "UA-23384030-8",
+  id: "UA-23384030-9",
   router
 })
 Vue.use(VueMoment);
