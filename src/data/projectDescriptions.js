@@ -7,6 +7,7 @@ export const projectsList = [
         name: "Unpaywall",
         id: "unpaywall",
         imgHeight: 100,
+        screenshot: "https://i.imgur.com/j1tDs1S.jpg",
         datesActive: [2016, null],
         url: "https://unpaywall.org",
         description: "A free, comprehensive database of open access scholarly articles",
@@ -29,7 +30,7 @@ export const projectsList = [
         ],
         funders: [
             {
-                name: "Funded via commercial SLAs subscription by users including Clarivate Analytics, Elsevier, Digital Science, OCLC, ProQuest",
+                name: "Commercial service agreements with users including Clarivate Analytics, Elsevier, Digital Science, OCLC, ProQuest, and others.",
                 url: ""
             }
         ]
@@ -48,6 +49,7 @@ export const projectsList = [
         name: "GetTheResearch",
         id: "gettheresearch",
         imgHeight: 100,
+        screenshot: "https://i.imgur.com/IPwtw2M.png",
         datesActive: [2018, null],
         url: "https://gettheresearch.org",
         description: "An academic search engine for regular people",
@@ -84,6 +86,7 @@ export const projectsList = [
         name: "Depsy",
         id: "depsy",
         imgHeight: 100,
+        screenshot: "https://i.imgur.com/De6zKfl.png",
         datesActive: [2015, 2018],
         url: "http://depsy.org",
         description: "A tool to show the impact of research software",
@@ -112,10 +115,11 @@ export const projectsList = [
     {
         name: "Impactstory",
         id: "impactstory-profiles",
+        screenshot: "https://i.imgur.com/BkGlcB0.png",
         imgHeight: 100,
         datesActive: [2011, null],
         url: "https://profiles.impactstory.org",
-        description: "researcher impact profiles highlighting altmetrics",
+        description: "Researcher impact profiles highlighting altmetrics",
         goal: "Promote investment in nontraditional research outputs (datasets, code, blogs, etc) by showcasing impact beyond traditional citation",
         audience: [
             "evaluators",
@@ -160,6 +164,7 @@ export const projectsList = [
         name: "PaperBuzz",
         id: "paperbuzz",
         imgHeight: 100,
+        screenshot: "https://i.imgur.com/JbYsKp8.png",
         datesActive: [2018, null],
         url: "https://paperbuzz.org",
         description: "An open source of altmetrics data, based on Crossref Event Data",
@@ -193,6 +198,7 @@ export const projectsList = [
         imgHeight: 100,
         datesActive: [2015, null],
         url: "https://citeas.org",
+        screenshot: "https://i.imgur.com/WI3nbcq.png",
         description: "A simple tool to help researchers correctly cite the research software they use",
         goal: "Integrate research software products into the academic reward system",
         audience: [

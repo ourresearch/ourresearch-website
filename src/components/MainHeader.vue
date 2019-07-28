@@ -11,6 +11,7 @@
         <v-toolbar-items class="hidden-sm-and-down8">
             <v-btn flat v-if="!isOnBasepage" to="/">Home</v-btn>
             <v-btn flat to="./team">Team</v-btn>
+            <v-btn flat to="./projects">Projects</v-btn>
             <v-btn flat to="./contact">Contact</v-btn>
         </v-toolbar-items>
 

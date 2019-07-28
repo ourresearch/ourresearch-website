@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from './views/Home'
 import Team from './views/Team'
 import Contact from './views/Contact'
+import Projects from './views/Projects'
 
 import Meta from 'vue-meta'
 
@@ -25,6 +26,10 @@ export default new Router({
         {
             path: '/contact',
             component: Contact
+        },
+        {
+            path: '/projects',
+            component: Projects
         }
     ]
 })
