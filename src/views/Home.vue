@@ -25,6 +25,11 @@
                             <a href="http://depsy.org">Depsy</a>&mdash;and more are on the way :).
                         </div>
 
+                        <div>
+                            <v-btn color="primary" class="ml-0 mt-3" depressed to="./projects">
+                                learn more about our projects
+                            </v-btn>
+                        </div>
                     </v-flex>
 
 
@@ -33,89 +38,6 @@
         </section>
 
 
-        <section v-if="false">
-            <v-container>
-
-                <div class="text-xs-center headline">Here's some of the stuff we make:</div>
-                <v-tabs v-model="activeTab" dark centered color="grey darken-3">
-                    <v-tab
-                            v-for="project in projects"
-                            @click="userHasClickedAnyTab=true"
-                            :key="''+project.id"
-                            ripple
-                    >
-                        {{ project.name }}
-
-                    </v-tab>
-
-
-                    <v-tab-item
-                            v-for="project in projects"
-                            :key="'tab-item'+project.id"
-                    >
-
-                        <v-card>
-                            <v-card-text>
-                                <v-layout>
-                                    <v-flex xs4>
-                                        <v-img src="https://i.imgur.com/73miYzT.png"></v-img>
-                                    </v-flex>
-                                    <v-flex xs8>
-                                        <div>
-                                            <img :src="getImgUrl('logos/' + project.id + '.png')"
-                                                 :style="{height: '30px'}">
-                                        </div>
-                                        <div class="headline">
-                                            {{project.description}}
-                                        </div>
-                                        <div>
-                                            <em>Goal:</em>
-                                            <span>
-                                                        {{project.goal}}
-                                                    </span>
-                                        </div>
-                                        <div>
-                                            <em>Funding:</em>
-                                            <div class="funder" v-for="funder in project.funders">
-                                                {{funder.name}}
-                                            </div>
-                                        </div>
-
-
-                                        <div>
-                                            <div>
-                                                Read coverage in
-                                                <span v-for="(coverageItem, index) in project.press">
-                                                    <a :href="coverageItem.link">
-                                                        {{coverageItem.source}}
-
-                                                        <template v-if="index+1 < project.press.length">, </template>
-
-                                                    </a>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </v-flex>
-
-
-                                </v-layout>
-
-
-
-
-                            </v-card-text>
-
-                        </v-card>
-
-
-                    </v-tab-item>
-                </v-tabs>
-
-
-            </v-container>
-
-
-        </section>
 
 
         <section style="padding: 50px 0 0 0;">

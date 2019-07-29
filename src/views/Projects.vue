@@ -16,7 +16,7 @@
                 <v-flex
                         v-for="project in projects"
                         :key="'tab-item'+project.id"
-                        class="py-5"
+                        class="py-5 mb-5"
                         style="border-bottom: 5px solid #fafafa"
                 >
 
