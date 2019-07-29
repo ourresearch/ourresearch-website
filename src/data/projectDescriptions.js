@@ -10,7 +10,8 @@ export const projectsList = [
         screenshot: "https://i.imgur.com/j1tDs1S.jpg",
         datesActive: [2016, null],
         url: "https://unpaywall.org",
-        description: "A free, comprehensive database of open access scholarly articles",
+        githubUrl: "https://github.com/Impactstory/unpaywall",
+        description: "The world's premier database of open access scholarly articles; includes an API and browser extension",
         goal: "Integrate open access into scholarly reading workflows",
         audience: [
             "scholars",
@@ -52,7 +53,8 @@ export const projectsList = [
         screenshot: "https://i.imgur.com/IPwtw2M.png",
         datesActive: [2018, null],
         url: "https://gettheresearch.org",
-        description: "An academic search engine for regular people",
+        githubUrl: "https://github.com/Impactstory/gtr-webapp",
+        description: "An academic search engine for people outside academia",
         goal: "Leverage Open Access and AI to help nonspecialists find, read, and understand scholarly research",
         audience: [
             "general public"
@@ -89,7 +91,8 @@ export const projectsList = [
         screenshot: "https://i.imgur.com/De6zKfl.png",
         datesActive: [2015, 2018],
         url: "http://depsy.org",
-        description: "A tool to show the impact of research software",
+        githubUrl: "https://github.com/Impactstory/depsy",
+        description: "An analytic platform to show the full impact of research software",
         goal: "Promote investment in reusable research software by integrating software products into the academic reward system",
         audience: [
             "evaluators",
@@ -119,7 +122,8 @@ export const projectsList = [
         imgHeight: 100,
         datesActive: [2011, null],
         url: "https://profiles.impactstory.org",
-        description: "Researcher impact profiles highlighting altmetrics",
+        githubUrl: "https://github.com/Impactstory/impactstory-tng",
+        description: "Researcher impact profiles highlighting altmetrics and nontraditional scholarly products",
         goal: "Promote investment in nontraditional research outputs (datasets, code, blogs, etc) by showcasing impact beyond traditional citation",
         audience: [
             "evaluators",
@@ -167,6 +171,7 @@ export const projectsList = [
         screenshot: "https://i.imgur.com/JbYsKp8.png",
         datesActive: [2018, null],
         url: "https://paperbuzz.org",
+        githubUrl: "https://github.com/Impactstory/paperbuzz-api",
         description: "An open source of altmetrics data, based on Crossref Event Data",
         goal: "Provide open data to support development of fully open scholarly metric toolchains",
         audience: [
@@ -198,6 +203,7 @@ export const projectsList = [
         imgHeight: 100,
         datesActive: [2015, null],
         url: "https://citeas.org",
+        githubUrl: "https://github.com/Impactstory/citeas-api",
         screenshot: "https://i.imgur.com/WI3nbcq.png",
         description: "A simple tool to help researchers correctly cite the research software they use",
         goal: "Integrate research software products into the academic reward system",
