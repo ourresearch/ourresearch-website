@@ -5,7 +5,10 @@
         <v-container>
             <div class=" pl-1">
                 <h1 class="display-1">Our projects</h1>
-                <div>These are our active and completed projects. Stay tuned...we'll be launching some cool new ones in the second half of 2019!</div>
+                <div>Since 2011, we've been building and maintaining open-source, open-data tools to help power the <a
+                        href="https://en.wikipedia.org/wiki/Open_science">Open Science</a> revolution....
+
+                    here are some of our favorites. Stay tuned&mdash;we'll be launching some cool new ones in the second half of 2019!</div>
 
             </div>
         </v-container>
@@ -16,6 +19,7 @@
                 <v-flex
                         v-for="project in projects"
                         :key="'tab-item'+project.id"
+                        :id="project.id"
                         class="py-5 mb-5"
                         style="border-bottom: 5px solid #fafafa"
                 >
@@ -23,9 +27,9 @@
                     <v-card flat>
                         <v-card-text>
                             <v-layout align-flex-start>
-                                <v-flex class="pa-0">
+                                <v-flex class="pa-0 pb-2">
                                     <img :src="getImgUrl('logos/' + project.id + '.png')"
-                                         :style="{height: '50px'}">
+                                         :style="{height: '40px'}">
                                 </v-flex>
                                 <v-spacer></v-spacer>
                                 <v-flex shrink class="body-1">
@@ -41,7 +45,7 @@
                                 </v-flex>
                             </v-layout>
 
-                            <v-layout class="pb-3">
+                            <v-layout class="pb-4">
                                 <div class="headline">
                                     {{ project.description }}.
                                 </div>
@@ -58,7 +62,7 @@
                                         <v-layout>
                                             <div>
                                                 <div>
-                                                    <em>Goal:</em> {{project.goal}}
+                                                    <em>Goal:</em> {{project.goal}}.
                                                 </div>
                                                 <div>
                                                     <em>Funded by:</em> {{project.funders.map(x=>x.name).join(', ')}}
@@ -103,9 +107,23 @@
                                             </div>
                                         </v-layout>
 
-                                        <v-layout class="pt-4">
-                                            <v-btn :href="project.url" depressed>website</v-btn>
-                                            <v-btn :href="project.githubUrl" depressed>source code</v-btn>
+                                        <v-layout class="pt-5">
+                                            <v-btn :href="project.url" depressed color="primary">
+                                                <div>
+                                                    <i class="fas fa-desktop pr-1"></i>  website
+                                                </div>
+                                            </v-btn>
+                                            <v-btn :href="project.apiUrl" depressed >
+                                                <div>
+                                                    <i class="fas fa-cogs pr-1"></i> api
+                                                </div>
+
+                                            </v-btn>
+                                            <v-btn :href="project.githubUrl" depressed >
+                                                <div>
+                                                    <i class="fab fa-github pr-1"></i> source code
+                                                </div>
+                                            </v-btn>
                                         </v-layout>
 
 

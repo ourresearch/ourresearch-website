@@ -17,12 +17,13 @@
                         </div>
 
                         <div class="pt-3 tools-list">
-                            Our free, open-source tools serve millions of API requests every day, and are relied on by research funders, universities, researchers, and thousands of academic libraries worldwide. Our projects include
-                            <a href="https://unpaywall.org">Unpaywall,</a>
-                            <a href="https://gettheresearch.org">GetTheResearch,</a>
-                            <a href="https://paperbuzz.org">PaperBuzz,</a>
-                            <a href="https://citeas.org">CiteAs,</a> and
-                            <a href="http://depsy.org">Depsy</a>&mdash;and more are on the way :).
+                            Our free, open-source tools serve millions of API requests every day, and are relied on by research funders, universities, researchers, and thousands of academic libraries worldwide.
+
+
+<!--                            Our projects include-->
+<!--                            <router-link to="./projects#unpaywall">Unpaywall, </router-link>-->
+<!--                            <router-link to="./projects#gettheresearch">Get The Research, </router-link> and-->
+<!--                            <router-link to="./projects#depsy">Depsy</router-link>-->
                         </div>
 
                         <div>
