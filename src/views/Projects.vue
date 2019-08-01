@@ -115,13 +115,13 @@
                                             </v-btn>
                                             <v-btn :href="project.apiUrl" depressed >
                                                 <div>
-                                                    <i class="fas fa-cogs pr-1"></i> api
+                                                    <i class="fas fa-cogs pr-1"></i> open api
                                                 </div>
 
                                             </v-btn>
                                             <v-btn :href="project.githubUrl" depressed >
                                                 <div>
-                                                    <i class="fab fa-github pr-1"></i> source code
+                                                    <i class="fab fa-github pr-1"></i> open source
                                                 </div>
                                             </v-btn>
                                         </v-layout>
