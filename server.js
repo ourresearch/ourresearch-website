@@ -12,17 +12,15 @@ app.use(serveStatic(__dirname + "/dist"));
 
 
 app.get('*', function (req, res) {
-    res.redirect("http://example.com")
-    //
-    // if (!req.secure){
-    //     res.redirect("https://" + req.hostname + req.path)
-    // }
-    //
-    // if (req.hostname !== "ourresearch.org") {
-    //     res.redirect("https://ourresearch.org")
-    // }
-    //
-    // res.sendfile('./dist/index.html');
+    if (!req.secure){
+        res.redirect("https://" + req.hostname + req.path)
+    }
+
+    if (req.hostname !== "ourresearch.org") {
+        res.redirect("https://ourresearch.org")
+    }
+
+    res.sendfile('./dist/index.html');
 });
 
 const port = process.env.PORT || 5000;
