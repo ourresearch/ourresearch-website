@@ -12,6 +12,8 @@ app.use(serveStatic(__dirname + "/dist"));
 
 
 app.get('*', function (req, res) {
+    res.redirect("http://example.com")
+
     if (!req.secure){
         res.redirect("https://" + req.hostname + req.path)
     }
