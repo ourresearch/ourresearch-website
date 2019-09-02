@@ -17,7 +17,7 @@ app.get('*', function (req, res) {
     // }
     //
     if (req.hostname !== "ourresearch.org") {
-        res.redirect("https://ourresearch.org")
+        res.redirect("https://ourresearch.org" + req.path)
     }
 
     res.sendfile('./dist/index.html');
