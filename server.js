@@ -12,13 +12,14 @@ app.use(serveStatic(__dirname + "/dist"));
 
 
 app.get('*', function (req, res) {
-    if (req.protocol === "http"){
-        res.redirect("https://ourresearch.org" + req.path)
+    if (!req.secure){
+        res.redirect("https://" + req.hostname + req.path)
     }
 
-    if (req.hostname === "our-research.org") {
+    if (req.hostname !== "ourresearch.org") {
         res.redirect("https://ourresearch.org")
     }
+
     res.sendfile('./dist/index.html');
 });
 
