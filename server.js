@@ -12,10 +12,10 @@ app.use(serveStatic(__dirname + "/dist"));
 
 
 app.get('*', function (req, res) {
-    // if (!req.secure){
-    //     res.redirect("https://" + req.hostname + req.path)
-    // }
-    //
+    // if we want to always redirect to https, use this:
+    // https://medium.com/@seunghunsunmoonlee/how-to-enforce-https-redirect-http-to-https-on-heroku-deployed-apps-a87a653ba61e
+    // not going to implement for now because it's not essential and we're short on time.
+
     if (req.hostname !== "ourresearch.org") {
         res.redirect("https://ourresearch.org" + req.path)
     }
