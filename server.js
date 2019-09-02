@@ -9,9 +9,6 @@ let app = express();
 // https://scotch.io/tutorials/creating-a-single-page-todo-app-with-node-and-angular
 app.use(serveStatic(__dirname + "/dist"));
 
-app.get('*', function (req, res) {
-    res.sendfile('./dist/index.html');
-});
 
 
 app.get('*', function (req, res) {
