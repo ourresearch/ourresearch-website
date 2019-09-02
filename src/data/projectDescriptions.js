@@ -12,7 +12,7 @@ export const projectsList = [
         url: "https://unpaywall.org",
         githubUrl: "https://github.com/Impactstory/unpaywall",
         apiUrl: "https://unpaywall.org/products/api",
-        description: "Free database of open access scholarly articles, with an API and browser extension (test)",
+        description: "Free database of open access scholarly articles, with an API and browser extension",
         goal: "Integrate open access into scholarly reading workflows",
         audience: [
             "scholars",
