@@ -9,12 +9,23 @@ let app = express();
 // https://scotch.io/tutorials/creating-a-single-page-todo-app-with-node-and-angular
 app.use(serveStatic(__dirname + "/dist"));
 
-app.get('*', function(req, res) {
-  res.sendfile('./dist/index.html');
+app.get('*', function (req, res) {
+    res.sendfile('./dist/index.html');
 });
 
 
+app.get('*', function (req, res) {
+    if (req.protocol === "http"){
+        res.redirect("https://ourresearch.org" + req.path)
+    }
+
+    if (req.hostname === "our-research.org") {
+        res.redirect("https://ourresearch.org")
+    }
+    res.sendfile('./dist/index.html');
+});
+
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
-  console.log('Listening on port ' + port)
+    console.log('Listening on port ' + port)
 });
