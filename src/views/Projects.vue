@@ -6,9 +6,8 @@
             <div class=" pl-1">
                 <h1 class="display-1">Our projects</h1>
                 <div>Since 2011, we've been building and maintaining open-source, open-data tools to help power the <a
-                        href="https://en.wikipedia.org/wiki/Open_science">Open Science</a> revolution....
-
-                    here are some of our favorites. Stay tuned&mdash;we'll be launching some cool new ones in the second half of 2019!</div>
+                        href="https://en.wikipedia.org/wiki/Open_science">Open Science</a> revolution:
+                </div>
 
             </div>
         </v-container>
