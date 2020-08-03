@@ -3,7 +3,7 @@
     <v-container>
             <h1 class="display-1 pb-3">Contact</h1>
             <p>
-                Thanks for your interest in getting in touch! We'd love to hear from you. Drop us a line at <a
+                Thank you for your interest in our projects! You can contact us to learn more or discuss how we can help your organization by emailing us at <a
                     href="mailto:team@ourresearch.org">team@ourresearch.org</a>.
             </p>
             <p>
