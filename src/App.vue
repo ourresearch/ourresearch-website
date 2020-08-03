@@ -2,7 +2,7 @@
     <v-app>
         <main-header></main-header>
         <v-content>
-            <v-content>
+            <v-content style="padding-top: 100px;">
                     <router-view></router-view>
 
             </v-content>

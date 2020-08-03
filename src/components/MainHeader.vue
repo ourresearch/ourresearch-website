@@ -1,6 +1,6 @@
 <template>
 
-    <v-toolbar flat color="white">
+    <v-toolbar fixed color="white">
         <v-toolbar-title>
             <router-link class="site-logo" to="./" v-show="true">
                 <img src="https://i.imgur.com/gf3pl49.png" alt="">

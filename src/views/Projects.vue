@@ -140,6 +140,11 @@
                     </v-card>
                 </v-flex>
 
+                <v-flex style="padding-bottom: 50px;">
+                    You can contact us to learn more or discuss how we can help your organization by emailing us at
+                    <a href="mailto:team@ourresearch.org">team@ourresearch.org</a>.
+                </v-flex>
+
             </v-layout>
 
 
