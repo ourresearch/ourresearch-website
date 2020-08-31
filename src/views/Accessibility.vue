@@ -6,7 +6,7 @@
             <p>
                 In order to provide excellent service to all of our users, including those with disabilities, the Our Research websites, products, and services aim to provide an accessible experience for users of all abilities. Our Research has developed our websites and products with accessibility in mind. This Accessibility Statement applies to these tools and websites:
             </p>
-        <ul>
+        <ul style="margin: 10px 0px 30px 30px;">
             <li><a href="https://unsub.org">unsub.org</a></li>
             <li> <a href="https://unpaywall.org">unpaywall.org</a></li>
             <li><a href="https://ourresearch.org">ourresearch.org</a></li>
