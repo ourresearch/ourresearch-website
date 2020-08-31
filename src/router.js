@@ -4,6 +4,7 @@ import Home from './views/Home'
 import Team from './views/Team'
 import Contact from './views/Contact'
 import Projects from './views/Projects'
+import Accessibility from "./views/Accessibility";
 
 import Meta from 'vue-meta'
 
@@ -26,6 +27,10 @@ export default new Router({
         {
             path: '/contact',
             component: Contact
+        },
+        {
+            path: '/accessibility',
+            component: Accessibility
         },
         {
             path: '/projects',
