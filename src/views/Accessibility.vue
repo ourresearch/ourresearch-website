@@ -4,11 +4,14 @@
             <h1 class="display-1 pb-3">Accessibility Statement for Our Research websites and products
 </h1>
             <p>
-                In order to provide excellent service to all of our users, including those with disabilities, the Our Research websites, products, and services (including those found at
-                <a href="https://unsub.org">unsub.org,</a> <a href="https://unpaywall.org">unpaywall.org,</a> <a
-                    href="https://ourresearch.org">ourresearch.org,</a> and elsewhere) aim to provide an accessible experience for users of all abilities. Our Research has developed our websites and products with accessibility in mind.
-
+                In order to provide excellent service to all of our users, including those with disabilities, the Our Research websites, products, and services aim to provide an accessible experience for users of all abilities. Our Research has developed our websites and products with accessibility in mind. This Accessibility Statement applies to these tools and websites:
             </p>
+        <ul>
+            <li><a href="https://unsub.org">unsub.org</a></li>
+            <li> <a href="https://unpaywall.org">unpaywall.org</a></li>
+            <li><a href="https://ourresearch.org">ourresearch.org</a></li>
+            <li>Other websites and tools created and hosted by Our Research</li>
+        </ul>
 
 
         <h2>Conformance status</h2>
