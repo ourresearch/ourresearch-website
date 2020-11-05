@@ -1,7 +1,7 @@
 <template>
 
     <v-container>
-            <h1 class="display-1 pb-3">Accessibility Statement for Our Research websites and products
+            <h1 class="display-1 pb-3">Accessibility Statement for Impactstory, Inc. (DBA Our Research) websites and products
 </h1>
             <p>
                 In order to provide excellent service to all of our users, including those with disabilities, the Our Research websites, products, and services aim to provide an accessible experience for users of all abilities. Our Research has developed our websites and products with accessibility in mind. This Accessibility Statement applies to these tools and websites:
