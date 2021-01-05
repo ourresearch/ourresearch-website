@@ -13,7 +13,7 @@
     "heroku-postbuild": "npm install --only=dev --no-shrinkwrap && npm run build"
   },
   "dependencies": {
-    "axios": "^0.18.1",
+    "axios": "^0.21.1",
     "body-scroll-lock": "^2.6.4",
     "d3": "^5.14.2",
     "datamaps": "^0.5.9",
