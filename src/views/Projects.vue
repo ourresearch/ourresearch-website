@@ -46,6 +46,7 @@
 
                             <v-layout class="pb-4">
                                 <div class="headline">
+                                    <a :href="project.url" style="color: #333">{{project.name}}</a>:
                                     {{ project.description }}.
                                 </div>
                             </v-layout>
@@ -60,11 +61,11 @@
                                     <v-container>
                                         <v-layout>
                                             <div>
-                                                <div>
-                                                    <em>Goal:</em> {{project.goal}}.
+                                                <div class="pb-3">
+                                                    <strong>Goal:</strong> {{project.goal}}.
                                                 </div>
-                                                <div>
-                                                    <em>Funded by:</em> {{project.funders.map(x=>x.name).join(', ')}}
+                                                <div class="pb-3">
+                                                    <strong>Funded by:</strong> {{project.funders.map(x=>x.name).join(', ')}}
                                                 </div>
 
 
@@ -79,9 +80,9 @@
                                         <v-layout class="">
                                             <div>
                                                 <div>
-                                                    <em>
+                                                    <strong>
                                                     Read more:
-                                                    </em>
+                                                    </strong>
                                                 </div>
                                                 <div>
                                                     <ul>
@@ -108,11 +109,12 @@
 
                                         <v-layout class="pt-5">
                                             <v-btn :href="project.url" depressed color="primary">
-                                                <div>
+                                                <template v-if="project.id=='unsub'">Unsub</template>
+                                                <div v-if="project.id !='unsub'">
                                                     <i class="fas fa-desktop pr-1"></i>  website
                                                 </div>
                                             </v-btn>
-                                            <v-btn :href="project.apiUrl" depressed >
+                                            <v-btn :href="project.apiUrl" depressed v-if="project.apiUrl">
                                                 <div>
                                                     <i class="fas fa-cogs pr-1"></i> open api
                                                 </div>
