@@ -7,7 +7,7 @@
 
 
         <div class="pb-2 pt-4 headline text-xs-center">
-            <a class="mr-2" href="https://twitter.com/our_research">
+            <a class="mr-2" href="https://twitter.com/OurResearch_org">
                 <i class="fab fa-twitter"></i>
             </a>
             <a class="mx-2" href="mailto:team@ourresearch.org">
