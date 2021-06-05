@@ -23,7 +23,7 @@
 
 
         <div class="text-xs-center nonprofit">
-            Our Research is proud to be a 501(c)3 nonprofit.
+            OurResearch is proud to be a 501(c)3 nonprofit.
         </div>
 
 

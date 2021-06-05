@@ -3,7 +3,8 @@
     <v-toolbar fixed color="white">
         <v-toolbar-title>
             <router-link class="site-logo" to="./" v-show="true">
-                <img src="https://i.imgur.com/gf3pl49.png" alt="">
+                <img src="@/assets/logos/ourresearch_logo.png" alt="">
+<!--                <img src="https://i.imgur.com/gf3pl49.png" alt="">-->
             </router-link>
 
         </v-toolbar-title>
@@ -38,7 +39,8 @@
 
 <style scoped lang="scss">
     img {
-        width: 150px;
+        width: 200px;
+      margin-top:5px;
     }
 
 
