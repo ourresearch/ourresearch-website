@@ -4,7 +4,9 @@
       Transparency
     </div>
     <p class="mt-4">
-      We think that organizations working for Open should be sure that they're being open themselves--with their code and data, and with the details of their operation. We work to be transparent and open in all these, and and page is part of that effort. If you've got things you'd like to see here, please drop us a line!
+      We think that organizations working for Open should be sure that they're being open themselves--with their code
+      and data, and with the details of their operation. We work to be transparent and open in all these, and this page
+      is part of that effort.
     </p>
     <p>
       All monetary figures are in US dollars.
@@ -15,13 +17,14 @@
     <p>
       We publish all our grant proposals, both the successful ones and the ones that don't get funded. We also publish
       annual and final grant reports. These are all posted on
-      <a href="https://ogrants.org">Open Grants</a> (search for "Piwowar" or "Priem" to find them). As of May 2021,
+      <a href="https://www.ogrants.org">Open Grants</a> (search for "Piwowar" or "Priem" to find them). As of May 2021,
       we've submitted 12 grant proposals, or about one a year on average.
     </p>
 
 
     <div class="text-h4" id="salaries">Salaries</div>
-    <p>Our board members are unpaid volunteers.</p>
+    <p>Our board members are unpaid volunteers, except for Heather and Jason, who are on the board but are paid (in
+      their capacity of co-CEOs).</p>
     <p>
       Our executives (Heather Piwowar and Jason Priem) share the role of co-CEO, as well as both serving as senior
       software developers. Their annual salaries are equal, and have varied substantially over the years, from a low of
@@ -67,10 +70,15 @@
       </div>
     </blockquote>
     <p>
-      When we read the <a href="https://openscholarlyinfrastructure.org/">sixteen POSI principles</a>, we saw right away that they were solidly aligned with our core values of openness, progress, pragmatism, sustainability, and community. We're delighted to see momentum building around these kinds of values, and so we were thrilled to make OurResearch the fifth organization to commit to the POSI principles. We encourage other scholarly communications to do this as well.
+      When we read the <a href="https://openscholarlyinfrastructure.org/">sixteen POSI principles</a>, we saw right away
+      that they were solidly aligned with our core values of openness, progress, pragmatism, sustainability, and
+      community. We're delighted to see momentum building around these kinds of values, and so we were thrilled to make
+      OurResearch the fifth organization to commit to the POSI principles. We encourage other scholarly communications
+      to do this as well.
     </p>
     <p>
-      The full description of the principles and how we're honoring them is pretty long, so it's outside the scope of this page. You can read
+      The full description of the principles and how we're honoring them is pretty long, so it's outside the scope of
+      this page. You can read
       <a href="https://openscholarlyinfrastructure.org/">Our POSI commitment here.</a>
     </p>
 
@@ -147,7 +155,7 @@
     </p>
 
 
-<!--    <div class="text-h4" id="coffee">Coffeeshop orders</div>-->
+    <!--    <div class="text-h4" id="coffee">Coffeeshop orders</div>-->
 
   </v-container>
 </template>
@@ -168,6 +176,7 @@ export default {
   margin-top: 50px;
   margin-bottom: 10px;
 }
+
 blockquote {
   border-left: 5px solid #ddd;
   padding-left: 10px;

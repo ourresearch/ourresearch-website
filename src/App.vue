@@ -57,8 +57,8 @@
             </div>
           </v-col>
           <v-col cols="12" sm="2">
-            <div><a href="https://twitter.com/unsub_org" target="_blank">Twitter</a></div>
-            <div><a href="https://blog.unsub.org" target="_blank">Blog</a></div>
+            <div><a href="https://twitter.com/OurResearch_org" target="_blank">Twitter</a></div>
+            <div><a href="https://blog.ourresearch.org" target="_blank">Blog</a></div>
             <div><a href="https://github.com/ourresearch" target="_blank">GitHub</a></div>
             <div><a href="mailto:team@ourresearch.org">Email</a></div>
           </v-col>

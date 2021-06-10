@@ -77,7 +77,7 @@
                   {{ (project.id === "unsub") ? "Unsub website" : "Website" }}
                 </v-btn>
                 <v-btn
-                    :href="project.url" target="_blank"
+                    :href="project.githubUrl" target="_blank"
                     text
                 >
                   <v-icon left>mdi-github</v-icon>
