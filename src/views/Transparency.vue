@@ -147,12 +147,7 @@
     </p>
 
 
-    <div class="text-h4" id="coffee">Coffeeshop orders</div>
-
-
-    coffeeshop orders
-    heather: flat white
-    jason: half-caf americano
+<!--    <div class="text-h4" id="coffee">Coffeeshop orders</div>-->
 
   </v-container>
 </template>
