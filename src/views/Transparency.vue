@@ -3,9 +3,12 @@
     <div class="text-h3">
       Transparency
     </div>
-    <div>
+    <p class="mt-4">
+      We think that organizations working for Open should be sure that they're being open themselves--with their code and data, and with the details of their operation. We work to be transparent and open in all these, and and page is part of that effort. If you've got things you'd like to see here, please drop us a line!
+    </p>
+    <p>
       All monetary figures are in US dollars.
-    </div>
+    </p>
 
 
     <div class="text-h4" id="grants">Grants</div>
