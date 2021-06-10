@@ -21,7 +21,7 @@ export const valuesList = [
         name: "Sustainability",
         color: "#e5ad10",
         img: "bottom-right.png",
-        text: "We're a lean, hustling, resilient nonprofit. After 8yrs, we're now 100% self-sustaining via earned revenue."
+        text: "We're a lean, hustling, resilient nonprofit. After 10yrs, we're now 100% self-sustaining via earned revenue."
     },
     {
         name: "Community",

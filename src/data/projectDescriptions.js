@@ -12,7 +12,7 @@ export const projectsList = [
         url: "https://unsub.org",
         githubUrl: "https://github.com/ourresearch/get-unsub",
         apiUrl: null,
-        description: "Data dashboard to help libraries cancel subscription journal Big Deals",
+        description: "A data dashboard to help libraries cancel subscription journal Big Deals",
         goal: "Make toll-access publishing financially unsustainable",
         audience: [
             "librarians",
@@ -59,7 +59,7 @@ export const projectsList = [
         url: "https://unpaywall.org",
         githubUrl: "https://github.com/Impactstory/unpaywall",
         apiUrl: "https://unpaywall.org/products/api",
-        description: "Free database of open access scholarly articles, with an API and browser extension",
+        description: "A free database of open access scholarly articles, with an API and browser extension",
         goal: "Integrate open access into scholarly reading workflows",
         audience: [
             "scholars",
@@ -157,7 +157,7 @@ export const projectsList = [
         ],
         funders: [
             {
-                name: "National Science Foundation",
+                name: "US National Science Foundation",
                 url: "https://www.nsf.gov/"
             }
         ]
@@ -174,7 +174,7 @@ export const projectsList = [
         url: "https://profiles.impactstory.org",
         githubUrl: "https://github.com/Impactstory/impactstory-tng",
         apiUrl: "https://profiles.impactstory.org/api/person/0000-0001-6187-6610",
-        description: "Researcher impact profiles highlighting altmetrics and nontraditional scholarly products",
+        description: "A researcher impact profile that highlights the impact of Open Science activities",
         goal: "Promote investment in nontraditional research outputs (datasets, code, blogs, etc) by showcasing impact beyond traditional citation",
         audience: [
             "evaluators",
@@ -258,7 +258,7 @@ export const projectsList = [
         githubUrl: "https://github.com/Impactstory/citeas-api",
         apiUrl: "https://citeas.org/api",
         screenshot: "https://i.imgur.com/WI3nbcq.png",
-        description: "A simple tool to help researchers correctly cite the research software they use",
+        description: "An easy way for researchers to correctly cite the research software they use",
         goal: "Integrate research software products into the academic reward system",
         audience: [
             "scholars"

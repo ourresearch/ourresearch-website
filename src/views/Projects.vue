@@ -1,191 +1,145 @@
 <template>
-    <div class="home">
+  <v-container class="mt-12 pt-12">
+    <div class="text-h3">Our projects</div>
+    <div class="mb-12 mt-6">
+      <p>
+        Ever since our start at an all-night hackathon ten years ago, we've loved making stuff--stuff that's open, and
+        stuff that helps further the cause of universal Open Science. Since then, we've made a lot of stuff--some pretty
+        successful, some less so. But we've learned from it all, and we're glad to still be here, doing our bit as best
+        we can.
+      </p>
+      <p>
+        This page lists our major projects. Most of them are still ongoing, although a few were one-off grant-funded
+        projects that have now concluded. Naturally, the source code and datasets behind all these tools are fully open.
+        The grant applications and reports for these projects are published on <a
+          href="https://www.ogrants.org/">Open Grants.</a>
+        If you're interested in learning more about any of these projects, click through to their respective websites,
+        which generally have a lot more info.
+      </p>
+    </div>
+    <div class="mt-12">
+      <v-row>
+
+        <v-col
+            cols="12"
+            v-for="project in projects"
+            :key="'project-'+project.id"
+            :id="project.id"
+            class=""
+        >
+          <v-card class="px-3 py-7">
 
 
-        <v-container>
-            <div class=" pl-1">
-                <h1 class="display-1">Our projects</h1>
-                <div>Since 2011, we've been building and maintaining open-source, open-data tools to help power the <a
-                        href="https://en.wikipedia.org/wiki/Open_science">Open Science</a> revolution:
-                </div>
+            <div class="logo">
+              <img :src="getImgUrl('logos/' + project.id + '.png')" :style="{height: '45px'}">
+            </div>
+            <div class="project-description text-h6 font-weight-medium">
+              <!--          <a :href="project.url" style="">{{ project.name }}</a> is-->
+              {{ project.description }}.
+            </div>
+
+            <v-divider class="my-2"/>
+
+            <div>
+              <strong>Goal:</strong> {{ project.goal }}.
+            </div>
+            <div>
+              <strong>Funded by:</strong> {{ project.funders.map(x => x.name).join(', ') }}
+            </div>
+            <div>
+              <strong>Active:</strong> {{ project.datesActive[0] }}&ndash;{{ project.datesActive[1] || 'present' }}
+            </div>
+            <div>
+              <div>
+                <strong>
+                  Read more:
+                </strong>
+              </div>
+              <ul>
+                <li v-for="coverageItem in project.press" style="">
+                  <div>
+                    "{{ coverageItem.title }}" in
+                    <a :href="coverageItem.link" class="">
+                      {{ coverageItem.source }}
+                    </a>
+                  </div>
+                  <div>
+                  </div>
+                </li>
+              </ul>
+              <div class="actions d-flex mt-6">
+                <v-btn
+                    :href="project.url" target="_blank"
+                    text
+                    color="primary"
+                >
+                  <v-icon left>mdi-desktop-mac</v-icon>
+                  {{ (project.id === "unsub") ? "Unsub website" : "Website" }}
+                </v-btn>
+                <v-btn
+                    :href="project.url" target="_blank"
+                    text
+                >
+                  <v-icon left>mdi-github</v-icon>
+                  source code
+                </v-btn>
+
+              </div>
+
 
             </div>
-        </v-container>
+          </v-card>
+        </v-col>
 
-
-        <v-container class="grid-list-xl">
-            <v-layout column>
-                <v-flex
-                        v-for="project in projects"
-                        :key="'tab-item'+project.id"
-                        :id="project.id"
-                        class="py-5 mb-5"
-                        style="border-bottom: 5px solid #fafafa"
-                >
-
-                    <v-card flat>
-                        <v-card-text>
-                            <v-layout align-flex-start>
-                                <v-flex class="pa-0 pb-2">
-                                    <img :src="getImgUrl('logos/' + project.id + '.png')"
-                                         :style="{height: '40px'}">
-                                </v-flex>
-                                <v-spacer></v-spacer>
-                                <v-flex shrink class="body-1">
-                                                <span v-show="!project.datesActive[1]">
-                                                    <strong>Active</strong>
-                                                    (started {{project.datesActive[0]}})
-                                                </span>
-
-                                    <span v-show="project.datesActive[1]">
-                                                    <strong>Concluded</strong>
-                                                    ({{project.datesActive[0]}}&ndash;{{project.datesActive[1]}})
-                                                </span>
-                                </v-flex>
-                            </v-layout>
-
-                            <v-layout class="pb-4">
-                                <div class="headline">
-                                    <a :href="project.url" style="color: #333">{{project.name}}</a>:
-                                    {{ project.description }}.
-                                </div>
-                            </v-layout>
-
-
-                            <v-layout>
-                                <v-flex xs5 class=" pr-4" hidden-sm-and-down>
-                                    <v-img :src="project.screenshot" style="border: 1px solid #555"></v-img>
-                                </v-flex>
-
-                                <v-flex sm7>
-                                    <v-container>
-                                        <v-layout>
-                                            <div>
-                                                <div class="pb-3">
-                                                    <strong>Goal:</strong> {{project.goal}}.
-                                                </div>
-                                                <div class="pb-3">
-                                                    <strong>Funded by:</strong> {{project.funders.map(x=>x.name).join(', ')}}
-                                                </div>
-
-
-                                                <!--                                                <div>-->
-                                                <!--                                                    <a :href="project.url">{{project.url.replace('https://', '').replace('http://','')}}</a>-->
-                                                <!--                                                </div>-->
-
-                                            </div>
-
-                                        </v-layout>
-
-                                        <v-layout class="">
-                                            <div>
-                                                <div>
-                                                    <strong>
-                                                    Read more:
-                                                    </strong>
-                                                </div>
-                                                <div>
-                                                    <ul>
-
-                                                        <li v-for="coverageItem in project.press" class="pb-2" style="line-height: 1.2; font-size:80%;">
-                                                            <div>
-                                                                "{{coverageItem.title}}"
-                                                            </div>
-                                                            <div>
-                                                                <a :href="coverageItem.link" class="">
-                                                                    {{coverageItem.source}}
-                                                                    <span class="body-1">
-                                                                    <i class="fas fa-external-link-square-alt"></i>
-                                                                </span>
-                                                                </a>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
-
-                                                </div>
-
-                                            </div>
-                                        </v-layout>
-
-                                        <v-layout class="pt-5">
-                                            <v-btn :href="project.url" depressed color="primary">
-                                                <template v-if="project.id=='unsub'">Unsub</template>
-                                                <div v-if="project.id !='unsub'">
-                                                    <i class="fas fa-desktop pr-1"></i>  website
-                                                </div>
-                                            </v-btn>
-                                            <v-btn :href="project.apiUrl" depressed v-if="project.apiUrl">
-                                                <div>
-                                                    <i class="fas fa-cogs pr-1"></i> open api
-                                                </div>
-
-                                            </v-btn>
-                                            <v-btn :href="project.githubUrl" depressed >
-                                                <div>
-                                                    <i class="fab fa-github pr-1"></i> open source
-                                                </div>
-                                            </v-btn>
-                                        </v-layout>
-
-
-                                    </v-container>
-
-
-                                </v-flex>
-
-
-                            </v-layout>
-
-
-                        </v-card-text>
-
-                    </v-card>
-                </v-flex>
-
-                <v-flex style="padding-bottom: 50px;">
-                    You can contact us to learn more or discuss how we can help your organization by emailing us at
-                    <a href="mailto:team@ourresearch.org">team@ourresearch.org</a>.
-                </v-flex>
-
-            </v-layout>
-
-
-        </v-container>
-
+      </v-row>
 
     </div>
+
+  </v-container>
 </template>
 
 <script>
-    import {projectsList} from "../data/projectDescriptions";
-    import {valuesList} from "../data/valueDescriptions";
+import {projectsList} from "../data/projectDescriptions";
+import {valuesList} from "../data/valueDescriptions";
 
-
-    export default {
-        name: 'projects',
-        data: () => ({
-            projects: projectsList,
-            tabCycleInterval: 3000
-        }),
-        computed: {},
-        methods: {
-            getImgUrl(pic) {
-                if (pic) {
-                    let url = "../assets/" + pic
-                    return require('../assets/' + pic)
-                }
-            },
-
-        },
-        mounted() {
-
-
-        }
+export default {
+  name: "Projects",
+  metaInfo() {
+    return {
+      title: "Projects"
     }
+  },
+  data: () => ({
+    projects: projectsList,
+    values: valuesList,
+  }),
+  methods: {
+    getImgUrl(pic) {
+      if (pic) {
+        let url = "../assets/" + pic
+        return require('../assets/' + pic)
+      }
+    },
+    lowerCase(str) {
+      return str.charAt(0).toLowerCase() + str.slice(1);
+    }
+
+  },
+
+}
 </script>
 
-
 <style scoped lang="scss">
+.project-description {
+  .descr-body {
+    display: inline;
+  }
+
+  .descr-body::first-letter {
+    color: red;
+    text-transform: lowercase;
+  }
+}
 
 
 </style>
