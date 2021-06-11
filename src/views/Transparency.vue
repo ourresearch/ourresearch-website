@@ -5,8 +5,8 @@
     </div>
     <p class="mt-4">
       We think that organizations working for Open should be sure that they're being open themselves--with their code
-      and data, and with the details of their operation. We work to be transparent and open in all these, and this page
-      is part of that effort.
+      and data, and with the details of their operation. We're doing our best to live up to that, and this page
+      is part of that effort. If you've got feedback, <a href="mailto:team@ourresearch.org">drop us a line!</a>
     </p>
     <p>
       All monetary figures are in US dollars.

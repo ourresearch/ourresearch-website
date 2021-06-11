@@ -19,12 +19,32 @@
 
       <v-spacer></v-spacer>
 
-      <v-toolbar-items class="hidden-sm-and-down8">
+<!--      DESKTOP MENU -->
+      <v-toolbar-items class="hidden-sm-and-down">
         <v-btn class="no-active low-key-button" text to="/">Home</v-btn>
         <v-btn class="no-active low-key-button" text to="./about">About</v-btn>
         <v-btn class="no-active low-key-button" text to="./projects">Projects</v-btn>
         <v-btn class="no-active low-key-button" text to="./transparency">Transparency</v-btn>
       </v-toolbar-items>
+
+<!--      MOBILE MENU -->
+      <div class="hidden-md-and-up">
+        <v-menu offset-y content-class="no-highlight" min-width="150">
+          <template v-slot:activator="{on}">
+            <v-btn icon color="" v-on="on">
+              <v-icon class="">mdi-menu</v-icon>
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item to="/">Home</v-list-item>
+            <v-list-item to="./about">About</v-list-item>
+            <v-list-item to="./projects">Projects</v-list-item>
+            <v-list-item to="./transparency">Transparency</v-list-item>
+          </v-list>
+        </v-menu>
+      </div>
+
+
     </v-app-bar>
 
     <v-main>

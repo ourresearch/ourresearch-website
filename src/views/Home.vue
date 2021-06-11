@@ -1,14 +1,15 @@
 <template>
   <div>
     <v-container>
-      <div class="d-flex  justify-center flex-column"  style="min-height: 80vh;">
-        <div class="text-h3 font-weight-light" style="line-height: 1.3;">
-<!--          We build tools to make scholarly research more open, connected, and reusable.-->
-<!--          We make tools for a more open research system.-->
-          We make tools  that make research more open.
+      <div class="d-flex  justify-center flex-column" style="min-height: 80vh;">
+        <div class="text-h2 font-weight-light" style="line-height: 1.3;">
+          <!--          We build tools to make scholarly research more open, connected, and reusable.-->
+          <!--          We make tools for a more open research system.-->
+          We make tools that make <br> research more open.
         </div>
         <div class="py-6 text-h5">
-          Our free, open-source tools are used by millions every day, in universities, businessess, and libraries worldwide, to uncover, connect, and analyze research products.
+          Our free, open-source tools are used by millions every day, in universities, businessess, and libraries
+          worldwide, to uncover, connect, and analyze research products.
         </div>
         <div class="text-h5 d-none">
           Our goal: to help research belong to all of us.
@@ -18,32 +19,32 @@
         </div>
       </div>
     </v-container>
-      <v-card class="values-section" flat dark tile color="#333" >
-        <v-container>
-          <div class="text-h3">
-            Our values
-          </div>
-          <v-divider class="my-4"/>
-          <v-row>
-            <v-col cols="12" md="4" v-for="value in values">
-              <v-card dark color="#444" class="pa-3">
-                <div class="d-flex align-center pb-3">
-                  <img :src="getImgUrl('venn/' + value.img)" style="height: 50px;">
-                  <div class="text-h4  pl-3" :style="{color: value.color}">
-                    {{ value.name }}
-                  </div>
+    <v-card class="values-section" flat dark tile color="#333" id="values">
+      <v-container>
+        <div class="text-h3">
+          Our values
+        </div>
+        <v-divider class="my-4"/>
+        <v-row>
+          <v-col cols="12" md="4" v-for="value in values">
+            <v-card dark color="#444" class="pa-3">
+              <div class="d-flex align-center pb-3">
+                <img :src="getImgUrl('venn/' + value.img)" style="height: 50px;">
+                <div class="text-h4  pl-3" :style="{color: value.color}">
+                  {{ value.name }}
                 </div>
-                <div class="pb-5">
-                  {{ value.text }}
-                </div>
-              </v-card>
+              </div>
+              <div class="pb-5">
+                {{ value.text }}
+              </div>
+            </v-card>
 
-            </v-col>
+          </v-col>
 
-          </v-row>
-        </v-container>
-      </v-card>
-    <v-container class="projects-section">
+        </v-row>
+      </v-container>
+    </v-card>
+    <v-container class="projects-section" id="projects">
       <div class="text-h3  mt-12">
         Our projects
       </div>
@@ -71,7 +72,7 @@
           </v-card>
         </v-col>
       </v-row>
-            <v-divider class="my-4"/>
+      <v-divider class="my-4"/>
 
       <v-btn x-large color="primary" class="" to="/projects">
         Learn more
@@ -122,6 +123,7 @@ export default {
 .values-section {
   padding: 50px 0 80px;
 }
+
 .projects-section {
   padding: 70px 0 100px;
 }
