@@ -1,24 +1,24 @@
 <template>
   <div>
-    <v-container>
-      <div class="d-flex  justify-center flex-column" style="min-height: 80vh;">
-        <div class="text-h2 font-weight-light" style="line-height: 1.3;">
-          <!--          We build tools to make scholarly research more open, connected, and reusable.-->
-          <!--          We make tools for a more open research system.-->
+    <div class="top-screen d-flex flex-column justify-center align-center">
+      <v-img
+          alt="OurResearch Logo"
+          class="shrink mr-2 top-screen-img"
+          contain
+          src="@/assets/logos/ourresearch-logo-icon.png"
+          transition="scale-transition"
+      />
+      <v-container class="top-screen-text elevation-3">
+        <div class="text-h2 " style="line-height: 1.3;">
           We make tools that make <br> research more open.
         </div>
-        <div class="py-6 text-h5">
+        <div class="pt-6 text-h5">
           Our free, open-source tools are used by millions every day, in universities, businessess, and libraries
           worldwide, to uncover, connect, and analyze research products.
         </div>
-        <div class="text-h5 d-none">
-          Our goal: to help research belong to all of us.
-        </div>
-        <div class="d-none">
-          <v-btn large>See our projects</v-btn>
-        </div>
-      </div>
-    </v-container>
+      </v-container>
+    </div>
+
     <v-card class="values-section" flat dark tile color="#333" id="values">
       <v-container>
         <div class="text-h3">
@@ -127,4 +127,21 @@ export default {
 .projects-section {
   padding: 70px 0 100px;
 }
+.top-screen {
+  min-height: 90vh;
+  background-image: url(../assets/logos/ourresearch-logo-icon.png);
+  background-position: 0% 50%;
+  .top-screen-img {
+    position: absolute;
+    z-index: 1;
+    display: none;
+  }
+  .top-screen-text{
+    padding: 40px;
+    background: rgba(255, 255, 255, .9);
+    border-radius: 3px;
+    //border: 1px solid #555;
+  }
+}
+
 </style>

@@ -5,6 +5,7 @@
         elevate-on-scroll
         fixed
         color="white"
+
     >
       <router-link to="/" class="d-flex align-center">
         <v-img
