@@ -79,7 +79,7 @@
     <p>
       The full description of the principles and how we're honoring them is pretty long, so it's outside the scope of
       this page. You can read
-      <a href="https://openscholarlyinfrastructure.org/">Our POSI commitment here.</a>
+      <a href="https://blog.ourresearch.org/posi/">Our POSI commitment here.</a>
     </p>
 
     <div class="text-h4" id="code">Code</div>
