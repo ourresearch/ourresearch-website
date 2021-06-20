@@ -91,6 +91,61 @@
       </v-col>
     </v-row>
 
+    <div class="text-h4 mb-4 mt-12">Our board</div>
+    <p>Our board has five members. Two of the members are Jason and Heather (profiled above). One board member slot is currently vacant and we're looking to fill it. Here are the others:</p>
+
+
+
+
+    <!--    HEATHER JOSEPH  -->
+    <v-row>
+      <v-col cols="2">
+        <v-img
+            src="https://i.imgur.com/vbixgnn.png"
+            aspect-ratio="1"
+        ></v-img>
+      </v-col>
+      <v-col cols="10">
+        <div>
+          <div class="headline">Heather Joseph</div>
+          <div>Board member</div>
+          <div>
+            <a href="https://twitter.com/hjoseph?lang=en">Twitter</a>
+          </div>
+          <div class="body">
+            Heather Joseph is the Executive Director of the Scholarly Publishing and Academic Resources Coalition (SPARC) and the convener of the Alliance for Taxpayer Access. Prior to coming to SPARC, she spent 15 years as a publisher in both commercial and not-for-profit publishing organizations. She served as the publishing director at the American Society for Cell Biology, which became the first journal to commit its full content to the NIH’s pioneering open repository, PubMed Central. Heather has served on the Board of Directors of numerous not-for-profit organizations, including the Public Library of Science. She is a frequent speaker and writer on scholarly communications in general, and on open access in particular.
+          </div>
+        </div>
+      </v-col>
+    </v-row>
+
+
+    <!--    ETHAN WHITE  -->
+    <v-row>
+      <v-col cols="2">
+        <v-img
+            src="https://i.imgur.com/C1V6N3k.png"
+            aspect-ratio="1"
+        ></v-img>
+      </v-col>
+      <v-col cols="10">
+        <div>
+          <div class="headline">Ethan White</div>
+          <div>Board member</div>
+          <div>
+            <a href="https://twitter.com/ethanwhite?lang=en">Twitter</a>
+          </div>
+          <div class="body">
+            Ethan White studies data-intensive problems in ecology including ecological forecasting and using high resolution remote sensing to understand individual level patterns in ecological systems at large scales. He is actively involved in computational training efforts as a Data Carpentry founder, The Carpentries Executive Committee member, and lead developer of the semester long Data Carpentry course.
+
+
+          </div>
+        </div>
+      </v-col>
+    </v-row>
+
+
+
 
   </v-container>
 </template>
