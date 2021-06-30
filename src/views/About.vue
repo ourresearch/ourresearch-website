@@ -136,7 +136,7 @@
             <a href="https://twitter.com/ethanwhite?lang=en">Twitter</a>
           </div>
           <div class="body">
-            Ethan White studies data-intensive problems in ecology including ecological forecasting and using high resolution remote sensing to understand individual level patterns in ecological systems at large scales. He is actively involved in computational training efforts as a Data Carpentry founder, The Carpentries Executive Committee member, and lead developer of the semester long Data Carpentry course.
+            Ethan White studies data-intensive problems in ecology including ecological forecasting and using remote sensing to understand individual level patterns in ecological systems at large scales. He is actively involved in communities focused on computational training, open science, and EDI as a Data Carpentry co-founder, Ecological Forecasting Initiative founding member and steering committee member, and co-founder of the weecology interdisciplinary research group.
 
 
           </div>
