@@ -91,10 +91,62 @@
       </v-col>
     </v-row>
 
+    <!--    STEVE  -->
+    <v-row>
+      <v-col cols="2">
+        <v-img
+            src="https://i.imgur.com/AobXJaI.jpg"
+            aspect-ratio="1"
+        ></v-img>
+      </v-col>
+      <v-col cols="10">
+        <div>
+          <div class="headline">Steve Gruber</div>
+          <div>Sales (part-time/contract)</div>
+          <div>
+          </div>
+          <div class="body">
+            Steve is a sales consultant for OurResearch. He co-founded VA Partners and has over 25 years of professional
+            sales, marketing, and business development experience in Canada and the USA. He has dramatically increased
+            sales at growing companies in a range of industries from business software, IT, telecom, clean-tech, fintech
+            and industrial sectors. Steve loves selling and the thrill of the close!
+
+
+          </div>
+        </div>
+      </v-col>
+    </v-row>
+
+    <!--    CASEY  -->
+    <v-row>
+      <v-col cols="2">
+        <v-img
+            src="https://i.imgur.com/yxCfUoc.jpg"
+            aspect-ratio="1"
+        ></v-img>
+      </v-col>
+      <v-col cols="10">
+        <div>
+          <div class="headline">Casey Meyer</div>
+          <div>Developer (part-time/contract)</div>
+          <div>
+          </div>
+          <div class="body">
+            Casey is an independent contractor focused on building awesome web applications with python. He holds a BS
+            in Political Science from the University of California, Davis, and an MA in Global Security Studies from
+            American Military University. He has a background in cyber security with the US Air Force and nine years
+            experience as a software engineer.
+
+
+          </div>
+        </div>
+      </v-col>
+    </v-row>
+
+
     <div class="text-h4 mb-4 mt-12">Our board</div>
-    <p>Our board has five members. Two of the members are Jason and Heather (profiled above). One board member slot is currently vacant and we're looking to fill it. Here are the others:</p>
-
-
+    <p>Our board has five members. Two of the members are Jason and Heather (profiled above). One board member slot is
+      currently vacant and we're looking to fill it. Here are the others:</p>
 
 
     <!--    HEATHER JOSEPH  -->
@@ -113,7 +165,13 @@
             <a href="https://twitter.com/hjoseph?lang=en">Twitter</a>
           </div>
           <div class="body">
-            Heather Joseph is the Executive Director of the Scholarly Publishing and Academic Resources Coalition (SPARC) and the convener of the Alliance for Taxpayer Access. Prior to coming to SPARC, she spent 15 years as a publisher in both commercial and not-for-profit publishing organizations. She served as the publishing director at the American Society for Cell Biology, which became the first journal to commit its full content to the NIH’s pioneering open repository, PubMed Central. Heather has served on the Board of Directors of numerous not-for-profit organizations, including the Public Library of Science. She is a frequent speaker and writer on scholarly communications in general, and on open access in particular.
+            Heather Joseph is the Executive Director of the Scholarly Publishing and Academic Resources Coalition
+            (SPARC) and the convener of the Alliance for Taxpayer Access. Prior to coming to SPARC, she spent 15 years
+            as a publisher in both commercial and not-for-profit publishing organizations. She served as the publishing
+            director at the American Society for Cell Biology, which became the first journal to commit its full content
+            to the NIH’s pioneering open repository, PubMed Central. Heather has served on the Board of Directors of
+            numerous not-for-profit organizations, including the Public Library of Science. She is a frequent speaker
+            and writer on scholarly communications in general, and on open access in particular.
           </div>
         </div>
       </v-col>
@@ -136,15 +194,17 @@
             <a href="https://twitter.com/ethanwhite?lang=en">Twitter</a>
           </div>
           <div class="body">
-            Ethan White studies data-intensive problems in ecology including ecological forecasting and using remote sensing to understand individual level patterns in ecological systems at large scales. He is actively involved in communities focused on computational training, open science, and EDI as a Data Carpentry co-founder, Ecological Forecasting Initiative founding member and steering committee member, and co-founder of the weecology interdisciplinary research group.
+            Ethan White studies data-intensive problems in ecology including ecological forecasting and using remote
+            sensing to understand individual level patterns in ecological systems at large scales. He is actively
+            involved in communities focused on computational training, open science, and EDI as a Data Carpentry
+            co-founder, Ecological Forecasting Initiative founding member and steering committee member, and co-founder
+            of the weecology interdisciplinary research group.
 
 
           </div>
         </div>
       </v-col>
     </v-row>
-
-
 
 
   </v-container>
@@ -159,3 +219,9 @@ export default {
   },
 }
 </script>
+<style lang="scss">
+.v-image {
+  border-radius: 5px !important;
+}
+
+</style>
