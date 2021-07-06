@@ -15,7 +15,7 @@
     <v-row>
       <v-col cols="2">
         <v-img
-            src="https://i.imgur.com/eIhbvLm.png"
+            src="https://i.imgur.com/6kAg7x5.png"
             aspect-ratio="1"
         ></v-img>
       </v-col>
