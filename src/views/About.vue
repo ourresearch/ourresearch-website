@@ -91,6 +91,28 @@
       </v-col>
     </v-row>
 
+    <!--    JABER  -->
+    <v-row>
+      <v-col cols="2">
+        <v-img
+            src="https://i.imgur.com/gDHElsd.png"
+            aspect-ratio="1"
+        ></v-img>
+      </v-col>
+      <v-col cols="10">
+        <div>
+          <div class="headline">Jaber Al</div>
+          <div>Accounts (part-time/contract)</div>
+          <div>
+          </div>
+          <div class="body">
+            Jaber uses his education - a degree in accounting with minors in French Literature and German Philosophy - and his professional experience from over 7 years of accounting practice, as the foundation of his work. Inspired by his own multicultural background, he prides himself on effective communication, a determined work ethic, and puts a strong emphasis on human connection in order to develop loyal relationships and help clients from all around the world overcome any challenge they may come to him with. A lifelong learner, outside of work Jaber enjoys flying aircraft as a recreational pilot, cooking, and hiking around his home in Victoria BC.
+          </div>
+        </div>
+      </v-col>
+    </v-row>
+
+
     <!--    STEVE  -->
     <v-row>
       <v-col cols="2">
