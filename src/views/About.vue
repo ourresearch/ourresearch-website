@@ -80,12 +80,36 @@
       <v-col cols="10">
         <div>
           <div class="headline">Richard Orr</div>
-          <div>Lead developer, Unpaywall</div>
+          <div>Lead developer and Product Owner, Unpaywall</div>
           <div>
             <a href="https://twitter.com/unpaywall_dev">Twitter</a>
           </div>
           <div class="body">
             Richard is a man of few words. He holds a BS in Computer Engineering from the University of Florida.
+          </div>
+        </div>
+      </v-col>
+    </v-row>
+
+    <!--    SCOTT  -->
+    <v-row>
+      <v-col cols="2">
+        <v-img
+            src="https://i.imgur.com/lOFSxfO.jpg"
+            aspect-ratio="1"
+        ></v-img>
+      </v-col>
+      <v-col cols="10">
+        <div>
+          <div class="headline">Scott Chamberlain</div>
+          <div>Lead developer and Product Owner, Unsub</div>
+          <div>
+            <a href="https://twitter.com/sckottie">Twitter</a>
+          </div>
+          <div class="body">
+            Scott has been working on Open Science for the past decade, including open source software with <a
+              href="https://ropensci.org/">rOpenSci</a> and knowledge discovery with <a
+              href="https://openknowledgemaps.org/">Open Knowledge Maps.</a> He holds a BS in Biology from CSU, Chico, and a MA and Ph.D. in Ecology & Evolutionary Biology from Rice University.
           </div>
         </div>
       </v-col>
