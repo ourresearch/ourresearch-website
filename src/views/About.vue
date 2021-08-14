@@ -61,7 +61,7 @@
         </div>
         <div class="body">
           As an Information Science PhD student at the University of North Carolina at Chapel Hill, Jason helped create
-          the field of altmetrics--coining the term, authoring the influential Altmetrics Manifesto, and convening the
+          the field of altmetrics--coining the term, authoring the influential <a href="https://altmetrics.org">Altmetrics Manifesto,</a> and convening the
           first altmetrics workshops. He holds a BA in history and MEd in education, both from the University of
           Florida.
         </div>
