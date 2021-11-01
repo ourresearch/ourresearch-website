@@ -105,6 +105,10 @@
       preservation of its openness.
     </p>
 
+    <p>
+      Sometimes software source code is encumbered by patents. Ours isn't, and it never will be. This is our <a href="http://www.iphandbook.org/handbook/ch07/p06/">patent non-assertion covenant:</a> OurResearch confirms it does not currently control any patents, and irrevocably promises not to apply for or attempt to obtain patents in the future.
+    </p>
+
 
     <div class="text-h4" id="papers">Research papers</div>
     <p>
