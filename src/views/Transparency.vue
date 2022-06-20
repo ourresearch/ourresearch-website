@@ -23,12 +23,11 @@
 
 
     <div class="text-h4" id="salaries">Salaries</div>
-    <p>Our board members are unpaid volunteers, except for Heather and Jason, who are on the board but are paid (in
-      their capacity of co-CEOs).</p>
+    <p>Our board members are unpaid volunteers, except for Jason, who is on the board and is paid in
+      his capacity as CEO.</p>
     <p>
-      Our executives (Heather Piwowar and Jason Priem) share the role of co-CEO, as well as both serving as senior
-      software developers. Their annual salaries are equal, and have varied substantially over the years, from a low of
-      $25,000 to a high of $175,000. This latter figure is their current salary. Historical salaries for Jason, Heather,
+      Jason is both CEO and serves as a senior software developer. His annual salaries are equal has varied substantially over the years, from a low of
+      $25,000 to a high of $175,000. This latter figure is his current salary. Historical salaries for Jason
       and any other employees can be found in our tax records (see below).
     </p>
     <p>
@@ -112,15 +111,14 @@
 
     <div class="text-h4" id="papers">Research papers</div>
     <p>
-      Heather and Jason were both academic researchers before moving to OurResearch full-time, and we still publish
+      Our CEO Jason and former co-CEO Heather were both academic researchers before moving to OurResearch full-time, and we still publish
       research papers. Naturally, we publish only Open Access (OA) papers. We've occasionally published in toll-access
       journals, but in these cases we've either convinced the publishers to make our articles OA, or taken the
       <a href="https://en.wikipedia.org/wiki/Open_access#Green_OA">green OA road</a> by self-archiving the papers in a
       repository.
     </p>
     <p>
-      When we publish papers, Heather and Jason always both listed as co-authors, and we determine our author order with
-      a coin flip (for the curious: heads=Heather, tails=Jason 😁). You can see a list of our papers on ORCID (<a
+      You can see a list of our papers on ORCID (<a
         href="https://orcid.org/0000-0001-6187-6610">Jason,</a> <a
         href="https://orcid.org/0000-0003-1613-5981">Heather</a>) or Google Scholar (<a
         href="https://scholar.google.com/citations?user=w32jC0YAAAAJ&hl=en">Jason,</a> <a

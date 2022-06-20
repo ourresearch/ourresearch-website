@@ -11,34 +11,6 @@
     <div class="text-h4 mb-4 mt-12">Our team</div>
 
 
-    <!--    HEATHER -->
-    <v-row>
-      <v-col cols="2">
-        <v-img
-            src="https://i.imgur.com/6kAg7x5.png"
-            aspect-ratio="1"
-        ></v-img>
-      </v-col>
-      <v-col cols="10">
-        <div class="headline">Heather Piwowar</div>
-        <div>Co-founder</div>
-        <div>
-          <a href="https://twitter.com/researchremix">Twitter</a>
-          |
-          <a href="https://scholar.google.ca/citations?user=1YLq0XMAAAAJ&hl=en">Google Scholar</a>
-          |
-          <a href="https://docs.google.com/document/d/1S7aKmG_l3wJxAc4lb5gJYMwNVDnAT7HlQWcaXADwA1s/edit#">speaker
-            bio</a>
-        </div>
-        <div class="body">
-          A longtime advocate for Open Science, Dr. Heather Piwowar is also a leading researcher in research data
-          availability and reuse, including a seminal paper measuring the citation benefit of publicly available
-          research data. Dr Piwowar has a bachelor’s and master’s degree from MIT in electrical engineering, 10 years of
-          experience as a software engineer, and a Ph.D. in Biomedical Informatics.
-        </div>
-
-      </v-col>
-    </v-row>
 
     <!--    JASON  -->
     <v-row>
@@ -191,8 +163,39 @@
 
 
     <div class="text-h4 mb-4 mt-12">Our board</div>
-    <p>Our board has five members. Two of the members are Jason and Heather (profiled above). One board member slot is
+    <p>Our board has five members. One of the members is Jason (profiled above). One board member slot is
       currently vacant and we're looking to fill it. Here are the others:</p>
+
+
+
+    <!--    HEATHER -->
+    <v-row>
+      <v-col cols="2">
+        <v-img
+            src="https://i.imgur.com/6kAg7x5.png"
+            aspect-ratio="1"
+        ></v-img>
+      </v-col>
+      <v-col cols="10">
+        <div class="headline">Heather Piwowar</div>
+        <div>Co-founder</div>
+        <div>
+          <a href="https://twitter.com/researchremix">Twitter</a>
+          |
+          <a href="https://scholar.google.ca/citations?user=1YLq0XMAAAAJ&hl=en">Google Scholar</a>
+          |
+          <a href="https://docs.google.com/document/d/1S7aKmG_l3wJxAc4lb5gJYMwNVDnAT7HlQWcaXADwA1s/edit#">speaker
+            bio</a>
+        </div>
+        <div class="body">
+          A longtime advocate for Open Science, Dr. Heather Piwowar is also a leading researcher in research data
+          availability and reuse, including a seminal paper measuring the citation benefit of publicly available
+          research data. Dr Piwowar has a bachelor’s and master’s degree from MIT in electrical engineering, 10 years of
+          experience as a software engineer, and a Ph.D. in Biomedical Informatics.
+        </div>
+
+      </v-col>
+    </v-row>
 
 
     <!--    HEATHER JOSEPH  -->
