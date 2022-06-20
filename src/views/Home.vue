@@ -13,7 +13,7 @@
           We make tools that make <br> research more open.
         </div>
         <div class="pt-6 text-h5">
-          Our free, open-source tools are used by millions every day, in universities, businessess, and libraries
+          Our open-source tools are used by millions every day, in universities, businesses, and libraries
           worldwide, to uncover, connect, and analyze research products.
         </div>
       </v-container>
