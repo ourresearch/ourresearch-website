@@ -9,6 +9,7 @@
     </p>
 
     <div class="text-h4 mb-4 mt-12">Our team</div>
+    <div class="text-h5 mb-4 mt-4">Full-time staff</div>
 
 
 
@@ -52,7 +53,7 @@
       <v-col cols="10">
         <div>
           <div class="headline">Richard Orr</div>
-          <div>Lead developer and Product Owner, Unpaywall</div>
+          <div>Senior developer</div>
           <div>
             <a href="https://twitter.com/unpaywall_dev">Twitter</a>
           </div>
@@ -86,6 +87,10 @@
         </div>
       </v-col>
     </v-row>
+
+
+
+    <div class="text-h5 mb-4 mt-12">Part-time / contract staff</div>
 
     <!--    JABER  -->
     <v-row>
@@ -162,7 +167,7 @@
     </v-row>
 
 
-    <div class="text-h4 mb-4 mt-12">Our board</div>
+    <div class="text-h4 mb-4 pt-12 mt-12">Our board</div>
     <p>Our board has five members. One of the members is Jason (profiled above). One board member slot is
       currently vacant and we're looking to fill it. Here are the others:</p>
 
@@ -178,7 +183,7 @@
       </v-col>
       <v-col cols="10">
         <div class="headline">Heather Piwowar</div>
-        <div>Co-founder</div>
+        <div>Co-founder and board member</div>
         <div>
           <a href="https://twitter.com/researchremix">Twitter</a>
           |
