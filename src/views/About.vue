@@ -12,7 +12,6 @@
     <div class="text-h5 mb-4 mt-4">Full-time staff</div>
 
 
-
     <!--    JASON  -->
     <v-row>
       <v-col cols="2">
@@ -34,7 +33,8 @@
         </div>
         <div class="body">
           As an Information Science PhD student at the University of North Carolina at Chapel Hill, Jason helped create
-          the field of altmetrics--coining the term, authoring the influential <a href="https://altmetrics.org">Altmetrics Manifesto,</a> and convening the
+          the field of altmetrics--coining the term, authoring the influential <a href="https://altmetrics.org">Altmetrics
+          Manifesto,</a> and convening the
           first altmetrics workshops. He holds a BA in history and MEd in education, both from the University of
           Florida.
         </div>
@@ -58,11 +58,13 @@
             <a href="https://twitter.com/unpaywall_dev">Twitter</a>
           </div>
           <div class="body">
-            Richard is a man of few words. He holds a BS in Computer Engineering from the University of Florida.
+            Richard is a man of few words. He holds a BS in Computer Engineering from the University of Florida. <a
+              href="https://blog.ourresearch.org/welcome-to-our-newest-team-member/">More about Richard.</a>
           </div>
         </div>
       </v-col>
     </v-row>
+
 
     <!--    SCOTT  -->
     <v-row>
@@ -82,12 +84,41 @@
           <div class="body">
             Scott has been working on Open Science for the past decade, including open source software with <a
               href="https://ropensci.org/">rOpenSci</a> and knowledge discovery with <a
-              href="https://openknowledgemaps.org/">Open Knowledge Maps.</a> He holds a BS in Biology from CSU, Chico, and a MA and Ph.D. in Ecology & Evolutionary Biology from Rice University.
+              href="https://openknowledgemaps.org/">Open Knowledge Maps.</a> He holds a BS in Biology from CSU, Chico,
+            and a MA and Ph.D. in Ecology & Evolutionary Biology from Rice University. <a
+              href="https://blog.ourresearch.org/joining-ourresearch-to-work-on-unsub/">More about Scott</a>
           </div>
         </div>
       </v-col>
     </v-row>
 
+
+
+    <!--    CASEY  -->
+    <v-row>
+      <v-col cols="2">
+        <v-img
+            src="https://i.imgur.com/yxCfUoc.jpg"
+            aspect-ratio="1"
+        ></v-img>
+      </v-col>
+      <v-col cols="10">
+        <div>
+          <div class="headline">Casey Meyer</div>
+          <div>Senior developer</div>
+          <div>
+          </div>
+          <div class="body">
+            Casey holds a BS in Political Science from the University of California, Davis, and an MA in Global Security
+            Studies from American Military University. He has a background in cyber security with the US Air Force and
+            nine years experience as a software engineer. <a
+              href="https://blog.ourresearch.org/meet-casey-now-full-time-with-ourresearch/">More about Casey.</a>
+
+
+          </div>
+        </div>
+      </v-col>
+    </v-row>
 
 
     <div class="text-h5 mb-4 mt-12">Part-time / contract staff</div>
@@ -107,7 +138,13 @@
           <div>
           </div>
           <div class="body">
-            Jaber uses his education - a degree in accounting with minors in French Literature and German Philosophy - and his professional experience from over 7 years of accounting practice, as the foundation of his work. Inspired by his own multicultural background, he prides himself on effective communication, a determined work ethic, and puts a strong emphasis on human connection in order to develop loyal relationships and help clients from all around the world overcome any challenge they may come to him with. A lifelong learner, outside of work Jaber enjoys flying aircraft as a recreational pilot, cooking, and hiking around his home in Victoria BC.
+            Jaber uses his education - a degree in accounting with minors in French Literature and German Philosophy -
+            and his professional experience from over 7 years of accounting practice, as the foundation of his work.
+            Inspired by his own multicultural background, he prides himself on effective communication, a determined
+            work ethic, and puts a strong emphasis on human connection in order to develop loyal relationships and help
+            clients from all around the world overcome any challenge they may come to him with. A lifelong learner,
+            outside of work Jaber enjoys flying aircraft as a recreational pilot, cooking, and hiking around his home in
+            Victoria BC.
           </div>
         </div>
       </v-col>
@@ -140,37 +177,10 @@
       </v-col>
     </v-row>
 
-    <!--    CASEY  -->
-    <v-row>
-      <v-col cols="2">
-        <v-img
-            src="https://i.imgur.com/yxCfUoc.jpg"
-            aspect-ratio="1"
-        ></v-img>
-      </v-col>
-      <v-col cols="10">
-        <div>
-          <div class="headline">Casey Meyer</div>
-          <div>Developer (part-time/contract)</div>
-          <div>
-          </div>
-          <div class="body">
-            Casey is an independent contractor focused on building awesome web applications with python. He holds a BS
-            in Political Science from the University of California, Davis, and an MA in Global Security Studies from
-            American Military University. He has a background in cyber security with the US Air Force and nine years
-            experience as a software engineer.
-
-
-          </div>
-        </div>
-      </v-col>
-    </v-row>
-
 
     <div class="text-h4 mb-4 pt-12 mt-12">Our board</div>
     <p>Our board has five members. One of the members is Jason (profiled above). One board member slot is
       currently vacant and we're looking to fill it. Here are the others:</p>
-
 
 
     <!--    HEATHER -->
