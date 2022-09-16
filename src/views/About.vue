@@ -22,7 +22,7 @@
       </v-col>
       <v-col cols="10">
         <div class="headline">Jason Priem</div>
-        <div>Co-founder</div>
+        <div>CEO, developer</div>
         <div>
           <a href="https://twitter.com/jasonpriem">Twitter</a>
           |
