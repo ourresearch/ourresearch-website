@@ -22,7 +22,7 @@
       </v-col>
       <v-col cols="10">
         <div class="headline">Jason Priem</div>
-        <div>CEO, developer</div>
+        <div class="font-weight-bold">CEO, developer</div>
         <div>
           <a href="https://twitter.com/jasonpriem">Twitter</a>
           |
@@ -32,10 +32,9 @@
             bio</a>
         </div>
         <div class="body">
-          As an Information Science PhD student at the University of North Carolina at Chapel Hill, Jason helped create
-          the field of altmetrics--coining the term, authoring the influential <a href="https://altmetrics.org">Altmetrics
-          Manifesto,</a> and convening the
-          first altmetrics workshops. He holds a BA in history and MEd in education, both from the University of
+          Jason is a longtime advocate for Open Science and open metrics. As a PhD student, he helped create
+          the field of <a href="https://en.wikipedia.org/wiki/Altmetrics">altmetrics</a> by coining the term and authoring the <a href="https://altmetrics.org">Altmetrics
+          Manifesto.</a> He holds a BA in history and MEd in education, both from the University of
           Florida.
         </div>
 
@@ -53,7 +52,7 @@
       <v-col cols="10">
         <div>
           <div class="headline">Richard Orr</div>
-          <div>Senior developer</div>
+          <div class="font-weight-bold">Senior developer</div>
           <div>
             <a href="https://twitter.com/unpaywall_dev">Twitter</a>
           </div>
@@ -77,7 +76,7 @@
       <v-col cols="10">
         <div>
           <div class="headline">Scott Chamberlain</div>
-          <div>Lead developer and Product Owner, Unsub</div>
+          <div class="font-weight-bold">Lead developer and Product Owner, Unsub</div>
           <div>
             <a href="https://twitter.com/sckottie">Twitter</a>
           </div>
@@ -105,7 +104,7 @@
       <v-col cols="10">
         <div>
           <div class="headline">Casey Meyer</div>
-          <div>Senior developer</div>
+          <div class="font-weight-bold">Senior developer</div>
           <div>
           </div>
           <div class="body">
@@ -134,7 +133,7 @@
       <v-col cols="10">
         <div>
           <div class="headline">Jaber Al</div>
-          <div>Accounts (part-time/contract)</div>
+          <div class="font-weight-bold">Accounts (part-time/contract)</div>
           <div>
           </div>
           <div class="body">
@@ -162,7 +161,7 @@
       <v-col cols="10">
         <div>
           <div class="headline">Steve Gruber</div>
-          <div>Sales (part-time/contract)</div>
+          <div class="font-weight-bold">Sales (part-time/contract)</div>
           <div>
           </div>
           <div class="body">
@@ -193,7 +192,7 @@
       </v-col>
       <v-col cols="10">
         <div class="headline">Heather Piwowar</div>
-        <div>Co-founder and board member</div>
+        <div class="font-weight-bold">Co-founder and board member</div>
         <div>
           <a href="https://twitter.com/researchremix">Twitter</a>
           |
@@ -224,7 +223,7 @@
       <v-col cols="10">
         <div>
           <div class="headline">Heather Joseph</div>
-          <div>Board member</div>
+          <div class="font-weight-bold">Board member</div>
           <div>
             <a href="https://twitter.com/hjoseph?lang=en">Twitter</a>
           </div>
@@ -253,7 +252,7 @@
       <v-col cols="10">
         <div>
           <div class="headline">Ethan White</div>
-          <div>Board member</div>
+          <div class="font-weight-bold">Board member</div>
           <div>
             <a href="https://twitter.com/ethanwhite?lang=en">Twitter</a>
           </div>
