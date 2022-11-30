@@ -27,7 +27,7 @@
       his capacity as CEO.</p>
     <p>
       Jason is both CEO and serves as a senior software developer. His annual salaries are equal has varied substantially over the years, from a low of
-      $25,000 to a high of $175,000. This latter figure is his current salary. Historical salaries for Jason
+      $25,000 to a high of $191,000. This latter figure is his current salary. Historical salaries for Jason
       and any other employees can be found in our tax records (see below).
     </p>
     <p>
