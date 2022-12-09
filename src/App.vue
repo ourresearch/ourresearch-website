@@ -23,9 +23,10 @@
 <!--      DESKTOP MENU -->
       <v-toolbar-items class="hidden-sm-and-down">
         <v-btn class="no-active low-key-button" text to="/">Home</v-btn>
-        <v-btn class="no-active low-key-button" text to="./about">About</v-btn>
+        <v-btn class="no-active low-key-button" text to="./team">Team</v-btn>
         <v-btn class="no-active low-key-button" text to="./projects">Projects</v-btn>
         <v-btn class="no-active low-key-button" text to="./transparency">Transparency</v-btn>
+
       </v-toolbar-items>
 
 <!--      MOBILE MENU -->
@@ -38,7 +39,7 @@
           </template>
           <v-list>
             <v-list-item to="/">Home</v-list-item>
-            <v-list-item to="./about">About</v-list-item>
+            <v-list-item to="./team">Team</v-list-item>
             <v-list-item to="./projects">Projects</v-list-item>
             <v-list-item to="./transparency">Transparency</v-list-item>
           </v-list>
@@ -65,7 +66,7 @@
               <router-link to="/">Home</router-link>
             </div>
             <div>
-              <router-link to="/about">About</router-link>
+              <router-link to="/team">Team</router-link>
             </div>
             <div>
               <router-link to="/projects">Projects</router-link>

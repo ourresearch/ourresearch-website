@@ -1,14 +1,16 @@
 <template>
   <v-container class="about mt-12 pt-12">
-    <DIV class="text-h3 mb-6">Our company</DIV>
+    <DIV class="text-h3 mb-6">Team</DIV>
 
-    <div class="text-h4 mb-4">Our contact info</div>
-    <p>You can get in touch with us via email at <a href="mailto:team@ourresearch.org">team@ourresearch.org.</a> We're
-      also on Twitter at
-      <a href="https://twitter.com/ourresearch_org">@OurResearch_org</a> if that's more your speed.
+    <p>
+      Ever since our start at an all-night hackathon in 2010, we've believed that small teams can create great things. We've grown a bit since then, but we've tried to maintain our commitment to staying small, fun, and energetic.
+    </p>
+    <p>
+      If you'd like to join our team, or to get in contact for any reason, <a href="mailto:team@ourresearch.org">drop us a line!</a>
     </p>
 
-    <div class="text-h4 mb-4 mt-12">Our team</div>
+
+    <div class="grey--text mt-6 mb-4">Alphabetical order; click person for more details.</div>
 
     <div class="d-flex flex-wrap">
       <person-card
@@ -30,7 +32,7 @@ import {valuesList} from "@/data/valueDescriptions";
 import PersonCard from "@/components/PersonCard";
 
 export default {
-  name: "About",
+  name: "Team",
   components: {
     PersonCard,
   },
@@ -41,6 +43,7 @@ export default {
         name: "Jason Priem",
         img: "https://i.imgur.com/DjocEJI.png",
         title: "CEO & frontend dev",
+        fte: "full-time",
         links: [
           {
             anchor: "Twitter",
@@ -63,6 +66,7 @@ export default {
         name: "Richard Orr",
         img: "https://i.imgur.com/N9WkG2x.png",
         title: "Senior developer",
+        fte: "full-time",
         links: [
           {
             anchor: "Twitter",
@@ -81,6 +85,7 @@ export default {
         name: "Casey Meyer",
         img: "https://i.imgur.com/yxCfUoc.jpg",
         title: "Senior developer",
+        fte: "full-time",
         links: [
           {
             anchor: "Intro blog post",
@@ -94,6 +99,7 @@ export default {
         name: "Jaber Al",
         img: "https://i.imgur.com/gDHElsd.png",
         title: "Accounts",
+        fte: "part-time",
         bio: "Jaber uses his education - a degree in accounting with minors in French Literature and German Philosophy - and his professional experience from over 7 years of accounting practice, as the foundation of his work. Inspired by his own multicultural background, he prides himself on effective communication, a determined work ethic, and puts a strong emphasis on human connection in order to develop loyal relationships and help clients from all around the world overcome any challenge they may come to him with. A lifelong learner, outside of work Jaber enjoys flying aircraft as a recreational pilot, cooking, and hiking around his home in Victoria BC.."
       },
 
@@ -101,6 +107,7 @@ export default {
         name: "Steve Gruber",
         img: "https://i.imgur.com/AobXJaI.jpg",
         title: "Sales",
+        fte: "part-time",
         bio: "Steve co-founded VA Partners and has over 25 years of professional sales, marketing, and business development experience in Canada and the USA. He has dramatically increased sales at growing companies in a range of industries from business software, IT, telecom, clean-tech, fintech and industrial sectors. Steve loves selling and the thrill of the close!"
       },
 
@@ -108,13 +115,15 @@ export default {
         name: "Ayesha Jalil",
         img: "https://i.imgur.com/YoXoqUo.jpg",
         title: "Sales",
+        fte: "part-time",
         bio: "Ayesha is a self-drive challenge seeker.  She believes that learning is for life.  One of the most transformative experiences of her career was at SalesLab, an elite Tech Sales Bootcamp that helped her develop strong business intelligence, prospecting and cold-calling skills.  To Ayesha, selling is about integrity, empathy and authenticity.   "
       },
 
       {
         name: "Heather Piwowar",
         img: "https://i.imgur.com/6kAg7x5.png",
-        title: "Cofounder & board member",
+        title: "Cofounder & board",
+        fte: "volunteer",
         links: [
           {
             anchor: "Twitter",
@@ -131,7 +140,8 @@ export default {
       {
         name: "Heather Joseph",
         img: "https://i.imgur.com/vbixgnn.png",
-        title: "Board member",
+        title: "Board",
+        fte: "volunteer",
         links: [
           {
             anchor: "Twitter",
@@ -144,7 +154,8 @@ export default {
       {
         name: "Ethan White",
         img: "https://i.imgur.com/C1V6N3k.png",
-        title: "Board member",
+        title: "Board",
+        fte: "volunteer",
         links: [
           {
             anchor: "Twitter",
@@ -169,7 +180,7 @@ export default {
   },
   metaInfo() {
     return {
-      title: "About"
+      title: "Team"
     }
   },
 }

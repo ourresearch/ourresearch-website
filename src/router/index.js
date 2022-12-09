@@ -14,12 +14,12 @@ const routes = [
         name: 'Home',
         component: Home
     },
-    {path: '/team', redirect: "/about"},
+    {path: '/about', redirect: "/team"},
     {path: '/accessibility', component: Accessibility},
     {path: '/transparency', component: Transparency},
     {path: '/projects', component: Projects},
     {
-        path: '/about',
+        path: '/team',
         name: 'About',
         // route level code-splitting
         // this generates a separate chunk (about.[hash].js) for this route
