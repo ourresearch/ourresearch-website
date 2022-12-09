@@ -82,11 +82,6 @@ export default {
   data: () => ({
     dialogIsOpen: false,
   }),
-  metaInfo() {
-    return {
-      title: "PersonCard"
-    }
-  },
 }
 </script>
 <style lang="scss">
