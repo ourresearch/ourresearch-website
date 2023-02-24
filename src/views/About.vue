@@ -120,6 +120,14 @@ export default {
       },
 
       {
+        name: "Nicole Wanja",
+        img: require("@/assets/team/IMG-20221102-WA0007-cropped.jpg"),
+        title: "Customer Support",
+        fte: "part-time",
+        bio: "Nicole is a Kenyan based multi-faceted individual with vast experience in research and data analysis. She's passionate about deriving insights and simplifying data sets. She's also passionate about the environment and empowering women."
+      },
+
+      {
         name: "Heather Piwowar",
         img: "https://i.imgur.com/6kAg7x5.png",
         title: "Cofounder & board",
