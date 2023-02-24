@@ -96,6 +96,14 @@ export default {
       },
 
       {
+        name: "Jason Ding",
+        img: "https://www.virtualcfo.ca/wp-content/uploads/2020/03/Screen-Shot-2021-12-07-at-1.20.29-PM.png",
+        title: "CFO",
+        fte: "part-time",
+        bio: "Jason founded Notion CPA and has over 15+ years of senior finance and accounting experience.  He has served as a Chief Financial officer for publicly traded companies and his firm works extensively as a fractional CFO and fractional accounting service for several for-profit and non-profit organizations looking to grow and reach their goals.  Notion CPA has instilled professional cadence, accounting management and reporting measures for companies across North America.  Jason gets excited when he sees other people reach their goals and succeed."
+      },
+
+      {
         name: "Jaber Al",
         img: "https://i.imgur.com/gDHElsd.png",
         title: "Accounts",
@@ -120,11 +128,11 @@ export default {
       },
 
       {
-        name: "Nicole Wanja",
+        name: "Mercy Wanja",
         img: require("@/assets/team/IMG-20221102-WA0007-cropped.jpg"),
         title: "Customer Support",
         fte: "part-time",
-        bio: "Nicole is a Kenyan based multi-faceted individual with vast experience in research and data analysis. She's passionate about deriving insights and simplifying data sets. She's also passionate about the environment and empowering women."
+        bio: "Mercy is a Kenyan based multi-faceted individual with vast experience in research and data analysis. She's passionate about deriving insights and simplifying data sets. She's also passionate about the environment and empowering women."
       },
 
       {
