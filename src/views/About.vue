@@ -97,7 +97,7 @@ export default {
 
       {
         name: "Jason Ding",
-        img: "https://www.virtualcfo.ca/wp-content/uploads/2020/03/Screen-Shot-2021-12-07-at-1.20.29-PM.png",
+        img: require("@/assets/team/jasonding.png"),
         title: "CFO",
         fte: "part-time",
         bio: "Jason founded Notion CPA and has over 15+ years of senior finance and accounting experience.  He has served as a Chief Financial officer for publicly traded companies and his firm works extensively as a fractional CFO and fractional accounting service for several for-profit and non-profit organizations looking to grow and reach their goals.  Notion CPA has instilled professional cadence, accounting management and reporting measures for companies across North America.  Jason gets excited when he sees other people reach their goals and succeed."
