@@ -130,9 +130,17 @@ export default {
       {
         name: "Mercy Wanja",
         img: require("@/assets/team/IMG-20221102-WA0007-cropped.jpg"),
-        title: "Customer Support",
+        title: "Customer Support and Data Curation",
         fte: "part-time",
         bio: "Mercy is a Kenyan based multi-faceted individual with vast experience in research and data analysis. She's passionate about deriving insights and simplifying data sets. She's also passionate about the environment and empowering women."
+      },
+
+      {
+        name: "Ragini Mandava",
+        img: require("@/assets/team/ragini.jpg"),
+        title: "Data Curation",
+        fte: "part-time",
+        bio: "Ragini is based in India and holds a Master's in Pharmacy from JNTU University. She has 10 years of experience in data research and data entry in Amazon services."
       },
 
       {
