@@ -96,6 +96,24 @@ export default {
       },
 
       {
+        name: "Jason Portenoy",
+        img: require("@/assets/team/jasport_cropped2_thumb.jpg"),
+        title: "Senior data engineer",
+        fte: "full-time",
+        links: [
+          {
+            anchor: "Personal website",
+            href: "https://www.jasport.org/",
+          },
+          {
+            anchor: "Intro blog post",
+            href: "https://blog.ourresearch.org/introducing-jason-portenoy-newest-full-time-team-member-at-openalex",
+          },
+        ],
+        bio: "Dr. Jason Portenoy is a data engineer, data scientist, and researcher on the science of science. He has a bachelor's degree in neuroscience from Brown University, and a PhD in Information Science from the University of Washington."
+      },
+
+      {
         name: "Jason Ding",
         img: require("@/assets/team/jasonding.png"),
         title: "CFO",
@@ -108,7 +126,7 @@ export default {
         img: "https://i.imgur.com/gDHElsd.png",
         title: "Accounts",
         fte: "part-time",
-        bio: "Jaber uses his education - a degree in accounting with minors in French Literature and German Philosophy - and his professional experience from over 7 years of accounting practice, as the foundation of his work. Inspired by his own multicultural background, he prides himself on effective communication, a determined work ethic, and puts a strong emphasis on human connection in order to develop loyal relationships and help clients from all around the world overcome any challenge they may come to him with. A lifelong learner, outside of work Jaber enjoys flying aircraft as a recreational pilot, cooking, and hiking around his home in Victoria BC.."
+        bio: "Jaber uses his education - a degree in accounting with minors in French Literature and German Philosophy - and his professional experience from over 7 years of accounting practice, as the foundation of his work. Inspired by his own multicultural background, he prides himself on effective communication, a determined work ethic, and puts a strong emphasis on human connection in order to develop loyal relationships and help clients from all around the world overcome any challenge they may come to him with. A lifelong learner, outside of work Jaber enjoys flying aircraft as a recreational pilot, cooking, and hiking around his home in Victoria BC."
       },
 
       {
@@ -130,7 +148,7 @@ export default {
       {
         name: "Mercy Wanja",
         img: require("@/assets/team/IMG-20221102-WA0007-cropped.jpg"),
-        title: "Customer Support and Data Curation",
+        title: "Customer support & data curation",
         fte: "part-time",
         bio: "Mercy is a Kenyan based multi-faceted individual with vast experience in research and data analysis. She's passionate about deriving insights and simplifying data sets. She's also passionate about the environment and empowering women."
       },
@@ -138,7 +156,7 @@ export default {
       {
         name: "Ragini Mandava",
         img: require("@/assets/team/ragini.jpg"),
-        title: "Data Curation",
+        title: "Data curation",
         fte: "part-time",
         bio: "Ragini is based in India and holds a Master's in Pharmacy from JNTU University. She has 10 years of experience in data research and data entry in Amazon services."
       },
