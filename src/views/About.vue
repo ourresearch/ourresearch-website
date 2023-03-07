@@ -114,6 +114,14 @@ export default {
       },
 
       {
+        name: "Nolan McCafferty",
+        img: require("@/assets/team/nolanheadshot.jpeg"),
+        title: "Developer",
+        fte: "part-time",
+        bio: "Nolan is a software and data engineer with 8 years of experience. He has a bachelor’s degree in Computer Engineering from the University of Iowa and is an Iowa City native."
+      },
+
+      {
         name: "Jason Ding",
         img: require("@/assets/team/jasonding.png"),
         title: "CFO",
@@ -147,7 +155,7 @@ export default {
 
       {
         name: "Mercy Wanja",
-        img: require("@/assets/team/IMG-20221102-WA0007-cropped.jpg"),
+        img: require("@/assets/team/IMG-20221102-WA0007_cropped.jpg"),
         title: "Customer support & data curation",
         fte: "part-time",
         bio: "Mercy is a Kenyan based multi-faceted individual with vast experience in research and data analysis. She's passionate about deriving insights and simplifying data sets. She's also passionate about the environment and empowering women."
