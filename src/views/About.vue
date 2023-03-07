@@ -114,6 +114,14 @@ export default {
       },
 
       {
+        name: "Justin Barrett",
+        img: require("@/assets/team/Justin_Barrett_headshot_cropped.png"),
+        title: "Machine Learning Engineer",
+        fte: "part-time",
+        bio: "Justin is a machine learning engineer and data scientist who loves problem-solving. He graduated from NC State University with a B.S. in Aerospace Engineering and later received an M.S. in Mechanical Engineering. In his free time, Justin enjoys playing soccer and exploring Europe with his wife."
+      },
+
+      {
         name: "Nolan McCafferty",
         img: require("@/assets/team/nolanheadshot.jpeg"),
         title: "Developer",
