@@ -2,6 +2,48 @@ export const projectsList = [
 
 
 
+    // OPENALEX
+    {
+        name: "OpenAlex",
+        id: "openalex",
+        // imgHeight: 100,
+        // screenshot: "",
+        datesActive: [2021, null],
+        url: "https://openalex.org",
+        githubUrl: "https://github.com/orgs/ourresearch/repositories?language=&q=openalex&sort=&type=public",
+        apiUrl: "https://docs.openalex.org",
+        description: "An open and comprehensive catalog of scholarly papers, authors, institutions, and more",
+        goal: "Make the global research system—one of humankind's most beautiful creations—available to everyone, everywhere",
+        // audience: [
+        //     "",
+        // ],
+        press: [
+            {
+                title: "Massive open index of scholarly papers launches",
+                link: "https://www.nature.com/articles/d41586-022-00138-y",
+                source: "Nature"
+            },
+            {
+                title: "What they're doing is invaluable and has no replacement",
+                link: "https://openalex.org/testimonials",
+                source: "OpenAlex testimonials"
+            }
+        ],
+        funders: [
+            {
+                name: "Arcadia—A charitable fund of Lisbet Rausing and Peter Baldwin",
+                url: "https://www.arcadiafund.org.uk/"
+            },
+            {
+                name: "Premium subscriptions",
+                url: ""
+            }
+        ]
+    },
+
+
+
+
     // UNSUB
     {
         name: "Unsub",
