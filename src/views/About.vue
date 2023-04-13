@@ -84,7 +84,7 @@ export default {
       {
         name: "Casey Meyer",
         img: "https://i.imgur.com/yxCfUoc.jpg",
-        title: "Senior developer",
+        title: "Principal software engineer",
         fte: "full-time",
         links: [
           {
@@ -92,7 +92,7 @@ export default {
             href: "https://blog.ourresearch.org/meet-casey-now-full-time-with-ourresearch",
           },
         ],
-        bio: "Casey holds a BS in Political Science from the University of California, Davis, and an MA in Global Security Studies from American Military University. He has a background in cyber security with the US Air Force and nine years experience as a software engineer."
+        bio: "Casey is a software engineer, father of three, and a former US Air Force officer. He has a background in cyber security and holds a BS in Political Science from the University of California, Davis, and an MA in Global Security Studies from American Military University."
       },
 
       {
