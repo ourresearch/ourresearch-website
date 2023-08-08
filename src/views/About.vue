@@ -84,7 +84,7 @@ export default {
       {
         name: "Casey Meyer",
         img: "https://i.imgur.com/yxCfUoc.jpg",
-        title: "Principal software engineer",
+        title: "CTO",
         fte: "full-time",
         links: [
           {
