@@ -138,14 +138,6 @@ export default {
       },
 
       {
-        name: "Jaber Al",
-        img: "https://i.imgur.com/gDHElsd.png",
-        title: "Accounts",
-        fte: "part-time",
-        bio: "Jaber uses his education - a degree in accounting with minors in French Literature and German Philosophy - and his professional experience from over 7 years of accounting practice, as the foundation of his work. Inspired by his own multicultural background, he prides himself on effective communication, a determined work ethic, and puts a strong emphasis on human connection in order to develop loyal relationships and help clients from all around the world overcome any challenge they may come to him with. A lifelong learner, outside of work Jaber enjoys flying aircraft as a recreational pilot, cooking, and hiking around his home in Victoria BC."
-      },
-
-      {
         name: "Steve Gruber",
         img: "https://i.imgur.com/AobXJaI.jpg",
         title: "Sales",
