@@ -114,6 +114,16 @@ export default {
       },
 
       {
+        name: "Kyle Demes",
+        img: require("@/assets/team/kyle_headshot_thumb.jpg"),
+        title: "VP of Research Intelligence",
+        fte: "full-time",
+        links: [
+        ],
+        bio: "Using data to make better decisions drives Kyle. A former marine ecologist, he has spent the last 9 years working with governments and universities on developing and implementing data-driven research strategies. His spare time is split between his communities and the shorelines and mountains near Vancouver."
+      },
+
+      {
         name: "Justin Barrett",
         img: require("@/assets/team/Justin_Barrett_headshot_cropped.png"),
         title: "Machine Learning Engineer",
