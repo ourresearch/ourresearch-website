@@ -24,6 +24,11 @@ export const projectsList = [
                 source: "Nature"
             },
             {
+                title: "Sorbonne’s embrace of free research platform shakes up academic publishing",
+                link: "https://www.ft.com/content/89098b25-78af-4539-ba24-c770cf9ec7c3",
+                source: "Financial Times"
+            },
+            {
                 title: "What they're doing is invaluable and has no replacement",
                 link: "https://openalex.org/testimonials",
                 source: "OpenAlex testimonials"
