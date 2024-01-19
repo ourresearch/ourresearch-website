@@ -13,6 +13,7 @@
       <li><a href="https://unsub.org">unsub.org</a></li>
       <li><a href="https://unpaywall.org">unpaywall.org</a></li>
       <li><a href="https://ourresearch.org">ourresearch.org</a></li>
+      <li><a href="https://openalex.org">openalex.org</a></li>
       <li>Other websites and tools created and hosted by OurResearch</li>
     </ul>
 
@@ -35,7 +36,7 @@
     <h2>Reasonable accommodations</h2>
     <p>
       Individuals who need a reasonable accommodation to access OurResearch's products and services can make a request
-      via email to team@ourresearch.org). Be sure to include contact information such as an email address or telephone
+      via email to team@ourresearch.org. Be sure to include contact information such as an email address or telephone
       number where you can be reached. Depending on the request, OurResearch may need sufficient notice to provide a
       reasonable accommodation.
     </p>
