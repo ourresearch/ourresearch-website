@@ -61,26 +61,6 @@ export default {
         bio: "Jason is a longtime advocate for Open Science and open metrics. As a PhD student, he helped create the field of <a href=\"https://en.wikipedia.org/wiki/Altmetrics\">altmetrics</a> by coining the term and authoring the <a href=\"https://altmetrics.org\">Altmetrics Manifesto.</a> He holds a BA in history and MEd in education, both from the University of Florida."
       },
 
-
-      {
-        name: "Richard Orr",
-        img: "https://i.imgur.com/N9WkG2x.png",
-        title: "Senior developer",
-        fte: "full-time",
-        links: [
-          {
-            anchor: "Twitter",
-            href: "https://twitter.com/unpaywall_dev",
-          },
-          {
-            anchor: "Intro blog post",
-            href: "https://blog.ourresearch.org/welcome-to-our-newest-team-member/",
-          },
-        ],
-        bio: "Richard is a man of few words. He holds a BS in Computer Engineering from the University of Florida."
-      },
-
-
       {
         name: "Casey Meyer",
         img: "https://i.imgur.com/yxCfUoc.jpg",
