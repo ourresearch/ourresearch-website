@@ -114,8 +114,8 @@ export default {
       {
         name: "Nolan McCafferty",
         img: require("@/assets/team/nolanheadshot.jpeg"),
-        title: "Developer",
-        fte: "part-time",
+        title: "Software Engineer",
+        fte: "full-time",
         bio: "Nolan is a software and data engineer with 8 years of experience. He has a bachelor’s degree in Computer Engineering from the University of Iowa and is an Iowa City native."
       },
 
