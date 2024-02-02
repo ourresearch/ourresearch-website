@@ -136,37 +136,11 @@ export default {
       },
 
       {
-        name: "Ayesha Jalil",
-        img: "https://i.imgur.com/YoXoqUo.jpg",
-        title: "Sales",
-        fte: "part-time",
-        bio: "Ayesha is a self-drive challenge seeker.  She believes that learning is for life.  One of the most transformative experiences of her career was at SalesLab, an elite Tech Sales Bootcamp that helped her develop strong business intelligence, prospecting and cold-calling skills.  To Ayesha, selling is about integrity, empathy and authenticity.   "
-      },
-
-      {
         name: "Ragini Mandava",
         img: require("@/assets/team/ragini.jpg"),
         title: "Data curation",
         fte: "part-time",
         bio: "Ragini is based in India and holds a Master's in Pharmacy from JNTU University. She has 10 years of experience in data research and data entry in Amazon services."
-      },
-
-      {
-        name: "Heather Piwowar",
-        img: "https://i.imgur.com/6kAg7x5.png",
-        title: "Cofounder & board",
-        fte: "volunteer",
-        links: [
-          {
-            anchor: "Twitter",
-            href: "https://twitter.com/researchremix",
-          },
-          {
-            anchor: "Google Scholar",
-            href: "https://scholar.google.ca/citations?user=1YLq0XMAAAAJ&hl=en",
-          },
-        ],
-        bio: "A longtime advocate for Open Science, Dr. Heather Piwowar is also a leading researcher in research data availability and reuse, including a seminal paper measuring the citation benefit of publicly available research data. Dr Piwowar has a bachelor’s and master’s degree from MIT in electrical engineering, 10 years of experience as a software engineer, and a Ph.D. in Biomedical Informatics."
       },
 
       {
