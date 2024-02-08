@@ -137,7 +137,7 @@ export default {
 
       {
         name: "Madhuri Tripathi",
-        img: "@/assets/team/mtripathi_thumb.jpg",
+        img: require("@/assets/team/mtripathi_thumb.jpg"),
         title: "Business Development Representative",
         fte: "part-time",
         bio: "Madhuri comes to OurResearch with experience in sales and content writing in the finance industry. Her educational background is versatile with a Bachelor’s in Commerce, MBA in finance and marketing, and a post graduate diploma in Strategic Marketing Communications from Conestoga College. Throughout her journey, both in education and experience, her focus has been finding value which contributes to her zeal to excel in sales."
