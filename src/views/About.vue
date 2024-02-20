@@ -10,7 +10,7 @@
     </p>
 
 
-    <div class="grey--text mt-6 mb-4">Alphabetical order; click person for more details.</div>
+    <div class="grey--text mt-6 mb-4">Alphabetical order; click "More" for more details.</div>
 
     <div class="d-flex flex-wrap">
       <person-card
@@ -149,6 +149,14 @@ export default {
         title: "Data curation",
         fte: "part-time",
         bio: "Ragini is based in India and holds a Master's in Pharmacy from JNTU University. She has 10 years of experience in data research and data entry in Amazon services."
+      },
+
+      {
+        name: "Tianna Parris",
+        img: require("@/assets/team/tianna.jpg"),
+        title: "Support",
+        fte: "part-time",
+        bio: "Tianna is the dedicated support agent for our SaaS product, driven by a passion for problem-solving. Her background in biochemistry from the University of the West Indies is complemented by her current pursuit of a master's degree in data science. In her free time, she enjoys unwinding with TV shows and embarking on adventures to explore different places."
       },
 
       {
