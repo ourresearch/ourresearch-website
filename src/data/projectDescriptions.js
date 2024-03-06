@@ -36,7 +36,7 @@ export const projectsList = [
         ],
         funders: [
             {
-                name: "Arcadia—A charitable fund of Lisbet Rausing and Peter Baldwin",
+                name: "Arcadia",
                 url: "https://www.arcadiafund.org.uk/"
             },
             {
@@ -87,7 +87,7 @@ export const projectsList = [
                 url: ""
             },
             {
-                name: "Arcadia—A charitable fund of Lisbet Rausing and Peter Baldwin.",
+                name: "Arcadia",
                 url: "https://www.arcadiafund.org.uk/"
             }
         ]
@@ -169,7 +169,7 @@ export const projectsList = [
         ],
         funders: [
             {
-                name: "Arcadia—A charitable fund of Lisbet Rausing and Peter Baldwin.",
+                name: "Arcadia",
                 url: "https://www.arcadiafund.org.uk/"
             }
         ]

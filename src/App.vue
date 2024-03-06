@@ -92,8 +92,7 @@
           <v-col cols="12" sm="4" class="body-2">
             OurResearch is supported in part by <a
               style="text-decoration: underline;"
-              href="https://www.arcadiafund.org.uk/">Arcadia&mdash;a
-            charitable fund of Lisbet Rausing and Peter Baldwin</a>.
+              href="https://www.arcadiafund.org.uk/">Arcadia.</a>
           </v-col>
         </v-row>
       </v-container>
