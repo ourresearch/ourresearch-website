@@ -1,9 +1,0 @@
-ddt==1.1.1
-Flask==0.10.1
-flask-talisman==1.0.0
-gunicorn==19.4.5
-itsdangerous==0.24
-Jinja2==3.0.1
-requests[security]==2.25.1
-requests-cache==0.4.12
-Werkzeug==0.11.2
