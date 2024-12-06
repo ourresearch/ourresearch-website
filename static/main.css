@@ -1,0 +1,229 @@
+@import "animate.css";
+body {
+  height: auto;
+  background: #fff;
+  line-height: 1.3;
+  font-size: 18px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+body a {
+  text-decoration: none;
+}
+body a:hover {
+  text-decoration: underline;
+}
+body .main-view {
+  padding: 0 20px;
+  flex: 1;
+}
+body h3 {
+  font-weight: normal;
+}
+body code {
+  font-family: monospace;
+  background: #fafafa;
+  padding: 1px 2px;
+  border-radius: 3px;
+  border: 1px solid #ddd;
+  font-size: 80%;
+  white-space: nowrap;
+}
+body pre.wrap {
+  white-space: normal;
+}
+body pre code {
+  font-size: 14px;
+}
+body .nav {
+  background: #fff;
+  display: flex;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 10px 5px;
+  z-index: 9;
+  border-bottom: 1px solid #eee;
+}
+@media only screen and (min-width: 768px) {
+  body .nav {
+    padding: 10px 20px;
+  }
+}
+body .nav a.main-logo {
+  margin: 0 0 0 10px;
+}
+body .nav a.main-logo img {
+  width: 50px;
+}
+@media only screen and (min-width: 768px) {
+  body .nav a.main-logo img {
+    width: 70px;
+  }
+}
+body .nav .spacer {
+  flex: 1;
+}
+body .nav .links {
+  display: flex;
+  height: 100%;
+  align-items: flex-start;
+}
+body .nav .links a {
+  color: #999;
+  font-size: 16px;
+  padding: 10px 15px;
+}
+body .nav .links a i {
+  display: none;
+}
+@media only screen and (min-width: 768px) {
+  body .nav .links a {
+    font-size: 18px;
+    display: block;
+  }
+}
+body .nav .links a.faq {
+  display: block;
+}
+body .page {
+  max-width: 725px;
+  margin: 0 auto;
+  padding-top: 100px;
+  padding-bottom: 100px;
+}
+body .page h1 {
+  font-weight: 300;
+}
+body .page h2 {
+  font-weight: 300;
+  margin-top: 50px;
+}
+@media only screen and (min-width: 768px) {
+  body .page.landing .content {
+    display: flex;
+    flex-direction: column;
+    font-size: 20px;
+  }
+}
+body .page.landing .content .main-banner {
+  margin-top: 10vh;
+  font-size: 120%;
+}
+body .page.landing .content .main-banner .tagline {
+  font-size: 200%;
+  font-weight: 300;
+  line-height: 1;
+  margin-bottom: 10px;
+}
+body .page.landing .content .main-banner .subtagline {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 25px;
+  margin-bottom: 25px;
+  line-height: 1.3;
+}
+body .page.api h2.anchor,
+body .page.api h3.anchor {
+  padding-top: 90px;
+}
+body .page.api .version-warning {
+  background: lightpink;
+  padding: 20px;
+  border-radius: 3px;
+}
+body .page.api .version-good {
+  background: lightgreen;
+  padding: 20px;
+  border-radius: 3px;
+}
+body .page.api .version-good code {
+  background: none;
+  border-color: #333;
+}
+body .page.api div.endpoint {
+  margin-bottom: 40px;
+}
+body .page.api div.endpoint table {
+  margin-top: 20px;
+}
+body .page.api div.endpoint table td {
+  padding: 2px 7px;
+}
+body .page.api div.endpoint table td.k {
+  text-align: right;
+}
+body .page.api table.api-responses {
+  margin-bottom: 90px;
+}
+body .page.api table.api-responses tr {
+  vertical-align: top;
+}
+body .page.api table.api-responses tr td {
+  border-top: 1px solid #ddd;
+  padding: 10px;
+}
+body .page.api table.api-responses tr td.key {
+  text-align: right;
+  min-width: 150px;
+  padding: 10px 10px 0 0;
+}
+body .page.api table.api-responses tr td.key .name {
+  font-weight: bold;
+}
+body .page.api table.api-responses tr td.key .type {
+  font-size: 70%;
+  display: block;
+}
+body .page.api table.api-responses tr td.contents {
+  min-width: 150px;
+}
+body .page.api table.api-responses tr td.notes p {
+  margin-top: 0;
+}
+body .page.api table.api-responses tr td.notes h4 {
+  margin: 0;
+  font-weight: normal;
+}
+body .page.api table.api-responses tr td.notes ul {
+  padding: 0 0 0 20px;
+  margin: 0;
+}
+body .page.faq h1 {
+  margin-bottom: -20px;
+}
+body .page.faq dl dt {
+  font-weight: bold;
+  padding-top: 80px;
+}
+body .page.faq dl dd {
+  position: relative;
+  margin-left: 0;
+}
+.page-footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 25px;
+  color: #555;
+  border-top: 1px solid #eee;
+}
+.page-footer .links a {
+  color: #555;
+  padding: 7px 7px;
+  font-size: 22px;
+}
+.page-footer .links a .text {
+  display: none;
+}
+.page-footer .links a:hover {
+  text-decoration: none;
+}
+.page-footer .spacer {
+  width: 50px;
+}
+.page-footer .by {
+  font-size: 14px;
+  max-width: 35%;
+}
