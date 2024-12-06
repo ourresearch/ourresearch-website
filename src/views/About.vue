@@ -10,26 +10,25 @@
     </p>
 
 
-    <div class="grey--text mt-6 mb-4">Alphabetical order; click "More" for more details.</div>
+    <div class="grey--text mt-6 mb-4">In alphabetical order:</div>
 
     <div class="d-flex flex-wrap">
       <person-card
           v-for="person in displayPeople"
           :key="person.name"
           :person="person"
+          class="person-card"
       />
     </div>
-
-
-
-
-
   </v-container>
 </template>
+
+
 <script>
 import {projectsList} from "@/data/projectDescriptions";
 import {valuesList} from "@/data/valueDescriptions";
 import PersonCard from "@/components/PersonCard";
+
 
 export default {
   name: "Team",
@@ -42,7 +41,7 @@ export default {
       {
         name: "Jason Priem",
         img: "https://i.imgur.com/DjocEJI.png",
-        title: "CEO & frontend dev",
+        title: "CEO & Frontend Dev",
         fte: "full-time",
         links: [
           {
@@ -78,7 +77,7 @@ export default {
       {
         name: "Jason Portenoy",
         img: require("@/assets/team/jasport_cropped2_thumb.jpg"),
-        title: "Senior data engineer",
+        title: "Senior Data Engineer",
         fte: "full-time",
         links: [
           {
@@ -96,7 +95,7 @@ export default {
       {
         name: "Kyle Demes",
         img: require("@/assets/team/kyle_headshot_thumb.jpg"),
-        title: "VP of Research Intelligence",
+        title: "COO",
         fte: "full-time",
         links: [
         ],
@@ -117,6 +116,14 @@ export default {
         title: "Software Engineer",
         fte: "full-time",
         bio: "Nolan is a software and data engineer with 8 years of experience. He has a bachelor’s degree in Computer Engineering from the University of Iowa and is an Iowa City native."
+      },
+
+      {
+        name: "Brett Lockspeiser",
+        img: require("@/assets/team/brett-lockspeiser.jpg"),
+        title: "Senior Frontend Engineer & Product Owner",
+        fte: "full-time",
+        bio: "Brett Lockspeiser is a software engineer, product designer, and the co-founder of Sefaria, a non-profit organization building a free and open source digital library of Jewish texts. Brett began his career as a product manager at Google where he led the launch of the first Google News Archive. Brett studied Symbolic Systems at Stanford University."
       },
 
       {
@@ -141,22 +148,6 @@ export default {
         title: "Business Development Representative",
         fte: "part-time",
         bio: "Madhuri comes to OurResearch with experience in sales and content writing in the finance industry. Her educational background is versatile with a Bachelor’s in Commerce, MBA in finance and marketing, and a post graduate diploma in Strategic Marketing Communications from Conestoga College. Throughout her journey, both in education and experience, her focus has been finding value which contributes to her zeal to excel in sales."
-      },
-
-      {
-        name: "Ragini Mandava",
-        img: require("@/assets/team/ragini.jpg"),
-        title: "Data curation",
-        fte: "part-time",
-        bio: "Ragini is based in India and holds a Master's in Pharmacy from JNTU University. She has 10 years of experience in data research and data entry in Amazon services."
-      },
-
-      {
-        name: "Tianna Parris",
-        img: require("@/assets/team/tianna.jpg"),
-        title: "Support",
-        fte: "part-time",
-        bio: "Tianna is the dedicated support agent for our SaaS product, driven by a passion for problem-solving. Her background in biochemistry from the University of the West Indies is complemented by her current pursuit of a master's degree in data science. In her free time, she enjoys unwinding with TV shows and embarking on adventures to explore different places."
       },
 
       {
@@ -186,6 +177,16 @@ export default {
         ],
         bio: "Ethan White studies data-intensive problems in ecology including ecological forecasting and using remote sensing to understand individual level patterns in ecological systems at large scales. He is actively involved in communities focused on computational training, open science, and EDI as a Data Carpentry co-founder, Ecological Forecasting Initiative founding member and steering committee member, and co-founder of the weecology interdisciplinary research group."
       },
+
+      {
+        name: "Johanna McEntyre",
+        img: require("@/assets/team/johanna-mcentyre.jpg"),
+        title: "Board",
+        fte: "volunteer",
+        links: [
+        ],
+        bio: "Jo has served as the Deputy Director of the European Bioinformatics Institute since 2024, after serving as an Associate Director of EMBL-EBI Services with responsibility for data resources, and the Team Leader for Literature Services. Prior to joining EMBL-EBI, Jo was a staff scientist at the NCBI, National Library of Medicine, NIH, USA. Jo’s primary focus has been on the integration of the open access literature with life sciences data, to support the development of new ways to access and discover research information. This has led to interests in the areas of text and data mining, curation, and scientific credit and impact systems. She holds a PhD in plant biology from Manchester Metropolitan University."
+      },
     ]
   }),
   computed: {
@@ -207,9 +208,15 @@ export default {
   },
 }
 </script>
+
+
 <style lang="scss">
 .v-image {
   border-radius: 5px !important;
+}
+.person-card {
+  display: flex;
+  flex-direction: column;
 }
 
 </style>

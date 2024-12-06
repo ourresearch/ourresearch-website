@@ -1,15 +1,15 @@
 <template>
-  <v-card width="200" class="mr-6 mb-6">
-    <v-img :src="person.img" alt="" height="200px"/>
+  <v-card width="210" class="mr-6 mb-6">
+    <v-img :src="person.img" :alt="person.name" max-height="210px"/>
     <v-card-title>
       {{ person.name }}
     </v-card-title>
     <v-card-subtitle>
       {{ person.title }}
     </v-card-subtitle>
-    <v-card-actions>
-      <v-spacer/>
-      <v-dialog v-model="dialogIsOpen" width="400">
+    <v-spacer/>
+    <v-card-actions class="justify-end">
+      <v-dialog v-model="dialogIsOpen" width="500">
         <template v-slot:activator="{on, attrs}">
           <v-btn
               text
@@ -30,19 +30,20 @@
           <div class="d-flex flex-column align-center" style="margin-top: -20px;">
             <v-avatar height="200" width="200">
               <v-img :src="person.img" alt=""/>
-
             </v-avatar>
+
             <v-card-title class="text-h5 pb-0">
               {{ person.name }}
             </v-card-title>
+
             <div class="ma-0 pa-0">
               <span class="font-weight-bold">
-              {{ person.title }}
-
+                {{ person.title }}
               </span>
+
               <span class="">
-                  ({{ person.fte }})
-                </span>
+                ({{ person.fte }})
+              </span>
             </div>
           </div>
 
@@ -56,26 +57,22 @@
                 </span>
           </div>
 
-
           <div v-html="person.bio" class="px-5 py-5"></div>
 
-
-                        <v-card-actions class="">
-                          <v-spacer></v-spacer>
-                          <v-btn text @click="dialogIsOpen=false">Close</v-btn>
-                        </v-card-actions>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn text @click="dialogIsOpen=false">Close</v-btn>
+          </v-card-actions>
         </v-card>
 
       </v-dialog>
-
-
     </v-card-actions>
   </v-card>
 </template>
 <script>
 
 export default {
-  name: "About",
+  name: "PersonCard",
   props: {
     person: Object,
   },
@@ -84,6 +81,10 @@ export default {
   }),
 }
 </script>
-<style lang="scss">
 
+
+<style lang="scss">
+.more-button {
+  flex-direction: row-reverse;
+}
 </style>
