@@ -26,7 +26,7 @@
         </div>
         <v-divider class="my-4"/>
         <v-row>
-          <v-col cols="12" md="4" v-for="value in values">
+          <v-col cols="12" md="4" v-for="value in values" :key="value.name">
             <v-card dark color="#444" class="pa-3">
               <div class="d-flex align-center pb-3">
                 <img :src="getImgUrl('venn/' + value.img)" style="height: 50px;">
