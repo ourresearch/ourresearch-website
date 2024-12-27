@@ -75,24 +75,6 @@ export default {
       },
 
       {
-        name: "Jason Portenoy",
-        img: require("@/assets/team/jasport_cropped2_thumb.jpg"),
-        title: "Senior Data Engineer",
-        fte: "full-time",
-        links: [
-          {
-            anchor: "Personal website",
-            href: "https://www.jasport.org/",
-          },
-          {
-            anchor: "Intro blog post",
-            href: "https://blog.ourresearch.org/introducing-jason-portenoy-newest-full-time-team-member-at-openalex",
-          },
-        ],
-        bio: "Dr. Jason Portenoy is a data engineer, data scientist, and researcher on the science of science. He has a bachelor's degree in neuroscience from Brown University, and a PhD in Information Science from the University of Washington."
-      },
-
-      {
         name: "Kyle Demes",
         img: require("@/assets/team/kyle_headshot_thumb.jpg"),
         title: "COO",
