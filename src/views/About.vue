@@ -9,17 +9,41 @@
       If you'd like to join our team, or to get in contact for any reason, <a href="mailto:team@ourresearch.org">drop us a line!</a>
     </p>
 
-
-    <div class="grey--text mt-6 mb-4">In alphabetical order:</div>
-
+    <div class="text-h5">Staff</div>
+    <div class="text-subtitle-1">Our paid full-time and contract staff handle day-to-day operations.</div>
     <div class="d-flex flex-wrap">
       <person-card
-          v-for="person in displayPeople"
+          v-for="person in displayPeople('staff')"
           :key="person.name"
           :person="person"
           class="person-card"
       />
     </div>
+
+    <div class="text-h5">Board of Directors</div>
+    <div class="text-subtitle-1">Our volunteer board of directors governs our company.</div>
+    <div class="d-flex flex-wrap">
+      <person-card
+          v-for="person in displayPeople('board')"
+          :key="person.name"
+          :person="person"
+          class="person-card"
+      />
+    </div>
+
+    <!--
+    <div class="text-h5">Advisory Board</div>
+    <div class="text-subtitle-1">Our volunteer advisory board represents our community. <a href="https://docs.google.com/document/d/1TVEsfqRLAcNpiZkvFuKoGKVo6FVNwisRsThnz78kgI4/edit?tab=t.0#heading=h.mbrwjopt6w77">Learn more here</a>.</div>
+    <div class="d-flex flex-wrap">
+      <person-card
+          v-for="person in displayPeople('advisory')"
+          :key="person.name"
+          :person="person"
+          class="person-card"
+      />
+    </div>
+    -->
+
   </v-container>
 </template>
 
@@ -41,8 +65,9 @@ export default {
       {
         name: "Jason Priem",
         img: "https://i.imgur.com/DjocEJI.png",
-        title: "CEO & Frontend Dev",
+        title: "CEO",
         fte: "full-time",
+        categories: ["staff", "board"],
         links: [
           {
             anchor: "Twitter",
@@ -65,6 +90,7 @@ export default {
         img: "https://i.imgur.com/yxCfUoc.jpg",
         title: "CTO",
         fte: "full-time",
+        categories: ["staff"],
         links: [
           {
             anchor: "Intro blog post",
@@ -79,17 +105,10 @@ export default {
         img: require("@/assets/team/kyle_headshot_thumb.jpg"),
         title: "COO",
         fte: "full-time",
+        categories: ["staff"],
         links: [
         ],
         bio: "Using data to make better decisions drives Kyle. A former marine ecologist, he has spent the last 9 years working with governments and universities on developing and implementing data-driven research strategies. His spare time is split between his communities and the shorelines and mountains near Vancouver."
-      },
-
-      {
-        name: "Justin Barrett",
-        img: require("@/assets/team/Justin_Barrett_headshot_cropped.png"),
-        title: "Machine Learning Engineer",
-        fte: "full-time",
-        bio: "Justin is a machine learning engineer and data scientist who loves problem-solving. He graduated from NC State University with a B.S. in Aerospace Engineering and later received an M.S. in Mechanical Engineering. In his free time, Justin enjoys playing soccer and exploring Europe with his wife."
       },
 
       {
@@ -97,6 +116,7 @@ export default {
         img: require("@/assets/team/nolanheadshot.jpeg"),
         title: "Software Engineer",
         fte: "full-time",
+        categories: ["staff"],
         bio: "Nolan is a software and data engineer with 8 years of experience. He has a bachelor’s degree in Computer Engineering from the University of Iowa and is an Iowa City native."
       },
 
@@ -105,15 +125,8 @@ export default {
         img: require("@/assets/team/brett-lockspeiser.jpg"),
         title: "Senior Frontend Engineer & Product Owner",
         fte: "full-time",
+        categories: ["staff"],
         bio: "Brett Lockspeiser is a software engineer, product designer, and the co-founder of Sefaria, a non-profit organization building a free and open source digital library of Jewish texts. Brett began his career as a product manager at Google where he led the launch of the first Google News Archive. Brett studied Symbolic Systems at Stanford University."
-      },
-
-      {
-        name: "Jason Ding",
-        img: require("@/assets/team/jasonding.png"),
-        title: "CFO",
-        fte: "part-time",
-        bio: "Jason founded Notion CPA and has over 15+ years of senior finance and accounting experience.  He has served as a Chief Financial officer for publicly traded companies and his firm works extensively as a fractional CFO and fractional accounting service for several for-profit and non-profit organizations looking to grow and reach their goals.  Notion CPA has instilled professional cadence, accounting management and reporting measures for companies across North America.  Jason gets excited when he sees other people reach their goals and succeed."
       },
 
       {
@@ -121,6 +134,7 @@ export default {
         img: "https://i.imgur.com/AobXJaI.jpg",
         title: "Sales",
         fte: "part-time",
+        categories: ["staff"],
         bio: "Steve co-founded VA Partners and has over 25 years of professional sales, marketing, and business development experience in Canada and the USA. He has dramatically increased sales at growing companies in a range of industries from business software, IT, telecom, clean-tech, fintech and industrial sectors. Steve loves selling and the thrill of the close!"
       },
 
@@ -129,6 +143,7 @@ export default {
         img: require("@/assets/team/mtripathi_thumb.jpg"),
         title: "Business Development Representative",
         fte: "part-time",
+        categories: ["staff"],
         bio: "Madhuri comes to OurResearch with experience in sales and content writing in the finance industry. Her educational background is versatile with a Bachelor’s in Commerce, MBA in finance and marketing, and a post graduate diploma in Strategic Marketing Communications from Conestoga College. Throughout her journey, both in education and experience, her focus has been finding value which contributes to her zeal to excel in sales."
       },
 
@@ -136,6 +151,7 @@ export default {
         name: "Heather Joseph",
         img: "https://i.imgur.com/vbixgnn.png",
         title: "Board",
+        categories: ["board"],
         fte: "volunteer",
         links: [
           {
@@ -151,6 +167,7 @@ export default {
         img: "https://i.imgur.com/C1V6N3k.png",
         title: "Board",
         fte: "volunteer",
+        categories: ["board"],
         links: [
           {
             anchor: "Twitter",
@@ -165,15 +182,16 @@ export default {
         img: require("@/assets/team/johanna-mcentyre.jpg"),
         title: "Board",
         fte: "volunteer",
+        categories: ["board"],
         links: [
         ],
         bio: "Jo has served as the Deputy Director of the European Bioinformatics Institute since 2024, after serving as an Associate Director of EMBL-EBI Services with responsibility for data resources, and the Team Leader for Literature Services. Prior to joining EMBL-EBI, Jo was a staff scientist at the NCBI, National Library of Medicine, NIH, USA. Jo’s primary focus has been on the integration of the open access literature with life sciences data, to support the development of new ways to access and discover research information. This has led to interests in the areas of text and data mining, curation, and scientific credit and impact systems. She holds a PhD in plant biology from Manchester Metropolitan University."
       },
     ]
   }),
-  computed: {
-    displayPeople(){
-      const ret = [...this.people]
+  methods: {
+    displayPeople(category){
+      const ret = this.people.filter(p => p.categories.includes(category))
       ret.sort(function(a, b){
        const  aLastName = a.name.split(" ")[1]
        const  bLastName = b.name.split(" ")[1]
@@ -195,6 +213,12 @@ export default {
 <style lang="scss">
 .v-image {
   border-radius: 5px !important;
+}
+.text-h5 {
+  margin-top: 40px;
+}
+.text-subtitle-1 {
+  margin-bottom: 15px;
 }
 .person-card {
   display: flex;
