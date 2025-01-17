@@ -4,7 +4,7 @@
     <v-card-title>
       {{ person.name }}
     </v-card-title>
-    <v-card-subtitle>
+    <v-card-subtitle v-if="section == 'staff'">
       {{ person.title }}
     </v-card-subtitle>
     <v-spacer/>
@@ -75,6 +75,7 @@ export default {
   name: "PersonCard",
   props: {
     person: Object,
+    section: String,
   },
   data: () => ({
     dialogIsOpen: false,

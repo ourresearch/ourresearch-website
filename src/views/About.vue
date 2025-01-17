@@ -16,6 +16,7 @@
           v-for="person in displayPeople('staff')"
           :key="person.name"
           :person="person"
+          :section="'staff'"
           class="person-card"
       />
     </div>
@@ -31,18 +32,16 @@
       />
     </div>
 
-    <!--
     <div class="text-h5">Advisory Board</div>
     <div class="text-subtitle-1">Our volunteer advisory board represents our community. <a href="https://docs.google.com/document/d/1TVEsfqRLAcNpiZkvFuKoGKVo6FVNwisRsThnz78kgI4/edit?tab=t.0#heading=h.mbrwjopt6w77">Learn more here</a>.</div>
     <div class="d-flex flex-wrap">
       <person-card
-          v-for="person in displayPeople('advisory')"
+          v-for="person in displayPeople('advisory board')"
           :key="person.name"
           :person="person"
           class="person-card"
       />
     </div>
-    -->
 
   </v-container>
 </template>
@@ -187,6 +186,50 @@ export default {
         ],
         bio: "Jo has served as the Deputy Director of the European Bioinformatics Institute since 2024, after serving as an Associate Director of EMBL-EBI Services with responsibility for data resources, and the Team Leader for Literature Services. Prior to joining EMBL-EBI, Jo was a staff scientist at the NCBI, National Library of Medicine, NIH, USA. Jo’s primary focus has been on the integration of the open access literature with life sciences data, to support the development of new ways to access and discover research information. This has led to interests in the areas of text and data mining, curation, and scientific credit and impact systems. She holds a PhD in plant biology from Manchester Metropolitan University."
       },
+
+      {
+        name: "Eric Jeangirard",
+        img: require("@/assets/team/eric-jeangirard.png"),
+        title: "Advisory Board",
+        fte: "volunteer",
+        categories: ["advisory board"],
+        links: [
+        ],
+        bio: "Eric is a data scientist at the French Ministry of Higher Education and Research. He has over 15 years' experience in developing data-driven tools, both in the private sector (airlines, banks, online marketplaces) and in the public sector."
+      },
+
+      {
+        name: "Richard Tankerly",
+        img: require("@/assets/team/richard-tankerly.jpg"),
+        title: "Advisory Board",
+        fte: "volunteer",
+        categories: ["advisory board"],
+        links: [
+        ],
+        bio: "Rick is Vice President for Research and Dean of the Graduate School at Portland State University, where he leads efforts to enhance research excellence, support graduate education, and measure the societal impact of PSU’s work. With nearly 30 years of experience, he focuses on leveraging research data analytics and intelligence to grow and strengthen PSU’s research enterprise and support evidence-based decision-making. A former NSF program director and researcher in marine ecology, Rick is passionate about using data-driven strategies to foster innovation and collaboration, aligning with OpenAlex’s mission to improve access to and understanding of global research trends."
+      },
+
+      {
+        name: "Ashley Farley",
+        img: require("@/assets/team/ashley-farley.jpg"),
+        title: "Advisory Board",
+        fte: "volunteer",
+        categories: ["advisory board"],
+        links: [
+        ],
+        bio: "Ashley Farley is the Senior Officer of Knowledge & Research Services at the Gates Foundation. In this capacity she leads the foundation’s Open Access Policy’s implementation and associated initiatives. This includes leading the work of Gates Open Research. Much of her work advocates for knowledge to be a global good. She completed her Masters in Library and Information Sciences through the University of Washington’s Information School. She has a deep passion for open access, believing that freely accessible knowledge has the power to improve and save lives."
+      },
+
+      {
+        name: "Euan Adie",
+        img: require("@/assets/team/euan-adie.jpg"),
+        title: "Advisory Board",
+        fte: "volunteer",
+        categories: ["advisory board"],
+        links: [
+        ],
+        bio: "Euan is the director of Overton.io, a database of public policy and its links to research. He previously founded and spent six years growing Altmetric, which is now owned by Digital Science, and before that worked at Nature Publishing Group and as a researcher in medical genetics (despite not knowing how to hold a pipette properly) at the University of Edinburgh."
+      },
     ]
   }),
   methods: {
@@ -215,10 +258,11 @@ export default {
   border-radius: 5px !important;
 }
 .text-h5 {
-  margin-top: 40px;
+  margin-top: 50px;
 }
-.text-subtitle-1 {
-  margin-bottom: 15px;
+.v-application .text-subtitle-1 {
+  margin-bottom: 20px;
+  font-size: 15px !important;
 }
 .person-card {
   display: flex;
