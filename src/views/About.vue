@@ -32,6 +32,7 @@
       />
     </div>
 
+    <!--
     <div class="text-h5">Advisory Board</div>
     <div class="text-subtitle-1">Our volunteer advisory board represents our community. <a href="https://docs.google.com/document/d/1TVEsfqRLAcNpiZkvFuKoGKVo6FVNwisRsThnz78kgI4/edit?tab=t.0#heading=h.mbrwjopt6w77">Learn more here</a>.</div>
     <div class="d-flex flex-wrap">
@@ -42,6 +43,7 @@
           class="person-card"
       />
     </div>
+    -->
 
   </v-container>
 </template>
