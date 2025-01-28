@@ -32,7 +32,7 @@
       />
     </div>
 
-    <!--
+    
     <div class="text-h5">Advisory Board</div>
     <div class="text-subtitle-1">Our volunteer advisory board represents our community. <a href="https://docs.google.com/document/d/1TVEsfqRLAcNpiZkvFuKoGKVo6FVNwisRsThnz78kgI4/edit?tab=t.0#heading=h.mbrwjopt6w77">Learn more here</a>.</div>
     <div class="d-flex flex-wrap">
@@ -43,7 +43,7 @@
           class="person-card"
       />
     </div>
-    -->
+  
 
   </v-container>
 </template>
@@ -232,6 +232,84 @@ export default {
         ],
         bio: "Euan is the director of Overton.io, a database of public policy and its links to research. He previously founded and spent six years growing Altmetric, which is now owned by Digital Science, and before that worked at Nature Publishing Group and as a researcher in medical genetics (despite not knowing how to hold a pipette properly) at the University of Edinburgh."
       },
+
+      {
+        name: "Amélie Church",
+        img: require("@/assets/team/Amelie-Church.jpg"),
+        title: "Advisory Board",
+        fte: "volunteer",
+        categories: ["advisory board"],
+        links: [
+        ],
+        bio: "Amélie Church is co-director of Sorbonne University Library in Paris, France. She is in charge of implementing the University’s Open Science policy regarding open access to publications, open data and open research information. She participated in the elaboration of the Barcelona Declaration on Open Research Information, and is an elected representative at the board of HAL, the French national repository."
+      },
+
+      {
+        name: "Juan Pablo Alperin",
+        img: require("@/assets/team/Juan-Pablo-Alperin.jpg"),
+        title: "Advisory Board",
+        fte: "volunteer",
+        categories: ["advisory board"],
+        links: [
+        ],
+        bio: "Juan Pablo Alperin is an Associate Professor in Publishing, the Scientific Director of the Public Knowledge Project, and the Co-Director of the Scholarly Communications Lab at Simon Fraser University."
+      },
+
+      {
+        name: "Joanna Ball",
+        img: require("@/assets/team/Joanna-Ball.jpg"),
+        title: "Advisory Board",
+        fte: "volunteer",
+        categories: ["advisory board"],
+        links: [
+        ],
+        bio: "Juan Pablo Alperin is an Associate Professor in Publishing, the Scientific Director of the Public Knowledge Project, and the Co-Director of the Scholarly Communications Lab at Simon Fraser University."
+      },
+
+      {
+        name: "Nees van Neck",
+        img: require("@/assets/team/Nees-van-Neck.jpg"),
+        title: "Advisory Board",
+        fte: "volunteer",
+        categories: ["advisory board"],
+        links: [
+        ],
+        bio: "Nees Jan van Eck is senior researcher at the Centre for Science and Technology Studies (CWTS) at Leiden University in the Netherlands, where he leads data infrastructure projects and coordinates the Information & Openness focal area. Drawing on extensive technical expertise and deep knowledge of diverse scientometric data sources and tools, Nees Jan focuses on studying and developing infrastructures, algorithms, and tools to support research assessment, science policy, and scholarly communication. As a committed advocate for transparent and democratic decision-making in science, he emphasizes the importance of open and equitable access to research information. Nees Jan is the architect and lead developer of the CWTS Leiden Ranking Open Edition, the first fully transparent worldwide university ranking based on open and reproducible data. He is also the developer of VOSviewer, a widely used software tool for analyzing and visualizing bibliometric data, which has been cited in more than 50,000 scientific publications."
+      },
+
+      {
+        name: "Maria Gould",
+        img: require("@/assets/team/Maria-Gould.jpg"),
+        title: "Advisory Board",
+        fte: "volunteer",
+        categories: ["advisory board"],
+        links: [
+        ],
+        bio: "Maria Gould is the Product Director at DataCite and Director of ROR. Prior to joining DataCite, she held roles at the California Digital Library, UC Berkeley Library, and PLOS. She is actively involved in US-based and global community initiatives around persistent identifiers, scholarly infrastructure, and open metadata."
+      },
+
+      {
+        name: "Viviana Martinovich",
+        img: require("@/assets/team/Viviana-Martinovich.jpg"),
+        title: "Advisory Board",
+        fte: "volunteer",
+        categories: ["advisory board"],
+        links: [
+        ],
+        bio: "Viviana is the editor-in-chief of the diamond open access journal Salud Colectiva, editorial director of the open access book series Cuadernos del ISCo, professor and researcher in the master's and doctoral programs of the Instituto de Salud Colectiva at Universidad Nacional de Lanús (UNLa), Argentina. She is the co-founder of Red Sara and co-creator and lecturer of the course Editorial Management Systems and Open Science in the Bachelor’s degree program in Systems at UNLa. From the history of scientific journals, she explores the diverse mediating actions that enable a scientific text to reach the public sphere, as well as the scientific rationalities driving these actions. From a contemporary perspective, she analyzes the effects of the industrialization and technologization of science and scientific narratives, along with the role of commercial scientific bibliography databases in the productive machinery of the scientific-industrial publishing complex. From this standpoint, she proposes rethinking the ways in which we search for, analyze, and compile scientific literature, recovering the political dimension of the open access and open science movement."
+      },
+
+      {
+        name: "Gaël Bernard",
+        img: require("@/assets/team/Gael-Bernard.jpg"),
+        title: "Advisory Board",
+        fte: "volunteer",
+        categories: ["advisory board"],
+        links: [
+        ],
+        bio: "Gaël Bernard is a data scientist in the Institutional Data and Analytics unit at EPFL in Lausanne, Switzerland. He enjoys designing and implementing algorithms, developing innovative web-based applications, and exploring new use cases for AI. He holds a PhD in Information Systems and co-founded Odaia, an AI-driven customer engagement platform tailored to the Life Sciences industry."
+      },
+
     ]
   }),
   methods: {

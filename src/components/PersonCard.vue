@@ -1,5 +1,5 @@
 <template>
-  <v-card width="210" class="mr-6 mb-6">
+  <v-card width="215" class="mr-6 mb-6">
     <v-img :src="person.img" :alt="person.name" max-height="210px"/>
     <v-card-title>
       {{ person.name }}
