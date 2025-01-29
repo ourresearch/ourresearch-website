@@ -267,8 +267,8 @@ export default {
       },
 
       {
-        name: "Nees van Neck",
-        img: require("@/assets/team/Nees-van-Neck.jpg"),
+        name: "Nees Jan van Eck",
+        img: require("@/assets/team/Nees-Jan-van-Eck.jpg"),
         title: "Advisory Board",
         fte: "volunteer",
         categories: ["advisory board"],
