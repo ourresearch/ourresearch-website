@@ -263,7 +263,7 @@ export default {
         categories: ["advisory board"],
         links: [
         ],
-        bio: "Juan Pablo Alperin is an Associate Professor in Publishing, the Scientific Director of the Public Knowledge Project, and the Co-Director of the Scholarly Communications Lab at Simon Fraser University."
+        bio: "Joanna Ball is the Managing Director of DOAJ, and is responsible for ensuring that DOAJ fulfils its mission by setting strategic direction, leading on advocacy and engagement, and securing the organisation's sustainability. Joanna joined DOAJ in 2022 after spending over 25 years in academic library management and leadership roles in the UK and Denmark."
       },
 
       {
