@@ -319,7 +319,7 @@ export default {
         // Fetch both responses
         const [unpaywallResponse, openAlexResponse] = await Promise.all([
           fetch(`https://api.unpaywall.org/${doi}?email=team@ourresearch.org`),
-          fetch(`https://api.openalex.org/unpaywall/${doi}}?email=team@ourresearch.org`)
+          fetch(`https://api.openalex.org/unpaywall/${doi}?email=team@ourresearch.org`)
         ]);
 
         // Process responses
