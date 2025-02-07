@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import Accessibility from "../views/Accessibility";
 import Transparency from "../views/Transparency";
 import Projects from "../views/Projects";
+import UnpaywallQA from "../views/UnpaywallQA";
 import goTo from 'vuetify/es5/services/goto'
 
 Vue.use(VueRouter)
@@ -25,7 +26,8 @@ const routes = [
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
         component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-    }
+    },
+    {path: "/qa/unpaywall", component: UnpaywallQA},
 ]
 
 const router = new VueRouter({
@@ -35,16 +37,16 @@ const router = new VueRouter({
         if (to.hash) {
             return goTo(to.hash, {
                 offset: 75,
-            })
+            });
         } else if (savedPosition) {
-            return savedPosition
+            return savedPosition;
         }
         else {
-            return {x: 0, y: 0}
+            return {x: 0, y: 0};
         }
 
     },
 })
 
 
-export default router
+export default router;
