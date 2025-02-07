@@ -490,7 +490,14 @@ export default {
 .d2h-file-side-diff {
   margin: 0 !important;
   width: 50% !important;
-  overflow: visible !important;
+  overflow-x: auto !important;
+  overflow-y: visible !important;
+}
+
+.d2h-code-side-linenumber {
+  position: sticky !important;
+  left: 0 !important;
+  background-color: #f6f8fa !important;
 }
 
 /* Container adjustments */
