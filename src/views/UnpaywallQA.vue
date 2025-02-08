@@ -79,11 +79,11 @@
                           <div class="column-headers">
                             <div class="left-header">
                               <span class="deletion-dot"></span>
-                              <span>Unpaywall</span>
+                              <span><a :href="`https://api.unpaywall.org/${comparison.doi}?email=team@ourresearch.org`" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">Unpaywall<i class="v-icon mdi mdi-open-in-new" style="font-size: 14px; vertical-align: text-bottom; margin: 0 -4px 0 2px;"></i></a></span>
                             </div>
                             <div class="right-header">
                               <span class="addition-dot"></span>
-                              <span>OpenAlex</span>
+                              <span><a :href="`https://api.openalex.org/unpaywall/${comparison.doi}?email=team@ourresearch.org`" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">OpenAlex<i class="v-icon mdi mdi-open-in-new" style="font-size: 14px; vertical-align: text-bottom; margin: 0 -4px 0 2px;"></i></a></span>
                             </div>
                           </div>
                         </div>
@@ -98,11 +98,11 @@
                           <div class="d-flex">
                             <div>
                               <span class="deletion-dot"></span>
-                              <span class="ml-1">Unpaywall</span>
+                              <span class="ml-1"><a :href="`https://api.unpaywall.org/${comparison.doi}?email=team@ourresearch.org`" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">Unpaywall<i class="v-icon mdi mdi-open-in-new" style="font-size: 14px; vertical-align: text-bottom; margin: 0 -4px 0 2px;"></i></a></span>
                             </div>
                             <div>
                               <span class="addition-dot"></span>
-                              <span class="ml-1">OpenAlex</span>
+                              <span class="ml-1"><a :href="`https://api.openalex.org/unpaywall/${comparison.doi}?email=team@ourresearch.org`" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">OpenAlex<i class="v-icon mdi mdi-open-in-new" style="font-size: 14px; vertical-align: text-bottom; margin: 0 -4px 0 2px;"></i></a></span>
                             </div>
                           </div>
                         </div>
@@ -117,10 +117,10 @@
                           <div class="font-weight-bold">{{ filteredDifferences(comparison).length }} Differences</div>
                           <div class="text-caption">
                             <span class="mr-3">
-                              <span class="deletion-dot"></span> Unpaywall
+                              <span class="deletion-dot"></span> <a :href="`https://api.unpaywall.org/${comparison.doi}?email=team@ourresearch.org`" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">Unpaywall<i class="v-icon mdi mdi-open-in-new" style="font-size: 14px; vertical-align: text-bottom; margin: 0 -4px 0 2px;"></i></a>
                             </span>
                             <span>
-                              <span class="addition-dot"></span> OpenAlex
+                              <span class="addition-dot"></span> <a :href="`https://api.openalex.org/unpaywall/${comparison.doi}?email=team@ourresearch.org`" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">OpenAlex<i class="v-icon mdi mdi-open-in-new" style="font-size: 14px; vertical-align: text-bottom; margin: 0 -4px 0 2px;"></i></a>
                             </span>
                           </div>
                         </div>
@@ -359,9 +359,48 @@ export default {
           matchingMaxComparisons: 2500
         };
         
-        comparison.inlineJsonDiff = diff2html(patch, { ...diffOptions, outputFormat: 'line-by-line' });
-        comparison.sideBySideDiff = diff2html(patch, { ...diffOptions, outputFormat: 'side-by-side' });
-
+        // Generate the diffs
+        const inlineHtml = diff2html(patch, { ...diffOptions, outputFormat: 'line-by-line' });
+        const sideBySideHtml = diff2html(patch, { ...diffOptions, outputFormat: 'side-by-side' });
+        
+        // Add truncation message with links if content appears to be truncated
+        const truncationMessage = `
+          <div class="truncation-message" style="padding: 10px; text-align: center; color: #666;">
+            Remaining content identical. 
+            <div style="display: flex; justify-content: center; gap: 20px; margin-top: 8px;">
+              <a href="https://api.unpaywall.org/${doi}?email=team@ourresearch.org" target="_blank" rel="noopener" style="color: #666; text-decoration: none;">
+                Unpaywall JSON <i class="v-icon mdi mdi-open-in-new" style="font-size: 16px; vertical-align: text-bottom;"></i>
+              </a>
+              <a href="https://api.openalex.org/unpaywall/${doi}?email=team@ourresearch.org" target="_blank" rel="noopener" style="color: #666; text-decoration: none;">
+                OpenAlex JSON <i class="v-icon mdi mdi-open-in-new" style="font-size: 16px; vertical-align: text-bottom;"></i>
+              </a>
+            </div>
+          </div>
+        `;
+        
+        // Check for truncation by analyzing the deep-diff results
+        const unpaywallStr = JSON.stringify(unpaywallJson, null, 2);
+        const openAlexStr = JSON.stringify(openAlexJson, null, 2);
+        
+        // Find the last difference position
+        let lastDiffPos = -1;
+        if (comparison.differences.length > 0) {
+          const lastDiff = comparison.differences[comparison.differences.length - 1];
+          const lastPath = lastDiff.path.join('.');
+          lastDiffPos = unpaywallStr.indexOf(`"${lastPath}"`);
+        }
+        
+        // If we have differences and there's a significant amount of content after the last difference,
+        // it's likely that content is being truncated
+        const contentAfterLastDiff = lastDiffPos > 0 ? 
+          unpaywallStr.length - lastDiffPos : 0;
+        
+        const isTruncated = comparison.differences.length > 0 && 
+                           contentAfterLastDiff > 1000 && 
+                           unpaywallStr.slice(-500) === openAlexStr.slice(-500);
+        
+        comparison.inlineJsonDiff = inlineHtml + (isTruncated ? truncationMessage : '');
+        comparison.sideBySideDiff = sideBySideHtml + (isTruncated ? truncationMessage : '');
       } catch (err) {
         comparison.error = `Error fetching data for DOI ${doi}: ${err.message}`;
       }
@@ -491,7 +530,7 @@ export default {
   margin: 0 !important;
   width: 50% !important;
   overflow-x: auto !important;
-  overflow-y: visible !important;
+  overflow-y: auto !important;
 }
 
 .d2h-code-side-linenumber {
