@@ -10,56 +10,90 @@
           </v-card-title>
 
           <v-card-text>
-            <div class="d-flex align-center mb-6">
-              <v-text-field
-                v-model="doi"
-                label="Enter DOI"
-                outlined
-                background-color="white"
-                :loading="isLoading"
-                :disabled="isLoading"
-                @keyup.enter="compareDOI"
-                class="mr-4"
-                hide-details
-                density="comfortable"
-              ></v-text-field>
-              <v-btn
-                color="primary"
-                :loading="isLoading"
-                :disabled="isLoading"
-                @click="compareDOI"
-                class="mr-2"
-              >
-                Compare
-              </v-btn>
+            <div class="d-flex align-center">
+              <!-- Random Sample Section -->
+              <div class="d-flex align-center">
+                <div style="width: 100px" class="mr-4">
+                  <v-text-field
+                    v-model="sampleSize"
+                    label="Sample Size"
+                    type="number"
+                    min="1"
+                    max="100"
+                    outlined
+                    background-color="white"
+                    hide-details
+                    density="comfortable"
+                  ></v-text-field>
+                </div>
+                <v-btn
+                  color="primary"
+                  :disabled="isLoading"
+                  @click="fetchRandomSample"
+                  large
+                >
+                  Random Sample
+                </v-btn>
+              </div>
+
+              <v-divider vertical class="mx-8"></v-divider>
+
               <v-btn
                 color="primary"
                 :disabled="isLoading"
                 @click="showBulkDialog = true"
+                large
               >
                 Bulk Compare
               </v-btn>
-            </div>
 
-            <div v-if="error" class="error--text mb-6">
-              {{ error }}
-            </div>
+              <v-divider vertical class="mx-8"></v-divider>
 
-            <div v-if="isBulkComparison" class="text-body-1 mb-4">
-              <template v-if="missingDoiSummary && (missingDoiSummary.unpaywall > 0 || missingDoiSummary.openAlex > 0)">
-                {{ completedDois }} DOIs compared:
-                <div v-if="missingDoiSummary.unpaywall > 0">{{ missingDoiSummary.unpaywall }} not found in Unpaywall</div>
-                <div v-if="missingDoiSummary.openAlex > 0">{{ missingDoiSummary.openAlex }} not found in OpenAlex</div>
-              </template>
-              <template v-else-if="completedDois > 0">
-                {{ completedDois }} DOIs compared, all found in Unpaywall & OpenAlex
-              </template>
+              <div class="d-flex align-center">
+                <div style="width: 400px;" class="mr-4">
+                  <v-text-field
+                    v-model="doi"
+                    label="Enter DOI"
+                    outlined
+                    background-color="white"
+                    :loading="isLoading"
+                    :disabled="isLoading"
+                    @keyup.enter="compareDOI"
+                    hide-details
+                    density="comfortable"
+                  ></v-text-field>
+                </div>
+                <v-btn
+                  color="primary"
+                  :loading="isLoading"
+                  :disabled="isLoading"
+                  @click="compareDOI"
+                  large
+                >
+                  Compare
+                </v-btn>
+              </div>
             </div>
+          </v-card-text>
+        </v-card>
 
-            <div v-for="(comparison, index) in comparisons" :key="comparison.doi" class="mb-8">
+        <!-- Results section moved outside the grey card -->
+        <div class="mt-6">
+          <div v-if="error" class="error--text mb-6">
+            {{ error }}
+          </div>
+
+          <!-- Always show table when in bulk mode -->
+          <div v-if="isBulkComparison && comparisons.length > 0" class="bulk-comparison mb-6">
+            <UnpaywallComparisonTable :comparisons="comparisons" />
+          </div>
+
+          <!-- Only show individual comparisons in single mode -->
+          <div v-if="!isBulkComparison">
+            <div v-for="comparison in comparisons" :key="comparison.doi" class="mb-8">
               <div class="text-h6 mb-4">
                 <template v-if="isBulkComparison">{{ index + 1 }}. </template>
-                {{ comparison.doi }}
+                {{ formatDoi(comparison.doi) }}
               </div>
               <div v-if="comparison.error" class="error--text mb-4">
                 {{ comparison.error }}
@@ -145,55 +179,60 @@
                 </v-card-text>
               </v-card>
             </div>
+          </div>
 
-            <!-- Bulk Compare Dialog -->
-            <v-dialog v-model="showBulkDialog" max-width="600px">
-              <v-card>
-                <v-card-title>Bulk Compare DOIs</v-card-title>
-                <v-card-text>
-                  <p class="mb-4">Enter DOIs one per line or comma separated:</p>
-                  <v-textarea
-                    v-model="bulkDois"
-                    outlined
-                    rows="10"
-                    :disabled="isLoading"
-                  ></v-textarea>
-                </v-card-text>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn
-                    text
-                    @click="showBulkDialog = false"
-                    :disabled="isLoading"
-                  >
-                    Cancel
-                  </v-btn>
-                  <v-btn
-                    color="primary"
-                    @click="compareBulkDOIs"
-                    :loading="isLoading"
-                    :disabled="isLoading"
-                  >
-                    Compare
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
-          </v-card-text>
-        </v-card>
+          <!-- Bulk Compare Dialog -->
+          <v-dialog v-model="showBulkDialog" max-width="600px">
+            <v-card>
+              <v-card-title>Bulk Compare DOIs</v-card-title>
+              <v-card-text>
+                <p class="mb-4">Enter DOIs one per line or comma separated:</p>
+                <v-textarea
+                  v-model="bulkDois"
+                  outlined
+                  rows="10"
+                  :disabled="isLoading"
+                ></v-textarea>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                  text
+                  @click="showBulkDialog = false"
+                  :disabled="isLoading"
+                >
+                  Cancel
+                </v-btn>
+                <v-btn
+                  color="primary"
+                  @click="compareBulkDOIs"
+                  :loading="isLoading"
+                  :disabled="isLoading"
+                >
+                  Compare
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </div>
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
+import UnpaywallComparisonTable from '../components/UnpaywallComparisonTable.vue'
 import axios from 'axios'
 import { diff } from 'deep-diff'
 import { createPatch } from 'diff'
 import { html as diff2html } from 'diff2html'
+import 'diff2html/bundles/css/diff2html.min.css'  // Import at component level
 
 export default {
   name: 'UnpaywallQA',
+  components: {
+    UnpaywallComparisonTable
+  },
   data() {
     return {
       doi: '',
@@ -202,8 +241,9 @@ export default {
       isLoading: false,
       showBulkDialog: false,
       comparisons: [],
-      missingDoiSummary: null,
       isBulkComparison: false,
+      sampleSize: 25,
+      missingDoiSummary: null,
       totalDois: 0,
       completedDois: 0
     }
@@ -262,7 +302,6 @@ export default {
       this.totalDois = dois.length
       
       try {
-        // Process DOIs sequentially to maintain order
         for (const doi of dois) {
           const comparison = await this.fetchComparison(doi)
           this.comparisons.push(comparison)
@@ -272,6 +311,21 @@ export default {
         this.bulkDois = ''
       } catch (err) {
         this.error = err.message
+      } finally {
+        this.isLoading = false
+      }
+    },
+    async fetchRandomSample() {
+      this.error = null
+      this.isLoading = true
+      
+      try {
+        const response = await axios.get(`https://api.openalex.org/works?filter=indexed_in:crossref&sample=${this.sampleSize}&per_page=${this.sampleSize}`)
+        const dois = response.data.results.map(result => result.doi.replace('https://doi.org/', '')).join('\n')
+        this.bulkDois = dois
+        this.compareBulkDOIs()
+      } catch (err) {
+        this.error = `Error fetching random sample: ${err.message}`
       } finally {
         this.isLoading = false
       }
@@ -497,6 +551,9 @@ export default {
       if (typeof value === 'object') return JSON.stringify(value);
       return String(value);
     },
+    formatDoi(doi) {
+      return doi.replace('https://doi.org/', '');
+    }
   }
 }
 </script>
@@ -652,5 +709,10 @@ export default {
 
 .v-window-item--active {
   height: auto !important;
+}
+
+.bulk-comparison {
+  background-color: white;
+  border-radius: 4px;
 }
 </style>
