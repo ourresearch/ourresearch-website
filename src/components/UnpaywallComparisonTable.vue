@@ -1,10 +1,7 @@
 <template>
   <div class="comparison-table-wrapper">
     <div class="results-message">
-      <span>{{ passingPercent }}% passing, {{ missingPercent }}% missing, </span>
-      <template v-if="passingDois > 0">{{ passingDois }} passing</template>
-      <template v-if="failingDois > 0"><template v-if="passingDois > 0">, </template>{{ failingDois }} failing</template>
-      <template v-if="missingDois > 0"><template v-if="passingDois > 0 || failingDois > 0">, </template>{{ missingDois }} missing</template>
+      <span>{{ responsePercent }}% response, {{ passingPercent }}% matching (rows), {{ matchingCellsPercent }}% matching (cells)</span>
     </div>
     <v-data-table
       dense
@@ -177,6 +174,35 @@ export default {
     },
     missingPercent() {
       return Math.round((this.missingDois / this.totalDois) * 100) || 0;
+    },
+    responsePercent() {
+      return 100 - this.missingPercent;
+    },
+    matchingCellsPercent() {
+      let totalCells = 0;
+      let matchingCells = 0;
+      
+      // Count only non-DOI and non-source columns
+      const columnsToCheck = this.headers.filter(h => !['doi', 'source'].includes(h.value));
+      
+      this.flattenedComparisons.forEach(row => {
+        if (row.source === 'Unpaywall') {
+          columnsToCheck.forEach(header => {
+            const matchingRow = this.flattenedComparisons.find(
+              r => r.doi === row.doi && r.source === 'OpenAlex'
+            );
+            
+            if (matchingRow) {
+              totalCells++;
+              if (row[header.value] === matchingRow[header.value]) {
+                matchingCells++;
+              }
+            }
+          });
+        }
+      });
+      
+      return Math.round((matchingCells / totalCells) * 100) || 0;
     }
   },
   methods: {
