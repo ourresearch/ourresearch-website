@@ -16,7 +16,7 @@
     >
       <template v-slot:item="{ item }">
         <template v-for="(row, index) in item.rows">
-          <tr :key="row.source" :class="{ 'first-row': index === 0 }">
+          <tr :key="`${item.doi}-${row.source}`" :class="{ 'first-row': index === 0 }">
             <td v-if="index === 0" :rowspan="2" :class="['doi-cell', getCellClass(item.rows[0], 'doi')]">
               <a v-if="getDoiUrl(item)" :href="getDoiUrl(item)" target="_blank" rel="noopener">{{ item.doi }}</a>
               <template v-else>{{ item.doi }}</template>
@@ -117,6 +117,14 @@ export default {
         const isPassing = this.primitiveAttributes.concat(this.bestOaLocationAttributes).every(attr => {
           const unpaywallValue = comparison.unpaywallData?.[attr] ?? '-';
           const openAlexValue = comparison.openAlexData?.[attr] ?? '-';
+          
+          // Special handling for journal_issns
+          if (attr === 'journal_issns') {
+            const unpaywallIssns = unpaywallValue?.split(',').map(issn => issn.trim()) || [];
+            const openAlexIssns = openAlexValue?.split(',').map(issn => issn.trim()) || [];
+            return unpaywallIssns.every(issn => openAlexIssns.includes(issn));
+          }
+          
           return unpaywallValue === openAlexValue;
         });
 
@@ -159,10 +167,16 @@ export default {
       return this.comparisons.length;
     },
     passingDois() {
-      return this.comparisons.filter(comparison => comparison.passing).length;
+      // Get unique DOIs where both rows are passing
+      const uniqueDois = new Set(
+        this.flattenedComparisons
+          .filter(row => row.passing)
+          .map(row => row.doi)
+      );
+      return uniqueDois.size;
     },
     failingDois() {
-      return this.comparisons.filter(comparison => !comparison.passing).length;
+      return this.totalDois - this.passingDois - this.missingDois;
     },
     missingDois() {
       return this.comparisons.filter(comparison => 
@@ -194,7 +208,14 @@ export default {
             
             if (matchingRow) {
               totalCells++;
-              if (row[header.value] === matchingRow[header.value]) {
+              if (header.value === 'journal_issns') {
+                // Special handling for journal_issns
+                const unpaywallIssns = row.journal_issns?.split(',').map(issn => issn.trim()) || [];
+                const openAlexIssns = matchingRow.journal_issns?.split(',').map(issn => issn.trim()) || [];
+                if (unpaywallIssns.every(issn => openAlexIssns.includes(issn))) {
+                  matchingCells++;
+                }
+              } else if (row[header.value] === matchingRow[header.value]) {
                 matchingCells++;
               }
             }
@@ -235,6 +256,11 @@ export default {
       }
     },
     getCellClass(row, column) {
+      // Source column should always be green
+      if (column === 'source') {
+        return 'matching-cell';
+      }
+
       // Find the matching row for comparison
       const currentDoi = row.source === 'Unpaywall' ? row.doi : this.groupedComparisons.find(g => g.rows.includes(row)).doi;
       const otherSource = row.source === 'Unpaywall' ? 'OpenAlex' : 'Unpaywall';
@@ -260,12 +286,27 @@ export default {
         return 'different-cell';
       }
 
-      // For DOI and Source columns, check if all other columns match
-      if (column === 'doi' || column === 'source') {
+      // For DOI column, check if all other columns match (except source)
+      if (column === 'doi') {
         const allOtherColumnsMatch = this.headers
           .filter(h => !['doi', 'source'].includes(h.value))
-          .every(h => row[h.value] === matchingRow[h.value]);
+          .every(h => {
+            if (h.value === 'journal_issns') {
+              // Special handling for journal_issns
+              const unpaywallIssns = row.journal_issns?.split(',').map(issn => issn.trim()) || [];
+              const openAlexIssns = matchingRow.journal_issns?.split(',').map(issn => issn.trim()) || [];
+              return unpaywallIssns.every(issn => openAlexIssns.includes(issn));
+            }
+            return row[h.value] === matchingRow[h.value];
+          });
         return allOtherColumnsMatch ? 'matching-cell' : 'different-cell';
+      }
+
+      // Special handling for journal_issns column
+      if (column === 'journal_issns') {
+        const unpaywallIssns = (row.source === 'Unpaywall' ? row : matchingRow).journal_issns?.split(',').map(issn => issn.trim()) || [];
+        const openAlexIssns = (row.source === 'OpenAlex' ? row : matchingRow).journal_issns?.split(',').map(issn => issn.trim()) || [];
+        return unpaywallIssns.every(issn => openAlexIssns.includes(issn)) ? 'matching-cell' : 'different-cell';
       }
 
       // For other columns, compare values normally
