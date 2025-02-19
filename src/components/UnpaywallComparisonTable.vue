@@ -58,7 +58,6 @@ export default {
         'year'
       ],
       bestOaLocationAttributes: [
-        'evidence',
         'host_type',
         'is_best',
         'license',
