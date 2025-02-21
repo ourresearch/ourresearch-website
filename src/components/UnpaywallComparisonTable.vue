@@ -16,14 +16,25 @@
     >
       <template v-slot:item="{ item }">
         <template v-for="(row, index) in item.rows">
-          <tr :key="`${item.doi}-${row.source}`" :class="{ 'first-row': index === 0 }">
-            <td v-if="index === 0" :rowspan="2" :class="['doi-cell', getCellClass(item.rows[0], 'doi')]">
-              <a v-if="getDoiUrl(item)" :href="getDoiUrl(item)" target="_blank" rel="noopener">{{ item.doi }}</a>
-              <template v-else>{{ item.doi }}</template>
+          <tr :key="`${item.id}-${row.source}`" :class="{ 'first-row': index === 0 }">
+            <td v-if="index === 0" :rowspan="2" :class="['id-cell', getCellClass(item.rows[0], 'id')]">
+              <template v-if="config.idType === 'doi'">
+                <a v-if="item.id" :href="`https://doi.org/${item.id}`" target="_blank" rel="noopener">{{ item.id }}</a>
+                <template v-else>{{ item.id }}</template>
+              </template>
+              <template v-else>
+                <a v-if="item.id" :href="`https://openalex.org/${item.id.replace('works/', '')}`" target="_blank" rel="noopener">{{ item.id }}</a>
+                <template v-else>{{ item.id }}</template>
+              </template>
             </td>
             <td v-for="header in headers.slice(1)" :key="header.value" :class="getCellClass(row, header.value)">
               <template v-if="header.value === 'source'">
-                <a :href="getSourceUrl(row.source, item.doi)" target="_blank" rel="noopener">{{ row[header.value] }}</a>
+                <template v-if="config.idType === 'doi'">
+                  <a :href="`${row.source === 'Unpaywall' ? 'https://api.unpaywall.org/' : 'https://api.openalex.org/unpaywall/'}${item.id}?email=team@ourresearch.org`" target="_blank" rel="noopener">{{ row.source }}</a>
+                </template>
+                <template v-else>
+                  <a :href="`${row.source === 'OpenAlex' ? 'https://api.openalex.org/' : 'https://api.openalex.org/v2/'}${item.id}`" target="_blank" rel="noopener">{{ row.source === 'Unpaywall' ? 'Walden' : 'OpenAlex' }}</a>
+                </template>
               </template>
               <template v-else>
                 {{ row[header.value] }}
@@ -42,6 +53,10 @@ export default {
   props: {
     comparisons: {
       type: Array,
+      required: true
+    },
+    config: {
+      type: Object,
       required: true
     }
   },
@@ -71,8 +86,8 @@ export default {
     headers() {
       return [
         { 
-          text: 'DOI',
-          value: 'doi',
+          text: this.config.idType === 'doi' ? 'DOI' : 'OpenAlex ID',
+          value: 'id',
           minWidth: '150px',
           fixed: true,
           fixedOffset: 0
@@ -84,76 +99,73 @@ export default {
           fixed: true,
           fixedOffset: 150
         },
-        ...this.primitiveAttributes.map(attr => {
+        ...this.config.fields.map(field => {
           const header = {
-            text: attr,
-            value: attr
+            text: field,
+            value: field
           };
           
           // Add minimum widths only for specific columns that need them
-          if (['title', 'journal_name', 'publisher'].includes(attr)) {
+          if (['title', 'journal_name', 'publisher'].includes(field)) {
             header.minWidth = '200px';
           }
           return header;
         }),
-        ...this.bestOaLocationAttributes.map(attr => {
-          const header = {
-            text: `best_oa_location.${attr}`,
-            value: `best_oa_location.${attr}`
-          };
-          
-          // Add minimum widths for URL fields
-          if (attr.includes('url')) {
-            header.minWidth = '200px';
-          }
-          return header;
-        })
+        ...(this.config.arrayCountFields || []).map(field => ({
+          text: field.displayName,
+          value: `${field.field}_count`
+        })),
+        ...(this.config.nestedFields || []).flatMap(group => 
+          group.fields.map(field => {
+            const header = {
+              text: `${group.group}.${field}`,
+              value: `${group.group}.${field}`
+            };
+            
+            // Add minimum widths for URL fields
+            if (field.includes('url')) {
+              header.minWidth = '200px';
+            }
+            return header;
+          })
+        )
       ]
     },
     flattenedComparisons() {
       return this.comparisons.flatMap(comparison => {
         // Check if all fields match
-        const isPassing = this.primitiveAttributes.concat(this.bestOaLocationAttributes).every(attr => {
-          const unpaywallValue = comparison.unpaywallData?.[attr] ?? '-';
-          const openAlexValue = comparison.openAlexData?.[attr] ?? '-';
-          
-          // Special handling for journal_issns
-          if (attr === 'journal_issns') {
-            const unpaywallIssns = unpaywallValue?.split(',').map(issn => issn.trim()) || [];
-            const openAlexIssns = openAlexValue?.split(',').map(issn => issn.trim()) || [];
-            return unpaywallIssns.every(issn => openAlexIssns.includes(issn));
-          }
-          
+        const isPassing = this.config.fields.concat(
+          (this.config.arrayCountFields || []).map(field => `${field.field}_count`)
+        ).every(attr => {
+          const unpaywallValue = this.getFieldValue(comparison.unpaywallData, attr);
+          const openAlexValue = this.getFieldValue(comparison.openAlexData, attr);
           return unpaywallValue === openAlexValue;
         });
 
         const baseUnpaywall = {
-          doi: this.formatDoi(comparison.doi),
-          doi_url: comparison.unpaywallData?.doi_url || null,
+          id: comparison.id,
           source: 'Unpaywall',
           rowType: 'unpaywall',
           passing: isPassing,
           ...this.flattenData(comparison.unpaywallData)
         };
         const baseOpenAlex = {
-          doi: this.formatDoi(comparison.doi),
-          doi_url: comparison.unpaywallData?.doi_url || null,
+          id: comparison.id,
           source: 'OpenAlex',
           rowType: 'openalex',
           passing: isPassing,
           ...this.flattenData(comparison.openAlexData)
         };
-        return [baseUnpaywall, baseOpenAlex];
+        return [baseOpenAlex, baseUnpaywall];
       });
     },
     groupedComparisons() {
       const groups = [];
       for (let i = 0; i < this.flattenedComparisons.length; i += 2) {
-        const unpaywallData = this.flattenedComparisons[i];
+        const openAlexData = this.flattenedComparisons[i];
         groups.push({
-          doi: unpaywallData.doi,
-          doi_url: unpaywallData.doi_url,
-          passing: unpaywallData.passing,
+          id: openAlexData.id,
+          passing: openAlexData.passing,
           rows: [
             this.flattenedComparisons[i],
             this.flattenedComparisons[i + 1]
@@ -162,31 +174,31 @@ export default {
       }
       return groups;
     },
-    totalDois() {
+    totalIds() {
       return this.comparisons.length;
     },
-    passingDois() {
-      // Get unique DOIs where both rows are passing
-      const uniqueDois = new Set(
+    passingIds() {
+      // Get unique IDs where both rows are passing
+      const uniqueIds = new Set(
         this.flattenedComparisons
           .filter(row => row.passing)
-          .map(row => row.doi)
+          .map(row => row.id)
       );
-      return uniqueDois.size;
+      return uniqueIds.size;
     },
-    failingDois() {
-      return this.totalDois - this.passingDois - this.missingDois;
+    failingIds() {
+      return this.totalIds - this.passingIds - this.missingIds;
     },
-    missingDois() {
+    missingIds() {
       return this.comparisons.filter(comparison => 
         comparison.openAlexData?.error?.includes('Not found')
       ).length;
     },
     passingPercent() {
-      return Math.round((this.passingDois / this.totalDois) * 100) || 0;
+      return Math.round((this.passingIds / this.totalIds) * 100) || 0;
     },
     missingPercent() {
-      return Math.round((this.missingDois / this.totalDois) * 100) || 0;
+      return Math.round((this.missingIds / this.totalIds) * 100) || 0;
     },
     responsePercent() {
       return 100 - this.missingPercent;
@@ -195,14 +207,14 @@ export default {
       let totalCells = 0;
       let matchingCells = 0;
       
-      // Count only non-DOI and non-source columns
-      const columnsToCheck = this.headers.filter(h => !['doi', 'source'].includes(h.value));
+      // Count only non-ID and non-source columns
+      const columnsToCheck = this.headers.filter(h => !['id', 'source'].includes(h.value));
       
       this.flattenedComparisons.forEach(row => {
         if (row.source === 'Unpaywall') {
           columnsToCheck.forEach(header => {
             const matchingRow = this.flattenedComparisons.find(
-              r => r.doi === row.doi && r.source === 'OpenAlex'
+              r => r.id === row.id && r.source === 'OpenAlex'
             );
             
             if (matchingRow) {
@@ -226,27 +238,53 @@ export default {
     }
   },
   methods: {
-    formatDoi(doi) {
-      return doi.replace('https://doi.org/', '')
+    formatId(id) {
+      return id;
     },
     flattenData(data) {
       if (!data || data.error) {
-        return this.primitiveAttributes.concat(this.bestOaLocationAttributes).reduce((acc, attr) => {
-          acc[attr] = '-';
-          return acc;
-        }, {});
+        const emptyData = {};
+        this.config.fields.forEach(attr => {
+          emptyData[attr] = '-';
+        });
+        (this.config.arrayCountFields || []).forEach(field => {
+          emptyData[`${field.field}_count`] = '-';
+        });
+        (this.config.nestedFields || []).forEach(group => {
+          group.fields.forEach(attr => {
+            emptyData[`${group.group}.${attr}`] = '-';
+          });
+        });
+        return emptyData;
       }
 
       const result = {};
-      this.primitiveAttributes.forEach(attr => {
+      this.config.fields.forEach(attr => {
         result[attr] = data[attr] ?? '-';
       });
 
-      this.bestOaLocationAttributes.forEach(attr => {
-        result[`best_oa_location.${attr}`] = data.best_oa_location?.[attr] ?? '-';
+      (this.config.arrayCountFields || []).forEach(field => {
+        result[`${field.field}_count`] = Array.isArray(data[field.field]) ? data[field.field].length : '-';
+      });
+
+      (this.config.nestedFields || []).forEach(group => {
+        group.fields.forEach(attr => {
+          result[`${group.group}.${attr}`] = data[group.group]?.[attr] ?? '-';
+        });
       });
 
       return result;
+    },
+    getFieldValue(data, attr) {
+      if (!data || data.error) return '-';
+      
+      // Handle array count fields
+      if (attr.endsWith('_count')) {
+        const field = attr.replace('_count', '');
+        return Array.isArray(data[field]) ? data[field].length : '-';
+      }
+      
+      return data[attr] ?? '-';
     },
     getRowClass(item) {
       return {
@@ -261,10 +299,10 @@ export default {
       }
 
       // Find the matching row for comparison
-      const currentDoi = row.source === 'Unpaywall' ? row.doi : this.groupedComparisons.find(g => g.rows.includes(row)).doi;
+      const currentId = row.source === 'Unpaywall' ? row.id : this.groupedComparisons.find(g => g.rows.includes(row)).id;
       const otherSource = row.source === 'Unpaywall' ? 'OpenAlex' : 'Unpaywall';
       const matchingRow = this.flattenedComparisons.find(
-        r => r.doi === currentDoi && r.source === otherSource
+        r => r.id === currentId && r.source === otherSource
       );
 
       if (!matchingRow) return '';
@@ -272,12 +310,12 @@ export default {
       // Check if either row is missing data (404 case)
       const isCurrentRowMissing = row.source === 'OpenAlex' && 
         Object.entries(row)
-          .filter(([key]) => !['source', 'doi', 'rowType'].includes(key))
+          .filter(([key]) => !['source', 'id', 'rowType'].includes(key))
           .every(([_, value]) => value === '-' || value === '');
 
       const isMatchingRowMissing = matchingRow.source === 'OpenAlex' && 
         Object.entries(matchingRow)
-          .filter(([key]) => !['source', 'doi', 'rowType'].includes(key))
+          .filter(([key]) => !['source', 'id', 'rowType'].includes(key))
           .every(([_, value]) => value === '-' || value === '');
 
       // If either row is missing data, mark all cells as different
@@ -285,10 +323,10 @@ export default {
         return 'different-cell';
       }
 
-      // For DOI column, check if all other columns match (except source)
-      if (column === 'doi') {
+      // For ID column, check if all other columns match (except source)
+      if (column === 'id') {
         const allOtherColumnsMatch = this.headers
-          .filter(h => !['doi', 'source'].includes(h.value))
+          .filter(h => !['id', 'source'].includes(h.value))
           .every(h => {
             if (h.value === 'journal_issns') {
               // Special handling for journal_issns
@@ -312,13 +350,13 @@ export default {
       return row[column] === matchingRow[column] ? 'matching-cell' : 'different-cell';
     },
     getDoiUrl(item) {
-      return item.doi_url;
+      return item.id;
     },
-    getSourceUrl(source, doi) {
+    getSourceUrl(source, id) {
       if (source === 'Unpaywall') {
-        return `https://api.unpaywall.org/${doi}?email=team@ourresearch.org`;
+        return `https://api.unpaywall.org/${id}?email=team@ourresearch.org`;
       } else if (source === 'OpenAlex') {
-        return `https://api.openalex.org/unpaywall/${doi}?email=team@ourresearch.org`;
+        return `https://api.openalex.org/unpaywall/${id}?email=team@ourresearch.org`;
       }
       return '';
     }
@@ -390,13 +428,13 @@ export default {
   background-color: #ffe6e6 !important; /* Light red */
 }
 
-.doi-cell {
+.id-cell {
   vertical-align: middle !important;
   text-align: center !important;
   border-right: 1px solid #e0e0e0 !important;
 }
 
-.doi-cell:not(.matching-cell):not(.different-cell) {
+.id-cell:not(.matching-cell):not(.different-cell) {
   background-color: #f5f5f5 !important;
 }
 
@@ -423,7 +461,7 @@ export default {
 }
 
 .comparison-table :deep(td:nth-child(2)) {
-  left: 150px;  /* Width of the DOI column */
+  left: 150px;  /* Width of the ID column */
 }
 
 /* Style links in the source column */

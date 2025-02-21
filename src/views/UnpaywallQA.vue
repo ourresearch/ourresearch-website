@@ -4,9 +4,25 @@
       <v-col cols="12">
         <h1 class="text-h3 mb-6">Unpaywall QA</h1>
 
-        <v-card class="doi-comparison pa-3" color="grey lighten-3 ">
-          <v-card-title class="text-h5">
-            DOI Comparison
+        <v-card class="comparison-controls pa-3 mb-6" color="grey lighten-3">
+          <v-card-title class="text-h5 d-flex align-center">
+            Comparison:
+            <v-radio-group
+              v-model="activeComparisonType"
+              row
+              class="mt-0 ml-4"
+              hide-details
+            >
+              <v-radio
+                label="OpenAlex ID"
+                value="openalex"
+                class="mr-4"
+              ></v-radio>
+              <v-radio
+                label="DOI"
+                value="doi"
+              ></v-radio>
+            </v-radio-group>
           </v-card-title>
 
           <v-card-text>
@@ -29,7 +45,7 @@
                 <v-btn
                   color="primary"
                   :disabled="isLoading"
-                  @click="fetchRandomSample"
+                  @click="fetchRandomSample(activeComparisonType)"
                   large
                 >
                   Random Sample
@@ -52,13 +68,13 @@
               <div class="d-flex align-center">
                 <div style="width: 400px;" class="mr-4">
                   <v-text-field
-                    v-model="doi"
-                    label="Enter DOI"
+                    v-model="activeComparisonType === 'doi' ? doi : openAlexId"
+                    :label="activeComparisonType === 'doi' ? 'Enter DOI' : 'Enter OpenAlex ID'"
                     outlined
                     background-color="white"
                     :loading="isLoading"
                     :disabled="isLoading"
-                    @keyup.enter="compareDOI"
+                    @keyup.enter="compare(activeComparisonType)"
                     hide-details
                     density="comfortable"
                   ></v-text-field>
@@ -67,7 +83,7 @@
                   color="primary"
                   :loading="isLoading"
                   :disabled="isLoading"
-                  @click="compareDOI"
+                  @click="compare(activeComparisonType)"
                   large
                 >
                   Compare
@@ -83,17 +99,18 @@
             {{ error }}
           </div>
 
-          <!-- Always show table when in bulk mode -->
-          <div v-if="isBulkComparison && comparisons.length > 0" class="bulk-comparison mb-6">
-            <UnpaywallComparisonTable :comparisons="comparisons" />
-          </div>
+          <UnpaywallComparisonTable 
+            v-if="comparisons.length > 0"
+            :comparisons="comparisons"
+            :config="comparisonConfigs[activeComparisonType]"
+          />
 
           <!-- Only show individual comparisons in single mode -->
           <div v-if="!isBulkComparison">
-            <div v-for="comparison in comparisons" :key="comparison.doi" class="mb-8">
+            <div v-for="comparison in comparisons" :key="comparison.id" class="mb-8">
               <div class="text-h6 mb-4">
                 <template v-if="isBulkComparison">{{ index + 1 }}. </template>
-                {{ formatDoi(comparison.doi) }}
+                {{ formatId(comparison.id) }}
               </div>
               <div v-if="comparison.error" class="error--text mb-4">
                 {{ comparison.error }}
@@ -104,7 +121,7 @@
                   <v-tab :value="1">Inline</v-tab>
                   <v-tab :value="2">List</v-tab>
                 </v-tabs>
-
+        
                 <v-card-text class="pa-0">
                   <v-window v-model="comparison.activeTab">
                     <v-window-item :value="0">
@@ -113,11 +130,11 @@
                           <div class="column-headers">
                             <div class="left-header">
                               <span class="deletion-dot"></span>
-                              <span><a :href="`https://api.unpaywall.org/${comparison.doi}?email=team@ourresearch.org`" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">Unpaywall<i class="v-icon mdi mdi-open-in-new" style="font-size: 14px; vertical-align: text-bottom; margin: 0 -4px 0 2px;"></i></a></span>
+                              <span><a :href="`https://api.unpaywall.org/${comparison.id}?email=team@ourresearch.org`" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">Unpaywall<i class="v-icon mdi mdi-open-in-new" style="font-size: 14px; vertical-align: text-bottom; margin: 0 -4px 0 2px;"></i></a></span>
                             </div>
                             <div class="right-header">
                               <span class="addition-dot"></span>
-                              <span><a :href="`https://api.openalex.org/unpaywall/${comparison.doi}?email=team@ourresearch.org`" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">OpenAlex<i class="v-icon mdi mdi-open-in-new" style="font-size: 14px; vertical-align: text-bottom; margin: 0 -4px 0 2px;"></i></a></span>
+                              <span><a :href="`https://api.openalex.org/unpaywall/${comparison.id}?email=team@ourresearch.org`" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">OpenAlex<i class="v-icon mdi mdi-open-in-new" style="font-size: 14px; vertical-align: text-bottom; margin: 0 -4px 0 2px;"></i></a></span>
                             </div>
                           </div>
                         </div>
@@ -132,11 +149,11 @@
                           <div class="d-flex">
                             <div>
                               <span class="deletion-dot"></span>
-                              <span class="ml-1"><a :href="`https://api.unpaywall.org/${comparison.doi}?email=team@ourresearch.org`" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">Unpaywall<i class="v-icon mdi mdi-open-in-new" style="font-size: 14px; vertical-align: text-bottom; margin: 0 -4px 0 2px;"></i></a></span>
+                              <span class="ml-1"><a :href="`https://api.unpaywall.org/${comparison.id}?email=team@ourresearch.org`" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">Unpaywall<i class="v-icon mdi mdi-open-in-new" style="font-size: 14px; vertical-align: text-bottom; margin: 0 -4px 0 2px;"></i></a></span>
                             </div>
                             <div>
                               <span class="addition-dot"></span>
-                              <span class="ml-1"><a :href="`https://api.openalex.org/unpaywall/${comparison.doi}?email=team@ourresearch.org`" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">OpenAlex<i class="v-icon mdi mdi-open-in-new" style="font-size: 14px; vertical-align: text-bottom; margin: 0 -4px 0 2px;"></i></a></span>
+                              <span class="ml-1"><a :href="`https://api.openalex.org/unpaywall/${comparison.id}?email=team@ourresearch.org`" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">OpenAlex<i class="v-icon mdi mdi-open-in-new" style="font-size: 14px; vertical-align: text-bottom; margin: 0 -4px 0 2px;"></i></a></span>
                             </div>
                           </div>
                         </div>
@@ -151,10 +168,10 @@
                           <div class="font-weight-bold">{{ filteredDifferences(comparison).length }} Differences</div>
                           <div class="text-caption">
                             <span class="mr-3">
-                              <span class="deletion-dot"></span> <a :href="`https://api.unpaywall.org/${comparison.doi}?email=team@ourresearch.org`" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">Unpaywall<i class="v-icon mdi mdi-open-in-new" style="font-size: 14px; vertical-align: text-bottom; margin: 0 -4px 0 2px;"></i></a>
+                              <span class="deletion-dot"></span> <a :href="`https://api.unpaywall.org/${comparison.id}?email=team@ourresearch.org`" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">Unpaywall<i class="v-icon mdi mdi-open-in-new" style="font-size: 14px; vertical-align: text-bottom; margin: 0 -4px 0 2px;"></i></a>
                             </span>
                             <span>
-                              <span class="addition-dot"></span> <a :href="`https://api.openalex.org/unpaywall/${comparison.doi}?email=team@ourresearch.org`" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">OpenAlex<i class="v-icon mdi mdi-open-in-new" style="font-size: 14px; vertical-align: text-bottom; margin: 0 -4px 0 2px;"></i></a>
+                              <span class="addition-dot"></span> <a :href="`https://api.openalex.org/unpaywall/${comparison.id}?email=team@ourresearch.org`" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">OpenAlex<i class="v-icon mdi mdi-open-in-new" style="font-size: 14px; vertical-align: text-bottom; margin: 0 -4px 0 2px;"></i></a>
                             </span>
                           </div>
                         </div>
@@ -184,14 +201,15 @@
           <!-- Bulk Compare Dialog -->
           <v-dialog v-model="showBulkDialog" max-width="600px">
             <v-card>
-              <v-card-title>Bulk Compare DOIs</v-card-title>
+              <v-card-title>Bulk Compare {{ comparisonConfigs[activeComparisonType].name }}</v-card-title>
               <v-card-text>
-                <p class="mb-4">Enter DOIs one per line or comma separated:</p>
+                <p class="mb-4">Enter {{ comparisonConfigs[activeComparisonType].idType === 'doi' ? 'DOIs' : 'OpenAlex IDs' }} one per line or comma separated:</p>
                 <v-textarea
-                  v-model="bulkDois"
+                  v-model="bulkIds"
                   outlined
                   rows="10"
                   :disabled="isLoading"
+                  background-color="white"
                 ></v-textarea>
               </v-card-text>
               <v-card-actions>
@@ -205,7 +223,7 @@
                 </v-btn>
                 <v-btn
                   color="primary"
-                  @click="compareBulkDOIs"
+                  @click="compare(activeComparisonType, true)"
                   :loading="isLoading"
                   :disabled="isLoading"
                 >
@@ -223,9 +241,8 @@
 <script>
 import UnpaywallComparisonTable from '../components/UnpaywallComparisonTable.vue'
 import axios from 'axios'
-import { diff } from 'deep-diff'
-import { createPatch } from 'diff'
-import { html as diff2html } from 'diff2html'
+import { createTwoFilesPatch } from 'diff'
+import { parse, html as diff2html } from 'diff2html'
 import 'diff2html/bundles/css/diff2html.min.css'  // Import at component level
 
 export default {
@@ -235,17 +252,81 @@ export default {
   },
   data() {
     return {
+      activeComparisonType: 'openalex',
       doi: '',
-      bulkDois: '',
+      openAlexId: '',
+      sampleSize: 25,
+      showBulkDialog: false,
+      bulkIds: '',
       error: null,
       isLoading: false,
-      showBulkDialog: false,
-      comparisons: [],
       isBulkComparison: false,
-      sampleSize: 25,
-      missingDoiSummary: null,
-      totalDois: 0,
-      completedDois: 0
+      comparisons: [],
+      defaultTab: 0,
+      missingDoiSummary: {
+        total: 0,
+        missing: []
+      },
+      comparisonConfigs: {
+        doi: {
+          name: 'DOI Comparison',
+          idType: 'doi',
+          sampleEndpoint: 'https://api.openalex.org/works?filter=indexed_in:crossref&sample=:sampleSize',
+          endpoints: {
+            primary: 'https://api.unpaywall.org/',
+            secondary: 'https://api.openalex.org/unpaywall/'
+          },
+          fields: [
+            'title',
+            'genre',
+            'is_oa',
+            'journal_issns',
+            'journal_name',
+            'published_date',
+            'publisher',
+            'year'
+          ],
+          nestedFields: [
+            {
+              group: 'best_oa_location',
+              fields: [
+                'host_type',
+                'is_best',
+                'license',
+                'url',
+                'url_for_pdf',
+                'version'
+              ]
+            }
+          ]
+        },
+        openalex: {
+          name: 'OpenAlex ID Comparison',
+          idType: 'openalex',
+          sampleEndpoint: 'https://api.openalex.org/works?sample=:sampleSize&per-page=:sampleSize&select=id',
+          endpoints: {
+            primary: 'https://api.openalex.org/',
+            secondary: 'https://api.openalex.org/v2/'
+          },
+          fields: [
+            'doi',
+            'title',
+            'publication_year',
+            'publication_date',
+            'type'
+          ],
+          arrayCountFields: [
+            {
+              field: 'authorships',
+              displayName: 'Authors Count'
+            },
+            {
+              field: 'locations',
+              displayName: 'Locations Count'
+            }
+          ]
+        }
+      }
     }
   },
   computed: {
@@ -265,201 +346,155 @@ export default {
     updateDefaultTab(tab) {
       localStorage.setItem('unpaywallQaDefaultTab', tab.toString())
     },
-    async compareDOI() {
-      if (!this.doi) return
+    async compare(type, isBulk = false) {
+      const id = type === 'openalex' ? this.openAlexId : this.doi;
+      if (!isBulk && !id) return;
+      if (isBulk && !this.bulkIds) return;
       
-      this.error = null
-      this.isLoading = true
-      this.missingDoiSummary = null
-      this.isBulkComparison = false
-      
-      try {
-        const comparison = await this.fetchComparison(this.doi)
-        this.comparisons = [comparison]
-        this.doi = ''
-      } catch (err) {
-        this.error = err.message
-      } finally {
-        this.isLoading = false
-      }
-    },
-    async compareBulkDOIs() {
-      if (!this.bulkDois) return
-      
-      this.error = null
-      this.isLoading = true
-      this.showBulkDialog = false
-      this.missingDoiSummary = null
-      this.isBulkComparison = true
-      this.comparisons = []
-      this.completedDois = 0
-      
-      const dois = this.bulkDois
-        .split(/[\n,]/)
-        .map(doi => doi.trim())
-        .filter(doi => doi)
-      
-      this.totalDois = dois.length
+      this.error = null;
+      this.isLoading = true;
+      this.comparisons = []; // Reset comparisons immediately
       
       try {
-        for (const doi of dois) {
-          const comparison = await this.fetchComparison(doi)
-          this.comparisons.push(comparison)
-          this.completedDois++
-          this.updateMissingDoiSummary(this.comparisons)
+        if (isBulk) {
+          this.isBulkComparison = true;
+          const ids = this.bulkIds.split('\n').filter(id => id.trim());
+          
+          // Process each ID and update the UI immediately
+          for (const id of ids) {
+            try {
+              const comparison = await this.fetchComparison(id.trim(), type);
+              this.comparisons = [...this.comparisons, comparison];
+            } catch (err) {
+              this.comparisons = [...this.comparisons, {
+                id: id.trim(),
+                error: err.message
+              }];
+            }
+          }
+          
+          this.updateMissingDoiSummary(this.comparisons);
+          this.bulkIds = '';
+        } else {
+          this.isBulkComparison = false;
+          const comparison = await this.fetchComparison(id, type);
+          this.comparisons = [comparison];
+          this.openAlexId = '';
+          this.doi = '';
         }
-        this.bulkDois = ''
       } catch (err) {
-        this.error = err.message
+        this.error = err.message;
       } finally {
-        this.isLoading = false
+        this.isLoading = false;
+        this.showBulkDialog = false;
       }
     },
-    async fetchRandomSample() {
-      this.error = null
-      this.isLoading = true
+
+    async fetchRandomSample(type) {
+      this.error = null;
+      this.isLoading = true;
       
       try {
-        const response = await axios.get(`https://api.openalex.org/works?filter=indexed_in:crossref&sample=${this.sampleSize}&per_page=${this.sampleSize}`)
-        const dois = response.data.results.map(result => result.doi.replace('https://doi.org/', '')).join('\n')
-        this.bulkDois = dois
-        this.compareBulkDOIs()
+        const sampleEndpoint = this.comparisonConfigs[type].sampleEndpoint.replace(/:sampleSize/g, this.sampleSize);
+        const response = await axios.get(sampleEndpoint);
+        const ids = type === 'doi'
+          ? response.data.results.map(result => result.doi.replace('https://doi.org/', '')).join('\n')
+          : response.data.results.map(result => `works/${result.id.split('/').pop()}`).join('\n');
+        
+        this.bulkIds = ids;
+        this.activeComparisonType = type;
+        this.compare(type, true);
       } catch (err) {
-        this.error = `Error fetching random sample: ${err.message}`
+        this.error = `Error fetching random sample: ${err.message}`;
       } finally {
-        this.isLoading = false
+        this.isLoading = false;
       }
     },
-    updateMissingDoiSummary(comparisons) {
-      const summary = {
-        unpaywall: 0,
-        openAlex: 0
-      }
-      
-      for (const comparison of comparisons) {
-        if (comparison.unpaywallData?.error?.includes('Not found')) {
-          summary.unpaywall++
-        }
-        if (comparison.openAlexData?.error?.includes('Not found')) {
-          summary.openAlex++
-        }
-      }
-      
-      this.missingDoiSummary = summary
-    },
-    async fetchComparison(doi) {
+
+    async fetchComparison(id, type) {
+      const config = this.comparisonConfigs[type];
       const comparison = {
-        doi,
+        id,
         error: null,
         unpaywallData: null,
         openAlexData: null,
-        differences: null,
-        inlineJsonDiff: null,
-        sideBySideDiff: null,
         activeTab: this.getDefaultTab()
-      }
+      };
 
       try {
-        const processResponse = async (response, source) => {
-          try {
-            if (response.ok) return await response.json();
-            if (response.status === 404) return { error: `Not found in ${source}` };
-            throw new Error(`${source} API error: ${response.status}`);
-          } catch (err) {
-            return { error: err.message };
-          }
-        };
-
         // Fetch both responses
         const [unpaywallResponse, openAlexResponse] = await Promise.all([
-          fetch(`https://api.unpaywall.org/${doi}?email=team@ourresearch.org`),
-          fetch(`https://api.openalex.org/unpaywall/${doi}?email=team@ourresearch.org`)
+          axios.get(`${config.endpoints.primary}${id}?email=team@ourresearch.org`),
+          axios.get(`${config.endpoints.secondary}${id}?email=team@ourresearch.org`)
         ]);
 
-        // Process responses
-        const [unpaywallJson, openAlexJson] = await Promise.all([
-          processResponse(unpaywallResponse, 'Unpaywall'),
-          processResponse(openAlexResponse, 'OpenAlex')
-        ]);
-
-        comparison.unpaywallData = unpaywallJson;
-        comparison.openAlexData = openAlexJson;
-        
-        // Collect errors if any
-        const errors = [unpaywallJson, openAlexJson]
-          .filter(data => data?.error)
-          .map(data => `${data.error}`)
-          .join(' | ');
-        if (errors) comparison.error = errors;
+        comparison.unpaywallData = unpaywallResponse.data;
+        comparison.openAlexData = openAlexResponse.data;
 
         // Generate diffs
-        comparison.differences = diff(unpaywallJson, openAlexJson) || [];
-        
-        const patch = createPatch(
-          'file.json', 
-          JSON.stringify(unpaywallJson, null, 2), 
-          JSON.stringify(openAlexJson, null, 2), 
-          'Unpaywall', 
-          'OpenAlex'
+        const unpaywallJson = JSON.stringify(comparison.unpaywallData, null, 2);
+        const openAlexJson = JSON.stringify(comparison.openAlexData, null, 2);
+
+        const diff = createTwoFilesPatch(
+          'Unpaywall',
+          'OpenAlex',
+          unpaywallJson,
+          openAlexJson,
+          '',
+          '',
+          { context: 3 }
         );
 
-        const diffOptions = {
+        const htmlOutput = diff2html(diff, {
           drawFileList: false,
           matching: 'lines',
-          renderNothingWhenEmpty: true,
-          diffStyle: 'word',
-          lineWrapping: true,
-          matchWordsThreshold: 0.25,
-          matchingMaxComparisons: 2500
-        };
-        
-        // Generate the diffs
-        const inlineHtml = diff2html(patch, { ...diffOptions, outputFormat: 'line-by-line' });
-        const sideBySideHtml = diff2html(patch, { ...diffOptions, outputFormat: 'side-by-side' });
-        
-        // Add truncation message with links if content appears to be truncated
+          outputFormat: 'side-by-side'
+        });
+
+        comparison.sideBySideDiff = htmlOutput;
+
+        const inlineHtmlOutput = diff2html(diff, {
+          drawFileList: false,
+          matching: 'lines',
+          outputFormat: 'line-by-line'
+        });
+
+        const isTruncated = diff.length > 50000;
         const truncationMessage = `
           <div class="truncation-message" style="padding: 10px; text-align: center; color: #666;">
             Remaining content identical. 
             <div style="display: flex; justify-content: center; gap: 20px; margin-top: 8px;">
-              <a href="https://api.unpaywall.org/${doi}?email=team@ourresearch.org" target="_blank" rel="noopener" style="color: #666; text-decoration: none;">
+              <a href="${config.endpoints.primary}${id}?email=team@ourresearch.org" target="_blank" rel="noopener" style="color: #666; text-decoration: none;">
                 Unpaywall JSON <i class="v-icon mdi mdi-open-in-new" style="font-size: 16px; vertical-align: text-bottom;"></i>
               </a>
-              <a href="https://api.openalex.org/unpaywall/${doi}?email=team@ourresearch.org" target="_blank" rel="noopener" style="color: #666; text-decoration: none;">
+              <a href="${config.endpoints.secondary}${id}?email=team@ourresearch.org" target="_blank" rel="noopener" style="color: #666; text-decoration: none;">
                 OpenAlex JSON <i class="v-icon mdi mdi-open-in-new" style="font-size: 16px; vertical-align: text-bottom;"></i>
               </a>
             </div>
           </div>
         `;
-        
-        // Check for truncation by analyzing the deep-diff results
-        const unpaywallStr = JSON.stringify(unpaywallJson, null, 2);
-        const openAlexStr = JSON.stringify(openAlexJson, null, 2);
-        
-        // Find the last difference position
-        let lastDiffPos = -1;
-        if (comparison.differences.length > 0) {
-          const lastDiff = comparison.differences[comparison.differences.length - 1];
-          const lastPath = lastDiff.path.join('.');
-          lastDiffPos = unpaywallStr.indexOf(`"${lastPath}"`);
-        }
-        
-        // If we have differences and there's a significant amount of content after the last difference,
-        // it's likely that content is being truncated
-        const contentAfterLastDiff = lastDiffPos > 0 ? 
-          unpaywallStr.length - lastDiffPos : 0;
-        
-        const isTruncated = comparison.differences.length > 0 && 
-                           contentAfterLastDiff > 1000 && 
-                           unpaywallStr.slice(-500) === openAlexStr.slice(-500);
-        
-        comparison.inlineJsonDiff = inlineHtml + (isTruncated ? truncationMessage : '');
-        comparison.sideBySideDiff = sideBySideHtml + (isTruncated ? truncationMessage : '');
+
+        comparison.inlineJsonDiff = inlineHtmlOutput + (isTruncated ? truncationMessage : '');
+        comparison.sideBySideDiff = htmlOutput + (isTruncated ? truncationMessage : '');
       } catch (err) {
-        comparison.error = `Error fetching data for DOI ${doi}: ${err.message}`;
+        comparison.error = `Error fetching data for ${config.name} ${id}: ${err.message}`;
       }
 
       return comparison;
+    },
+    updateMissingDoiSummary(comparisons) {
+      const summary = {
+        total: comparisons.length,
+        missing: []
+      };
+      
+      for (const comparison of comparisons) {
+        if (comparison.unpaywallData?.error?.includes('Not found')) {
+          summary.missing.push(comparison.id);
+        }
+      }
+      
+      this.missingDoiSummary = summary;
     },
     filteredDifferences(comparison) {
       if (!comparison?.differences) return [];
@@ -551,8 +586,8 @@ export default {
       if (typeof value === 'object') return JSON.stringify(value);
       return String(value);
     },
-    formatDoi(doi) {
-      return doi.replace('https://doi.org/', '');
+    formatId(id) {
+      return id;
     }
   }
 }
