@@ -2,7 +2,7 @@
   <v-container class="unpaywall-qa">
     <v-row>
       <v-col cols="12">
-        <h1 class="text-h3 mb-6">Unpaywall QA</h1>
+        <h1 class="text-h3 mb-6">Walden QA</h1>
 
         <v-card class="comparison-controls pa-3 mb-6" color="grey lighten-3">
           <v-card-title class="text-h5 d-flex align-center">
@@ -14,12 +14,12 @@
               hide-details
             >
               <v-radio
-                label="OpenAlex ID"
+                label="OpenAlex"
                 value="openalex"
                 class="mr-4"
               ></v-radio>
               <v-radio
-                label="DOI"
+                label="Unpaywall"
                 value="doi"
               ></v-radio>
             </v-radio-group>
@@ -93,7 +93,6 @@
           </v-card-text>
         </v-card>
 
-        <!-- Results section moved outside the grey card -->
         <div class="mt-6">
           <div v-if="error" class="error--text mb-6">
             {{ error }}
@@ -115,7 +114,7 @@
               <div v-if="comparison.error" class="error--text mb-4">
                 {{ comparison.error }}
               </div>
-              <v-card v-if="comparison.unpaywallData && comparison.openAlexData">
+              <v-card v-if="comparison.primaryData && comparison.secondaryData">
                 <v-tabs v-model="comparison.activeTab" @change="updateDefaultTab">
                   <v-tab :value="0">Compare</v-tab>
                   <v-tab :value="1">Inline</v-tab>
@@ -149,11 +148,11 @@
                           <div class="d-flex">
                             <div>
                               <span class="deletion-dot"></span>
-                              <span class="ml-1"><a :href="`https://api.unpaywall.org/${comparison.id}?email=team@ourresearch.org`" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">Unpaywall<i class="v-icon mdi mdi-open-in-new" style="font-size: 14px; vertical-align: text-bottom; margin: 0 -4px 0 2px;"></i></a></span>
+                              <span class="ml-1"><a :href="`https://api.unpaywall.org/${comparison.id}?email=team@ourresearch.org`" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">Unpaywall<i class="v-icon mdi mdi-open-in-new" style="font-size: 16px; vertical-align: text-bottom;"></i></a></span>
                             </div>
                             <div>
                               <span class="addition-dot"></span>
-                              <span class="ml-1"><a :href="`https://api.openalex.org/unpaywall/${comparison.id}?email=team@ourresearch.org`" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">OpenAlex<i class="v-icon mdi mdi-open-in-new" style="font-size: 14px; vertical-align: text-bottom; margin: 0 -4px 0 2px;"></i></a></span>
+                              <span class="ml-1"><a :href="`https://api.openalex.org/unpaywall/${comparison.id}?email=team@ourresearch.org`" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">OpenAlex<i class="v-icon mdi mdi-open-in-new" style="font-size: 16px; vertical-align: text-bottom;"></i></a></span>
                             </div>
                           </div>
                         </div>
@@ -276,6 +275,10 @@ export default {
             primary: 'https://api.unpaywall.org/',
             secondary: 'https://api.openalex.org/unpaywall/'
           },
+          labels: {
+            primary: 'Unpaywall',
+            secondary: 'Walden'
+          },
           fields: [
             'title',
             'genre',
@@ -308,12 +311,18 @@ export default {
             primary: 'https://api.openalex.org/',
             secondary: 'https://api.openalex.org/v2/'
           },
+          labels: {
+            primary: 'Prod',
+            secondary: 'Walden'
+          },
           fields: [
-            'doi',
-            'title',
+            'display_name',
             'publication_year',
             'publication_date',
-            'type'
+            'type',
+            'doi',
+            'language',
+            'cited_by_count'
           ],
           arrayCountFields: [
             {
@@ -323,6 +332,29 @@ export default {
             {
               field: 'locations',
               displayName: 'Locations Count'
+            },
+            {
+              field: 'concepts',
+              displayName: 'Concepts Count'
+            }
+          ],
+          nestedFields: [
+            {
+              group: 'primary_location',
+              fields: [
+                'is_oa',
+                'landing_page_url',
+                'pdf_url',
+                'version'
+              ]
+            },
+            {
+              group: 'open_access',
+              fields: [
+                'is_oa',
+                'oa_status',
+                'oa_url'
+              ]
             }
           ]
         }
@@ -347,9 +379,14 @@ export default {
       localStorage.setItem('unpaywallQaDefaultTab', tab.toString())
     },
     async compare(type, isBulk = false) {
-      const id = type === 'openalex' ? this.openAlexId : this.doi;
+      let id = type === 'openalex' ? this.openAlexId : this.doi;
       if (!isBulk && !id) return;
       if (isBulk && !this.bulkIds) return;
+      
+      // Normalize DOI case if it's a DOI comparison
+      if (type === 'doi') {
+        id = id.toLowerCase();
+      }
       
       this.error = null;
       this.isLoading = true;
@@ -363,7 +400,9 @@ export default {
           // Process each ID and update the UI immediately
           for (const id of ids) {
             try {
-              const comparison = await this.fetchComparison(id.trim(), type);
+              // Normalize DOI case for bulk comparisons too
+              const normalizedId = type === 'doi' ? id.trim().toLowerCase() : id.trim();
+              const comparison = await this.fetchComparison(normalizedId, type);
               this.comparisons = [...this.comparisons, comparison];
             } catch (err) {
               this.comparisons = [...this.comparisons, {
@@ -416,30 +455,40 @@ export default {
       const comparison = {
         id,
         error: null,
-        unpaywallData: null,
-        openAlexData: null,
+        primaryData: null,
+        secondaryData: null,
         activeTab: this.getDefaultTab()
       };
 
       try {
         // Fetch both responses
-        const [unpaywallResponse, openAlexResponse] = await Promise.all([
-          axios.get(`${config.endpoints.primary}${id}?email=team@ourresearch.org`),
-          axios.get(`${config.endpoints.secondary}${id}?email=team@ourresearch.org`)
+        const [primaryResponse, secondaryResponse] = await Promise.all([
+          axios.get(`${config.endpoints.primary}${id}?email=team@ourresearch.org`).catch(err => ({ status: err.response?.status || 500 })),
+          axios.get(`${config.endpoints.secondary}${id}?email=team@ourresearch.org`).catch(err => ({ status: err.response?.status || 500 }))
         ]);
 
-        comparison.unpaywallData = unpaywallResponse.data;
-        comparison.openAlexData = openAlexResponse.data;
+        // Handle responses, including potential 404s
+        if (primaryResponse.data) {
+          comparison.primaryData = primaryResponse.data;
+        } else {
+          comparison.primaryData = { error: `API returned ${primaryResponse.status}` };
+        }
+
+        if (secondaryResponse.data) {
+          comparison.secondaryData = secondaryResponse.data;
+        } else {
+          comparison.secondaryData = { error: `API returned ${secondaryResponse.status}` };
+        }
 
         // Generate diffs
-        const unpaywallJson = JSON.stringify(comparison.unpaywallData, null, 2);
-        const openAlexJson = JSON.stringify(comparison.openAlexData, null, 2);
+        const primaryJson = JSON.stringify(comparison.primaryData, null, 2);
+        const secondaryJson = JSON.stringify(comparison.secondaryData, null, 2);
 
         const diff = createTwoFilesPatch(
-          'Unpaywall',
-          'OpenAlex',
-          unpaywallJson,
-          openAlexJson,
+          config.labels.primary,
+          config.labels.secondary,
+          primaryJson,
+          secondaryJson,
           '',
           '',
           { context: 3 }
@@ -464,11 +513,11 @@ export default {
           <div class="truncation-message" style="padding: 10px; text-align: center; color: #666;">
             Remaining content identical. 
             <div style="display: flex; justify-content: center; gap: 20px; margin-top: 8px;">
-              <a href="${config.endpoints.primary}${id}?email=team@ourresearch.org" target="_blank" rel="noopener" style="color: #666; text-decoration: none;">
-                Unpaywall JSON <i class="v-icon mdi mdi-open-in-new" style="font-size: 16px; vertical-align: text-bottom;"></i>
+              <a href="${config.endpoints.primary}${id}?email=team@ourresearch.org" target="_blank" rel="noopener">
+                ${config.labels.primary} JSON <i class="v-icon mdi mdi-open-in-new" style="font-size: 16px; vertical-align: text-bottom;"></i>
               </a>
-              <a href="${config.endpoints.secondary}${id}?email=team@ourresearch.org" target="_blank" rel="noopener" style="color: #666; text-decoration: none;">
-                OpenAlex JSON <i class="v-icon mdi mdi-open-in-new" style="font-size: 16px; vertical-align: text-bottom;"></i>
+              <a href="${config.endpoints.secondary}${id}?email=team@ourresearch.org" target="_blank" rel="noopener">
+                ${config.labels.secondary} JSON <i class="v-icon mdi mdi-open-in-new" style="font-size: 16px; vertical-align: text-bottom;"></i>
               </a>
             </div>
           </div>
@@ -489,7 +538,7 @@ export default {
       };
       
       for (const comparison of comparisons) {
-        if (comparison.unpaywallData?.error?.includes('Not found')) {
+        if (comparison.secondaryData?.error?.includes('Not found')) {
           summary.missing.push(comparison.id);
         }
       }
@@ -528,14 +577,19 @@ export default {
         }
         
         // Otherwise return individual diffs that have actual differences
-        return diffs.filter(diff => !this.areValuesEffectivelyEqual(diff.lhs, diff.rhs));
+        return diffs.filter(diff => !this.areValuesEffectivelyEqual(diff.lhs, diff.rhs, diff.path[0]));
       });
     },
-    areValuesEffectivelyEqual(lhs, rhs) {
+    areValuesEffectivelyEqual(lhs, rhs, field) {
       // Handle null/undefined/todo cases
       if ([null, undefined].includes(lhs) && [null, undefined].includes(rhs)) return true;
       if ([null, undefined].includes(lhs) && rhs?.todo === 'todo') return true;
       if ([null, undefined].includes(rhs) && lhs?.todo === 'todo') return true;
+      
+      // Special handling for DOI field to ensure case-insensitive comparison
+      if (field === 'doi') {
+        return String(lhs).toLowerCase() === String(rhs).toLowerCase();
+      }
       
       // Convert to arrays if needed
       const isArrayLike = val => 
