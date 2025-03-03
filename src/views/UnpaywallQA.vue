@@ -322,21 +322,14 @@ export default {
             'type',
             'doi',
             'language',
-            'cited_by_count'
           ],
           arrayCountFields: [
+            /*
             {
               field: 'authorships',
               displayName: 'Authors Count'
-            },
-            {
-              field: 'locations',
-              displayName: 'Locations Count'
-            },
-            {
-              field: 'concepts',
-              displayName: 'Concepts Count'
             }
+            */
           ],
           nestedFields: [
             {
@@ -345,7 +338,6 @@ export default {
                 'is_oa',
                 'landing_page_url',
                 'pdf_url',
-                'version'
               ]
             },
             {
@@ -354,6 +346,13 @@ export default {
                 'is_oa',
                 'oa_status',
                 'oa_url'
+              ]
+            },
+            {
+              group: 'best_oa_location',
+              fields: [
+                'landing_page_url',
+                'pdf_url',
               ]
             }
           ]
