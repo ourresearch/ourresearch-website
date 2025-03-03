@@ -23,6 +23,18 @@
                 value="doi"
               ></v-radio>
             </v-radio-group>
+            
+            <!-- Add Custom Config button for OpenAlex -->
+            <v-btn
+              v-if="activeComparisonType === 'openalex'"
+              color="secondary"
+              text
+              class="ml-4"
+              @click="showCustomConfig = true"
+            >
+              <v-icon left>mdi-cog</v-icon>
+              Custom Config
+            </v-btn>
           </v-card-title>
 
           <v-card-text>
@@ -101,7 +113,7 @@
           <UnpaywallComparisonTable 
             v-if="comparisons.length > 0"
             :comparisons="comparisons"
-            :config="comparisonConfigs[activeComparisonType]"
+            :config="activeComparisonType === 'openalex' && customOpenAlexConfig ? customOpenAlexConfig : comparisonConfigs[activeComparisonType]"
           />
 
           <!-- Only show individual comparisons in single mode -->
@@ -234,11 +246,19 @@
         </div>
       </v-col>
     </v-row>
+    
+    <!-- Add the OpenAlexConfigModal component -->
+    <OpenAlexConfigModal
+      v-model="showCustomConfig"
+      :current-config="customOpenAlexConfig"
+      @save="updateCustomConfig"
+    />
   </v-container>
 </template>
 
 <script>
 import UnpaywallComparisonTable from '../components/UnpaywallComparisonTable.vue'
+import OpenAlexConfigModal from '../components/OpenAlexConfigModal.vue'
 import axios from 'axios'
 import { createTwoFilesPatch } from 'diff'
 import { parse, html as diff2html } from 'diff2html'
@@ -247,7 +267,8 @@ import 'diff2html/bundles/css/diff2html.min.css'  // Import at component level
 export default {
   name: 'UnpaywallQA',
   components: {
-    UnpaywallComparisonTable
+    UnpaywallComparisonTable,
+    OpenAlexConfigModal
   },
   data() {
     return {
@@ -357,6 +378,43 @@ export default {
             }
           ]
         }
+      },
+      showCustomConfig: false,
+      customOpenAlexConfig: {
+        fields: [
+          'display_name',
+          'publication_year',
+          'publication_date',
+          'type',
+          'doi',
+          'language',
+        ],
+        arrayCountFields: [],
+        nestedFields: [
+          {
+            group: 'primary_location',
+            fields: [
+              'is_oa',
+              'landing_page_url',
+              'pdf_url',
+            ]
+          },
+          {
+            group: 'open_access',
+            fields: [
+              'is_oa',
+              'oa_status',
+              'oa_url'
+            ]
+          },
+          {
+            group: 'best_oa_location',
+            fields: [
+              'landing_page_url',
+              'pdf_url',
+            ]
+          }
+        ]
       }
     }
   },
@@ -370,7 +428,25 @@ export default {
       return this.comparisons[0].sideBySideDiff
     }
   },
+  created() {
+    // Initialize customOpenAlexConfig with default values
+    this.initializeCustomConfig();
+  },
   methods: {
+    initializeCustomConfig() {
+      // Initialize customOpenAlexConfig with the default values from comparisonConfigs
+      const defaultConfig = this.comparisonConfigs.openalex;
+      this.customOpenAlexConfig = {
+        ...JSON.parse(JSON.stringify(defaultConfig)), // Deep copy all properties
+        fields: [...defaultConfig.fields],
+        arrayCountFields: [...defaultConfig.arrayCountFields],
+        nestedFields: defaultConfig.nestedFields.map(group => ({
+          group: group.group,
+          fields: [...group.fields]
+        }))
+      };
+    },
+    
     getDefaultTab() {
       return parseInt(localStorage.getItem('unpaywallQaDefaultTab') || '0')
     },
@@ -456,27 +532,40 @@ export default {
         error: null,
         primaryData: null,
         secondaryData: null,
+        fullPrimaryData: null,  // Store the full API response
+        fullSecondaryData: null, // Store the full API response
         activeTab: this.getDefaultTab()
       };
 
       try {
         // Fetch both responses
+        let secondaryUrl = `${config.endpoints.secondary}${id}?email=team@ourresearch.org`;
+        
         const [primaryResponse, secondaryResponse] = await Promise.all([
           axios.get(`${config.endpoints.primary}${id}?email=team@ourresearch.org`).catch(err => ({ status: err.response?.status || 500 })),
-          axios.get(`${config.endpoints.secondary}${id}?email=team@ourresearch.org`).catch(err => ({ status: err.response?.status || 500 }))
+          axios.get(secondaryUrl).catch(err => ({ status: err.response?.status || 500 }))
         ]);
 
         // Handle responses, including potential 404s
         if (primaryResponse.data) {
+          comparison.fullPrimaryData = JSON.parse(JSON.stringify(primaryResponse.data)); // Store full response
           comparison.primaryData = primaryResponse.data;
         } else {
           comparison.primaryData = { error: `API returned ${primaryResponse.status}` };
+          comparison.fullPrimaryData = { error: `API returned ${primaryResponse.status}` };
         }
 
         if (secondaryResponse.data) {
+          comparison.fullSecondaryData = JSON.parse(JSON.stringify(secondaryResponse.data)); // Store full response
           comparison.secondaryData = secondaryResponse.data;
         } else {
           comparison.secondaryData = { error: `API returned ${secondaryResponse.status}` };
+          comparison.fullSecondaryData = { error: `API returned ${secondaryResponse.status}` };
+        }
+
+        // Apply the custom configuration if it's an OpenAlex comparison
+        if (type === 'openalex' && this.customOpenAlexConfig) {
+          this.applyCustomConfig(comparison);
         }
 
         // Generate diffs
@@ -547,6 +636,11 @@ export default {
     filteredDifferences(comparison) {
       if (!comparison?.differences) return [];
       
+      // If we're using the generated differences from our custom config
+      if (this.activeComparisonType === 'openalex' && this.customOpenAlexConfig) {
+        return comparison.differences;
+      }
+      
       // Group differences by their base path
       const groupedDiffs = comparison.differences.reduce((groups, diff) => {
         const basePath = diff.path[0];
@@ -563,8 +657,8 @@ export default {
         if (diffs.length > 3 && diffs.every(d => d.path[0] === basePath)) {
           const sampleDiff = diffs[0];
           const toArray = val => Array.isArray(val) ? val : 
-                                typeof val === 'object' ? [val] : 
-                                val ? [val] : [];
+                              typeof val === 'object' ? [val] : 
+                              val ? [val] : [];
           
           return [{
             path: [basePath],
@@ -641,7 +735,150 @@ export default {
     },
     formatId(id) {
       return id;
-    }
+    },
+    updateCustomConfig(config) {
+      // Ensure the custom config has all necessary properties from the default config
+      const defaultConfig = this.comparisonConfigs.openalex;
+      this.customOpenAlexConfig = {
+        ...defaultConfig,
+        fields: [...config.fields],
+        arrayCountFields: [...config.arrayCountFields],
+        nestedFields: [...config.nestedFields]
+      };
+      
+      // If there are active comparisons, apply the new configuration immediately
+      if (this.activeComparisonType === 'openalex' && this.comparisons.length > 0) {
+        // Apply the new config to all current comparisons
+        this.comparisons.forEach(comparison => {
+          if (comparison.fullPrimaryData && comparison.fullSecondaryData) {
+            this.applyCustomConfig(comparison);
+          }
+        });
+      }
+    },
+    
+    applyCustomConfig(comparison) {
+      const config = this.customOpenAlexConfig;
+      const primaryData = comparison.fullPrimaryData;
+      const secondaryData = comparison.fullSecondaryData;
+
+      // Filter primary data
+      comparison.primaryData = this.filterData(primaryData, config);
+
+      // Filter secondary data
+      comparison.secondaryData = this.filterData(secondaryData, config);
+
+      // Generate differences
+      comparison.differences = this.generateDifferences(
+        comparison.primaryData, 
+        comparison.secondaryData, 
+        config
+      );
+    },
+    filterData(data, config) {
+      const filteredData = {};
+
+      // Copy fields
+      for (const field of config.fields) {
+        filteredData[field] = data[field];
+      }
+
+      // Copy nested fields
+      for (const group of config.nestedFields) {
+        const groupName = group.group;
+        if (data[groupName]) {
+          filteredData[groupName] = {};
+          for (const field of group.fields) {
+            filteredData[groupName][field] = data[groupName][field];
+          }
+        }
+      }
+
+      // Copy array count fields
+      for (const arrayField of config.arrayCountFields) {
+        const field = typeof arrayField === 'object' ? arrayField.field : arrayField;
+        if (data[field]) {
+          filteredData[field] = data[field];
+        }
+      }
+
+      return filteredData;
+    },
+    generateDifferences(primaryData, secondaryData, config) {
+      const differences = [];
+
+      // Compare flat fields
+      for (const field of config.fields) {
+        if (primaryData[field] !== secondaryData[field]) {
+          differences.push({
+            path: [field],
+            kind: 'E',
+            lhs: primaryData[field],
+            rhs: secondaryData[field]
+          });
+        }
+      }
+
+      // Compare nested fields
+      for (const group of config.nestedFields) {
+        const groupName = group.group;
+
+        // Skip if either object doesn't have the group
+        if (!primaryData[groupName] || !secondaryData[groupName]) {
+          if (primaryData[groupName] || secondaryData[groupName]) {
+            differences.push({
+              path: [groupName],
+              kind: 'E',
+              lhs: primaryData[groupName],
+              rhs: secondaryData[groupName]
+            });
+          }
+          continue;
+        }
+
+        // Compare each field in the group
+        for (const field of group.fields) {
+          if (primaryData[groupName][field] !== secondaryData[groupName][field]) {
+            differences.push({
+              path: [groupName, field],
+              kind: 'E',
+              lhs: primaryData[groupName][field],
+              rhs: secondaryData[groupName][field]
+            });
+          }
+        }
+      }
+
+      // Compare array count fields
+      for (const arrayField of config.arrayCountFields) {
+        const field = typeof arrayField === 'object' ? arrayField.field : arrayField;
+
+        // Skip if either object doesn't have the array
+        if (!primaryData[field] || !secondaryData[field]) {
+          if (primaryData[field] || secondaryData[field]) {
+            differences.push({
+              path: [field],
+              kind: 'E',
+              lhs: primaryData[field] ? primaryData[field].length : 0,
+              rhs: secondaryData[field] ? secondaryData[field].length : 0
+            });
+          }
+          continue;
+        }
+
+        // Compare array lengths
+        if (primaryData[field].length !== secondaryData[field].length) {
+          differences.push({
+            path: [field],
+            kind: 'E',
+            lhs: primaryData[field].length,
+            rhs: secondaryData[field].length
+          });
+        }
+      }
+
+      return differences;
+    },
   }
 }
 </script>
