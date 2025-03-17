@@ -4,7 +4,7 @@
       <v-col cols="12">
         <h1 class="text-h3 mb-6">Walden QA</h1>
 
-        <v-card class="comparison-controls pa-3 mb-6" color="grey lighten-3">
+        <v-card class="comparison-controls pa-3 mb-6" color="grey lighten-3" :loading="isLoading || isLoadingResults">
           <v-card-title class="text-h5 d-flex align-center">
             Comparison:
             <v-radio-group
@@ -56,7 +56,7 @@
                 </div>
                 <v-btn
                   color="primary"
-                  :disabled="isLoading"
+                  :disabled="isLoading || isLoadingResults"
                   @click="fetchRandomSample(activeComparisonType)"
                   large
                 >
@@ -68,7 +68,7 @@
 
               <v-btn
                 color="primary"
-                :disabled="isLoading"
+                :disabled="isLoading || isLoadingResults"
                 @click="showBulkDialog = true"
                 large
               >
@@ -84,8 +84,7 @@
                     :label="activeComparisonType === 'doi' ? 'Enter DOI' : 'Enter OpenAlex ID'"
                     outlined
                     background-color="white"
-                    :loading="isLoading"
-                    :disabled="isLoading"
+                    :disabled="isLoading || isLoadingResults"
                     @keyup.enter="compare(activeComparisonType)"
                     hide-details
                     density="comfortable"
@@ -93,8 +92,7 @@
                 </div>
                 <v-btn
                   color="primary"
-                  :loading="isLoading"
-                  :disabled="isLoading"
+                  :disabled="isLoading || isLoadingResults"
                   @click="compare(activeComparisonType)"
                   large
                 >
@@ -280,6 +278,7 @@ export default {
       bulkIds: '',
       error: null,
       isLoading: false,
+      isLoadingResults: false,
       isBulkComparison: false,
       comparisons: [],
       defaultTab: 0,
@@ -330,6 +329,10 @@ export default {
             'publication_year',
             'is_retracted',
             'oa_status',
+            'primary_location.source.id',
+          ],
+          booleanFields: [
+            'primary_location.source.id'
           ],
           arrayCountFields: [
             {
@@ -440,7 +443,7 @@ export default {
       }
       
       this.error = null;
-      this.isLoading = true;
+      this.isLoadingResults = true;
       this.comparisons = []; // Reset comparisons immediately
       
       try {
@@ -449,17 +452,27 @@ export default {
           const ids = this.bulkIds.split('\n').filter(id => id.trim());
           
           // Process each ID and update the UI immediately
-          for (const id of ids) {
+          for (const [index, id] of ids.entries()) {
             try {
               // Normalize DOI case for bulk comparisons too
               const normalizedId = type === 'doi' ? id.trim().toLowerCase() : id.trim();
               const comparison = await this.fetchComparison(normalizedId, type);
               this.comparisons = [...this.comparisons, comparison];
+              
+              // Stop loading after the first comparison is loaded
+              if (index === 0) {
+                this.isLoadingResults = false;
+              }
             } catch (err) {
               this.comparisons = [...this.comparisons, {
                 id: id.trim(),
                 error: err.message
               }];
+              
+              // Stop loading after the first comparison attempt even if it failed
+              if (index === 0) {
+                this.isLoadingResults = false;
+              }
             }
           }
           
@@ -471,11 +484,12 @@ export default {
           this.comparisons = [comparison];
           this.openAlexId = '';
           this.doi = '';
+          this.isLoadingResults = false;
         }
       } catch (err) {
         this.error = err.message;
+        this.isLoadingResults = false;
       } finally {
-        this.isLoading = false;
         this.showBulkDialog = false;
       }
     },
@@ -493,10 +507,10 @@ export default {
         
         this.bulkIds = ids;
         this.activeComparisonType = type;
+        this.isLoading = false;
         this.compare(type, true);
       } catch (err) {
         this.error = `Error fetching random sample: ${err.message}`;
-      } finally {
         this.isLoading = false;
       }
     },
@@ -650,10 +664,24 @@ export default {
       });
     },
     areValuesEffectivelyEqual(lhs, rhs, field) {
-      // Handle null/undefined/todo cases
+      // Handle null/undefined cases
       if ([null, undefined].includes(lhs) && [null, undefined].includes(rhs)) return true;
-      if ([null, undefined].includes(lhs) && rhs?.todo === 'todo') return true;
-      if ([null, undefined].includes(rhs) && lhs?.todo === 'todo') return true;
+      
+      // Check if the field is in booleanFields
+      const config = this.activeComparisonType === 'openalex' ? 
+        (this.customOpenAlexConfig || this.comparisonConfigs.openalex) : 
+        this.comparisonConfigs.doi;
+      
+      // For boolean fields, compare based on nullness
+      if (config.booleanFields && config.booleanFields.some(boolField => {
+        // Handle exact match or if field is a nested path that starts with the boolean field
+        return boolField === field || 
+               (field.includes('.') && boolField.includes('.') && field.startsWith(boolField));
+      })) {
+        // For boolean fields, it's a match if the secondary value exists, regardless of primary
+        const rhsExists = ![null, undefined, '-'].includes(rhs) && rhs !== '';
+        return rhsExists;
+      }
       
       // Special handling for DOI field to ensure case-insensitive comparison
       if (field === 'doi') {
@@ -692,7 +720,6 @@ export default {
         const normalize = str => str.trim().toLowerCase();
         const normalizedLhs = normalize(lhs);
         const normalizedRhs = normalize(rhs);
-        if (['todo'].includes(normalizedLhs) || ['todo'].includes(normalizedRhs)) return false;
         return normalizedLhs === normalizedRhs;
       }
       
@@ -718,6 +745,7 @@ export default {
       this.customOpenAlexConfig = {
         ...defaultConfig,
         fields: [...config.fields],
+        booleanFields: [...(config.booleanFields || [])],
         arrayCountFields: [...config.arrayCountFields],
         nestedFields: [...config.nestedFields]
       };
@@ -753,10 +781,50 @@ export default {
     },
     filterData(data, config) {
       const filteredData = {};
+      
+      // Helper function to get nested field values
+      const getFieldValue = (data, fieldPath) => {
+        if (!data) return undefined;
+        
+        const parts = fieldPath.split('.');
+        let value = data;
+        
+        for (const part of parts) {
+          if (value === null || value === undefined) return undefined;
+          value = value[part];
+        }
+        
+        return value;
+      };
+      
+      // Helper function to set nested field values
+      const setNestedValue = (obj, path, value) => {
+        const parts = path.split('.');
+        let current = obj;
+        
+        // Create the nested structure if it doesn't exist
+        for (let i = 0; i < parts.length - 1; i++) {
+          const part = parts[i];
+          if (!current[part]) {
+            current[part] = {};
+          }
+          current = current[part];
+        }
+        
+        // Set the value at the final level
+        current[parts[parts.length - 1]] = value;
+      };
 
-      // Copy fields
+      // Copy fields (handling nested paths)
       for (const field of config.fields) {
-        filteredData[field] = data[field];
+        if (field.includes('.')) {
+          // Handle nested field paths
+          const value = getFieldValue(data, field);
+          setNestedValue(filteredData, field, value);
+        } else {
+          // Handle flat fields
+          filteredData[field] = data[field];
+        }
       }
 
       // Copy nested fields
@@ -782,16 +850,58 @@ export default {
     },
     generateDifferences(primaryData, secondaryData, config) {
       const differences = [];
+      
+      // Helper function to get nested field values
+      const getFieldValue = (data, fieldPath) => {
+        if (!data) return undefined;
+        
+        const parts = fieldPath.split('.');
+        let value = data;
+        
+        for (const part of parts) {
+          if (value === null || value === undefined) return undefined;
+          value = value[part];
+        }
+        
+        return value;
+      };
 
-      // Compare flat fields
+      // Compare flat and nested fields in the fields array
       for (const field of config.fields) {
-        if (primaryData[field] !== secondaryData[field]) {
+        const primaryValue = field.includes('.') ? getFieldValue(primaryData, field) : primaryData[field];
+        const secondaryValue = field.includes('.') ? getFieldValue(secondaryData, field) : secondaryData[field];
+        
+        if (primaryValue !== secondaryValue) {
           differences.push({
             path: [field],
             kind: 'E',
-            lhs: primaryData[field],
-            rhs: secondaryData[field]
+            lhs: primaryValue,
+            rhs: secondaryValue
           });
+        }
+      }
+      
+      // Compare boolean fields
+      if (config.booleanFields) {
+        for (const field of config.booleanFields) {
+          // Skip if this field is already in the fields array to avoid duplication
+          if (config.fields.includes(field)) continue;
+          
+          const primaryValue = getFieldValue(primaryData, field);
+          const secondaryValue = getFieldValue(secondaryData, field);
+          
+          // For boolean fields, it's a match if the secondary value exists, regardless of primary
+          const secondaryExists = ![null, undefined, '-'].includes(secondaryValue) && secondaryValue !== '';
+          
+          // Only add to differences if secondary doesn't exist
+          if (!secondaryExists) {
+            differences.push({
+              path: [field],
+              kind: 'E',
+              lhs: primaryValue,
+              rhs: secondaryValue
+            });
+          }
         }
       }
 

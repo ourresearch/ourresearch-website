@@ -20,7 +20,7 @@
         <tr class="match-percentage-row">
           <td :class="['match-percentage-cell', 'fixed-header']" :style="{ left: '0px' }">Match %</td>
           <td v-for="header in headers.slice(1)" :key="header.value" :class="['match-percentage-cell', header.fixed ? 'fixed-header' : '']" :style="header.fixed ? { left: header.fixedOffset + 'px' } : {}">
-            {{ columnMatchingPercentages[header.text] ? columnMatchingPercentages[header.text] + '%' : '' }}
+            <div class="match-percentage-value">{{ columnMatchingPercentages[header.text] ? columnMatchingPercentages[header.text] + '%' : '' }}</div>
           </td>
         </tr>
         <template v-for="item in groupedComparisons">
@@ -358,7 +358,7 @@ export default {
       return this.compareValues(primaryValue, secondaryValue, column) ? 'matching-cell' : 'different-cell';
     },
     
-    // Helper method to compare values with special handling for count fields
+    // Helper method to compare values with special handling for count fields and boolean fields
     compareValues(primaryValue, secondaryValue, columnName) {
       // Check if this is a count field
       if (columnName.endsWith('_count')) {
@@ -370,6 +370,16 @@ export default {
         if (!isNaN(primaryNum) && !isNaN(secondaryNum)) {
           return secondaryNum >= primaryNum;
         }
+      }
+      
+      // Check if this is a boolean field (from the config)
+      if (this.config.booleanFields && this.config.booleanFields.some(boolField => {
+        // Handle exact match or if field is a nested path that starts with the boolean field
+        return boolField === columnName || 
+               (columnName.includes('.') && boolField.includes('.') && columnName.startsWith(boolField));
+      })) {
+        // For boolean fields, it's a match if the secondary value exists, regardless of primary
+        return ![null, undefined, '-', ''].includes(secondaryValue);
       }
       
       // For non-count fields, use exact equality
@@ -423,6 +433,20 @@ export default {
       return val1 === val2;
     },
     flattenData(data) {
+      // Helper function to get value from a nested path
+      const getNestedValue = (obj, path) => {
+        if (!obj) return undefined;
+        const parts = path.split('.');
+        let value = obj;
+        
+        for (const part of parts) {
+          if (value === null || value === undefined) return undefined;
+          value = value[part];
+        }
+        
+        return value;
+      };
+      
       // Only treat as empty if data is null/undefined
       if (!data) {
         const emptyData = {};
@@ -444,7 +468,12 @@ export default {
       
       // Flatten basic fields
       this.config.fields.forEach(attr => {
-        result[attr] = data[attr] || '-';
+        // Handle nested fields in the fields array
+        if (attr.includes('.')) {
+          result[attr] = getNestedValue(data, attr) || '-';
+        } else {
+          result[attr] = data[attr] || '-';
+        }
       });
       
       // Count array fields
@@ -585,6 +614,7 @@ export default {
 .comparison-table :deep(.v-data-table__wrapper table thead tr th) {
   border-bottom: 2px solid #bdbdbd !important;
   background-color: #f5f5f5 !important;
+  vertical-align: middle !important;
 }
 
 /* For cells that might have long content */
@@ -625,18 +655,23 @@ export default {
   font-size: 0.85rem;
   font-weight: 500 !important;
   padding: 4px 8px !important;
-  text-align: left;
   white-space: nowrap;
   height: 30px;
   background-color: #f5f5f5;
+  vertical-align: middle !important;
+}
+
+.match-percentage-value {
+  display: flex;
+  height: 100%;
 }
 
 .comparison-table :deep(.match-percentage-cell) {
   font-size: 0.85rem;
   font-weight: 500 !important;
   padding: 4px 8px !important;
-  text-align: left;
   white-space: nowrap;
+  vertical-align: middle !important;
   height: 30px;
   background-color: #f5f5f5;
 }
