@@ -14,9 +14,17 @@
       fixed-column
       :headers-length="headers.length"
     >
-      <template v-slot:item="{ item }">
-        <template v-for="(row, index) in item.rows">
-          <tr :key="`${item.id}-${row.source}`" :class="{ 'first-row': index === 0, 'error-row': row.hasError }">
+      
+      <!-- Add match percentage row as the first row in the body -->
+      <template v-slot:body>
+        <tr class="match-percentage-row">
+          <td :class="['match-percentage-cell', 'fixed-header']" :style="{ left: '0px' }">Match %</td>
+          <td v-for="header in headers.slice(1)" :key="header.value" :class="['match-percentage-cell', header.fixed ? 'fixed-header' : '']" :style="header.fixed ? { left: header.fixedOffset + 'px' } : {}">
+            {{ columnMatchingPercentages[header.text] ? columnMatchingPercentages[header.text] + '%' : '' }}
+          </td>
+        </tr>
+        <template v-for="item in groupedComparisons">
+          <tr v-for="(row, index) in item.rows" :key="`${item.id}-${row.source}`" :class="{ 'first-row': index === 0, 'error-row': row.hasError }">
             <td v-if="index === 0" :rowspan="2" :class="['id-cell', getCellClass(row, 'id')]">
               <template v-if="config.idType === 'doi'">
                 <a v-if="item.id" :href="`${row.source === 'primary' ? config.endpoints.primary : config.endpoints.secondary}${item.id}?email=team@ourresearch.org`" target="_blank" rel="noopener">{{ item.id }}</a>
@@ -42,6 +50,8 @@
           </tr>
         </template>
       </template>
+      
+      <!-- The item slot is now handled in the body slot above -->
     </v-data-table>
   </div>
 </template>
@@ -230,7 +240,7 @@ export default {
                 if (secondaryIssns.every(issn => primaryIssns.includes(issn))) {
                   matchingCells++;
                 }
-              } else if (row[header.value] === matchingRow[header.value]) {
+              } else if (this.compareValues(matchingRow[header.value], row[header.value], header.value)) {
                 matchingCells++;
               }
             }
@@ -239,6 +249,56 @@ export default {
       });
       
       return Math.round((matchingCells / totalCells) * 100) || 0;
+    },
+    columnMatchingPercentages() {
+      // Initialize an object to store column matching statistics
+      const columnStats = {};
+      
+      // Count only non-ID and non-source columns
+      const columnsToCheck = this.headers.filter(h => !['id', 'source'].includes(h.value));
+      
+      // Initialize counters for each column
+      columnsToCheck.forEach(header => {
+        columnStats[header.text] = {
+          total: 0,
+          matching: 0
+        };
+      });
+      
+      // Calculate matches for each column
+      this.flattenedComparisons.forEach(row => {
+        if (row.source === 'secondary') {
+          columnsToCheck.forEach(header => {
+            const matchingRow = this.flattenedComparisons.find(
+              r => r.id === row.id && r.source === 'primary'
+            );
+            
+            if (matchingRow) {
+              columnStats[header.text].total++;
+              
+              if (header.value === 'journal_issns') {
+                // Special handling for journal_issns
+                const secondaryIssns = row.journal_issns?.split(',').map(issn => issn.trim()) || [];
+                const primaryIssns = matchingRow.journal_issns?.split(',').map(issn => issn.trim()) || [];
+                if (secondaryIssns.every(issn => primaryIssns.includes(issn))) {
+                  columnStats[header.text].matching++;
+                }
+              } else if (this.compareValues(matchingRow[header.value], row[header.value], header.value)) {
+                columnStats[header.text].matching++;
+              }
+            }
+          });
+        }
+      });
+      
+      // Calculate percentages for each column
+      const percentages = {};
+      Object.keys(columnStats).forEach(column => {
+        const { total, matching } = columnStats[column];
+        percentages[column] = Math.round((matching / total) * 100) || 0;
+      });
+      
+      return percentages;
     }
   },
   methods: {
@@ -288,14 +348,57 @@ export default {
       if (column === 'id') {
         const allOtherColumnsMatch = this.headers
           .filter(h => !['id', 'source'].includes(h.value))
-          .every(h => primaryRow[h.value] === secondaryRow[h.value]);
+          .every(h => this.compareValues(primaryRow[h.value], secondaryRow[h.value], h.value));
         return allOtherColumnsMatch ? 'matching-cell' : 'different-cell';
       }
 
-      // For regular cells, compare values directly
+      // For regular cells, compare values
       const primaryValue = primaryRow[column];
       const secondaryValue = secondaryRow[column];
-      return primaryValue === secondaryValue ? 'matching-cell' : 'different-cell';
+      return this.compareValues(primaryValue, secondaryValue, column) ? 'matching-cell' : 'different-cell';
+    },
+    
+    // Helper method to compare values with special handling for count fields
+    compareValues(primaryValue, secondaryValue, columnName) {
+      // Check if this is a count field
+      if (columnName.endsWith('_count')) {
+        // For count fields, secondary >= primary is considered a match
+        const primaryNum = parseInt(primaryValue, 10);
+        const secondaryNum = parseInt(secondaryValue, 10);
+        
+        // Only compare if both values are valid numbers
+        if (!isNaN(primaryNum) && !isNaN(secondaryNum)) {
+          return secondaryNum >= primaryNum;
+        }
+      }
+      
+      // For non-count fields, use exact equality
+      return primaryValue === secondaryValue;
+    },
+    
+    // Format cell value with special handling for count fields
+    formatCellValue(row, columnName) {
+      // If not a count field or not a secondary row, just return the value
+      if (!columnName.endsWith('_count') || row.source !== 'secondary') {
+        return row[columnName];
+      }
+      
+      // For count fields in secondary rows, check if value is greater than primary
+      const group = this.groupedComparisons.find(g => g.id === row.id);
+      if (!group) return row[columnName];
+      
+      const [primaryRow, secondaryRow] = group.rows;
+      if (!primaryRow || !secondaryRow) return row[columnName];
+      
+      const primaryValue = parseInt(primaryRow[columnName], 10);
+      const secondaryValue = parseInt(secondaryRow[columnName], 10);
+      
+      // If both are valid numbers and secondary > primary, append ' +'
+      if (!isNaN(primaryValue) && !isNaN(secondaryValue) && secondaryValue > primaryValue) {
+        return `${row[columnName]}+`;
+      }
+      
+      return row[columnName];
     },
     areValuesEqual(val1, val2) {
       // Handle null/undefined
@@ -346,7 +449,23 @@ export default {
       
       // Count array fields
       (this.config.arrayCountFields || []).forEach(field => {
-        result[`${field.field}_count`] = (data[field.field] || []).length || '0';
+        // Check if this is a nested array count (e.g., 'authorships.affiliations')
+        if (field.field.includes('.')) {
+          const [parentField, childField] = field.field.split('.');
+          // Get the parent array
+          const parentArray = data[parentField] || [];
+          // Count all items in the nested arrays
+          let totalCount = 0;
+          parentArray.forEach(item => {
+            if (item && Array.isArray(item[childField])) {
+              totalCount += item[childField].length;
+            }
+          });
+          result[`${field.field}_count`] = totalCount || '0';
+        } else {
+          // Regular array count
+          result[`${field.field}_count`] = (data[field.field] || []).length || '0';
+        }
       });
       
       // Flatten nested fields
@@ -392,15 +511,34 @@ export default {
   border-collapse: separate;
 }
 
-.comparison-table :deep(th) {
+.custom-header {
+  width: 100%;
+}
+
+.custom-header-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.custom-header-table th {
   font-weight: 600 !important;
   white-space: nowrap;
   background-color: #f5f5f5 !important;
-  position: sticky;
-  top: 0;
-  z-index: 2;
   padding: 0 8px !important;
-  border-bottom: 2px solid rgba(0, 0, 0, 0.12);
+  height: 48px;
+  text-align: left;
+}
+
+.custom-header-table .match-percentage-row th {
+  font-weight: 500 !important;
+  height: 30px;
+  text-align: center;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.custom-header-table .fixed-header {
+  position: sticky;
+  z-index: 2;
 }
 
 .comparison-table :deep(td) {
@@ -446,6 +584,7 @@ export default {
 
 .comparison-table :deep(.v-data-table__wrapper table thead tr th) {
   border-bottom: 2px solid #bdbdbd !important;
+  background-color: #f5f5f5 !important;
 }
 
 /* For cells that might have long content */
@@ -470,6 +609,36 @@ export default {
   padding: 8px;
   background-color: #f5f5f5;
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.match-percentage-row {
+  background-color: #f5f5f5;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.12);
+}
+
+.comparison-table :deep(.match-percentage-row) {
+  background-color: #f5f5f5;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.12);
+}
+
+.match-percentage-cell {
+  font-size: 0.85rem;
+  font-weight: 500 !important;
+  padding: 4px 8px !important;
+  text-align: left;
+  white-space: nowrap;
+  height: 30px;
+  background-color: #f5f5f5;
+}
+
+.comparison-table :deep(.match-percentage-cell) {
+  font-size: 0.85rem;
+  font-weight: 500 !important;
+  padding: 4px 8px !important;
+  text-align: left;
+  white-space: nowrap;
+  height: 30px;
+  background-color: #f5f5f5;
 }
 
 .passing-count {

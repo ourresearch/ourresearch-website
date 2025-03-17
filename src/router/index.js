@@ -4,7 +4,7 @@ import Home from '../views/Home.vue'
 import Accessibility from "../views/Accessibility";
 import Transparency from "../views/Transparency";
 import Projects from "../views/Projects";
-import UnpaywallQA from "../views/UnpaywallQA";
+import WaldenQA from "../views/WaldenQA";
 import goTo from 'vuetify/es5/services/goto'
 
 Vue.use(VueRouter)
@@ -27,7 +27,7 @@ const routes = [
         // which is lazy-loaded when the route is visited.
         component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
     },
-    {path: "/qa/unpaywall", component: UnpaywallQA},
+    {path: "/qa/walden", component: WaldenQA},
 ]
 
 const router = new VueRouter({

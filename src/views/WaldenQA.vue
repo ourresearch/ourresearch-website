@@ -110,7 +110,7 @@
             {{ error }}
           </div>
 
-          <UnpaywallComparisonTable 
+          <WaldenComparisonTable 
             v-if="comparisons.length > 0"
             :comparisons="comparisons"
             :config="activeComparisonType === 'openalex' && customOpenAlexConfig ? customOpenAlexConfig : comparisonConfigs[activeComparisonType]"
@@ -257,17 +257,17 @@
 </template>
 
 <script>
-import UnpaywallComparisonTable from '../components/UnpaywallComparisonTable.vue'
+import WaldenComparisonTable from '../components/WaldenComparisonTable.vue'
 import OpenAlexConfigModal from '../components/OpenAlexConfigModal.vue'
 import axios from 'axios'
 import { createTwoFilesPatch } from 'diff'
-import { parse, html as diff2html } from 'diff2html'
+import { html as diff2html } from 'diff2html'
 import 'diff2html/bundles/css/diff2html.min.css'  // Import at component level
 
 export default {
-  name: 'UnpaywallQA',
+  name: 'WaldenQA',
   components: {
-    UnpaywallComparisonTable,
+    WaldenComparisonTable,
     OpenAlexConfigModal
   },
   data() {
@@ -301,24 +301,13 @@ export default {
             secondary: 'Walden'
           },
           fields: [
-            'title',
-            'genre',
-            'is_oa',
-            'journal_issns',
-            'journal_name',
-            'published_date',
-            'publisher',
-            'year'
+            'oa_status',
           ],
           nestedFields: [
             {
               group: 'best_oa_location',
               fields: [
-                'host_type',
-                'is_best',
                 'license',
-                'url',
-                'url_for_pdf',
                 'version'
               ]
             }
@@ -337,45 +326,32 @@ export default {
             secondary: 'Walden'
           },
           fields: [
-            'display_name',
+            'title',
             'publication_year',
-            'publication_date',
-            'type',
-            'doi',
-            'language',
+            'is_retracted',
+            'oa_status',
           ],
           arrayCountFields: [
-            /*
+            {
+              field: 'locations',
+              displayName: 'locations (count)'
+            },
             {
               field: 'authorships',
-              displayName: 'Authors Count'
+              displayName: 'authorships (count)'
+            },
+            {
+              field: 'authorships.affiliations',
+              displayName: 'affiliations (count)'
             }
-            */
           ],
           nestedFields: [
             {
-              group: 'primary_location',
+              group: 'apc_list',
               fields: [
-                'is_oa',
-                'landing_page_url',
-                'pdf_url',
+                'value_usd',
               ]
             },
-            {
-              group: 'open_access',
-              fields: [
-                'is_oa',
-                'oa_status',
-                'oa_url'
-              ]
-            },
-            {
-              group: 'best_oa_location',
-              fields: [
-                'landing_page_url',
-                'pdf_url',
-              ]
-            }
           ]
         }
       },
