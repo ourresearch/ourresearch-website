@@ -328,7 +328,8 @@ export default {
             'title',
             'publication_year',
             'is_retracted',
-            'oa_status',
+            'open_access.oa_status',
+            'apc_list.value_usd',
             'primary_location.source.id',
           ],
           booleanFields: [
@@ -348,14 +349,7 @@ export default {
               displayName: 'affiliations (count)'
             }
           ],
-          nestedFields: [
-            {
-              group: 'apc_list',
-              fields: [
-                'value_usd',
-              ]
-            },
-          ]
+          nestedFields: [],
         }
       },
       showCustomConfig: false,
