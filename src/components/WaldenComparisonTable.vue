@@ -372,6 +372,14 @@ export default {
         }
       }
       
+      // Let OA Status pass if the new result is "better" or equal
+      if (columnName === 'open_access.oa_status') {
+        const rankedStatus = ['closed', 'green', 'bronze', 'hybrid', 'gold', 'diamond'];
+        const primaryIndex = rankedStatus.indexOf(primaryValue);
+        const secondaryIndex = rankedStatus.indexOf(secondaryValue);
+        return secondaryIndex >= primaryIndex;
+      }
+
       // Check if this is a boolean field (from the config)
       if (this.config.booleanFields && this.config.booleanFields.some(boolField => {
         // Handle exact match or if field is a nested path that starts with the boolean field
