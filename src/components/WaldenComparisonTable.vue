@@ -476,25 +476,11 @@ export default {
         }
       });
       
-      // Count array fields
+      // Use pre-calculated counts from _counts object
       (this.config.arrayCountFields || []).forEach(field => {
-        // Check if this is a nested array count (e.g., 'authorships.affiliations')
-        if (field.field.includes('.')) {
-          const [parentField, childField] = field.field.split('.');
-          // Get the parent array
-          const parentArray = data[parentField] || [];
-          // Count all items in the nested arrays
-          let totalCount = 0;
-          parentArray.forEach(item => {
-            if (item && Array.isArray(item[childField])) {
-              totalCount += item[childField].length;
-            }
-          });
-          result[`${field.field}_count`] = totalCount || '0';
-        } else {
-          // Regular array count
-          result[`${field.field}_count`] = (data[field.field] || []).length || '0';
-        }
+        const displayName = field.displayName || field.field;
+        // Rely on pre-calculated counts - if not present, show '-'
+        result[`${field.field}_count`] = data._counts?.[displayName] || '-';
       });
       
       // Flatten nested fields

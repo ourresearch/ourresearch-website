@@ -345,7 +345,7 @@ export default {
               displayName: 'authorships (count)'
             },
             {
-              field: 'authorships.affiliations',
+              field: ['authorships.institutions', 'authorships.raw_affiliation_strings'],
               displayName: 'affiliations (count)'
             }
           ],
@@ -406,6 +406,102 @@ export default {
     this.initializeCustomConfig();
   },
   methods: {
+    // Helper function to get nested field values, including arrays
+    getFieldValue(data, fieldPath) {
+
+      if (!data) return undefined;
+      
+      const parts = fieldPath.split('.');
+      let value = data;
+      
+      for (let i = 0; i < parts.length; i++) {
+        const part = parts[i];
+
+        if (value === null || value === undefined) {
+          return undefined;
+        }
+        
+        // If we're trying to access a property of an array, handle it specially
+        if (Array.isArray(value)) {
+          // For the last part of the path, return all matching values from the array
+          if (i === parts.length - 1) {
+            const result = value.map(item => item[part]).filter(Boolean);
+            return result;
+          }
+          
+          // For intermediate parts, collect values from all array items
+          const remainingPath = parts.slice(i + 1).join('.');
+
+          const nestedValues = [];
+          
+          for (const item of value) {
+            if (item && item[part]) {
+              const nested = this.getFieldValue(item[part], remainingPath);
+              if (nested !== undefined) {
+                if (Array.isArray(nested)) {
+                  nestedValues.push(...nested);
+                } else {
+                  nestedValues.push(nested);
+                }
+              }
+            }
+          }
+          return nestedValues.length > 0 ? nestedValues : undefined;
+        }
+        value = value[part];
+      }
+      
+      return value;
+    },
+    
+    // General method to count items in nested arrays
+    countNestedArrayItems(data, fieldPath) {
+      
+      if (!data) return 0;
+      
+      // If the field doesn't contain a dot, it's a simple array
+      if (!fieldPath.includes('.')) {
+        const value = data[fieldPath];
+        if (Array.isArray(value)) {
+          return value.length;
+        }
+        return 0;
+      }
+
+      console.log(`Counting nested array items for path: ${fieldPath}`);
+
+      // Split the path into parts
+      const parts = fieldPath.split('.');
+      
+      // For nested arrays, the first part is the outer array, and the second part is the inner array
+      const outerArrayName = parts[0];
+      const innerArrayName = parts[1];
+      
+      const outerArray = data[outerArrayName];
+      
+      // If the outer array doesn't exist or isn't an array, return 0
+      if (!outerArray || !Array.isArray(outerArray)) {
+        console.log(`Outer array ${outerArrayName} not found or not an array`);
+        return 0;
+      }
+      
+      // Count the total number of items in all inner arrays
+      let totalCount = 0;
+      //debugger;
+      console.log(`Outer array ${outerArrayName}:`, outerArray);
+      for (const item of outerArray) {
+        if (item && item[innerArrayName] !== undefined) {
+          if (Array.isArray(item[innerArrayName])) {
+            // If the inner field is an array, add its length
+            totalCount += item[innerArrayName].length;
+            console.log(`Found array ${innerArrayName} with ${item[innerArrayName].length} items`);
+          } 
+        }
+      }
+      
+      console.log(`Total count for nested array ${fieldPath}: ${totalCount}`);
+      return totalCount;
+    },
     initializeCustomConfig() {
       // Initialize customOpenAlexConfig with the default values from comparisonConfigs
       const defaultConfig = this.comparisonConfigs.openalex;
@@ -508,7 +604,6 @@ export default {
         this.isLoading = false;
       }
     },
-
     async fetchComparison(id, type) {
       const config = this.comparisonConfigs[type];
       const comparison = {
@@ -727,6 +822,13 @@ export default {
       if (value === undefined) return 'undefined';
       if (value === null) return 'null';
       if (value?.summary) return value; // For summary entries
+      
+      // For numbers that represent counts, make it more readable
+      if (typeof value === 'number') {
+        // Check if the path includes 'count' to identify count fields
+        return String(value);
+      }
+      
       if (typeof value === 'object') return JSON.stringify(value);
       return String(value);
     },
@@ -761,10 +863,10 @@ export default {
       const secondaryData = comparison.fullSecondaryData;
 
       // Filter primary data
-      comparison.primaryData = this.filterData(primaryData, config);
+      comparison.primaryData = this.filterData(primaryData, config, true);
 
       // Filter secondary data
-      comparison.secondaryData = this.filterData(secondaryData, config);
+      comparison.secondaryData = this.filterData(secondaryData, config, false);
 
       // Generate differences
       comparison.differences = this.generateDifferences(
@@ -773,23 +875,8 @@ export default {
         config
       );
     },
-    filterData(data, config) {
+    filterData(data, config, isPrimary = true) {
       const filteredData = {};
-      
-      // Helper function to get nested field values
-      const getFieldValue = (data, fieldPath) => {
-        if (!data) return undefined;
-        
-        const parts = fieldPath.split('.');
-        let value = data;
-        
-        for (const part of parts) {
-          if (value === null || value === undefined) return undefined;
-          value = value[part];
-        }
-        
-        return value;
-      };
       
       // Helper function to set nested field values
       const setNestedValue = (obj, path, value) => {
@@ -806,14 +893,15 @@ export default {
         }
         
         // Set the value at the final level
-        current[parts[parts.length - 1]] = value;
+        const finalPart = parts[parts.length - 1];
+        current[finalPart] = value;
       };
 
       // Copy fields (handling nested paths)
       for (const field of config.fields) {
         if (field.includes('.')) {
           // Handle nested field paths
-          const value = getFieldValue(data, field);
+          const value = this.getFieldValue(data, field);
           setNestedValue(filteredData, field, value);
         } else {
           // Handle flat fields
@@ -834,36 +922,98 @@ export default {
 
       // Copy array count fields
       for (const arrayField of config.arrayCountFields) {
-        const field = typeof arrayField === 'object' ? arrayField.field : arrayField;
-        if (data[field]) {
+        console.log('Filtering array count field:', arrayField);
+        
+        // Handle different field formats:
+        // 1. String: same field for both primary and secondary
+        // 2. Object with field property as string: same field for both
+        // 3. Object with field property as array: different fields for primary and secondary
+        let field, displayName;
+        
+        if (typeof arrayField === 'object') {
+          if (Array.isArray(arrayField.field)) {
+            // For filtering, we only need to use the appropriate field for this data source
+            // The comparison function will handle matching the right fields
+            field = arrayField.field[isPrimary ? 0 : 1]; // Use appropriate field based on data source
+          } else {
+            field = arrayField.field;
+          }
+          displayName = arrayField.displayName || field;
+        } else {
+          field = arrayField;
+          displayName = field;
+        }
+
+        // Use the general countNestedArrayItems method for all fields
+        const count = this.countNestedArrayItems(data, field);
+        console.log(`Count for ${field}: ${count}`);
+        
+        // Create a count property for display in the UI
+        if (!filteredData._counts) filteredData._counts = {};
+        filteredData._counts[displayName] = count;
+        
+        // Set the field value in filteredData
+        if (field.includes('.')) {
+          // Handle nested fields
+          const value = this.getFieldValue(data, field);
+          if (value) {
+            setNestedValue(filteredData, field, value);
+            
+            // For array fields, also set a count property
+            if (Array.isArray(value)) {
+              if (!filteredData._counts) filteredData._counts = {};
+              filteredData._counts[displayName] = value.length;
+            }
+          }
+        } else if (data[field]) {
+          // Handle direct fields
           filteredData[field] = data[field];
+          
+          // For array fields, also set a count property
+          if (Array.isArray(data[field])) {
+            if (!filteredData._counts) filteredData._counts = {};
+            filteredData._counts[displayName] = data[field].length;
+          }
         }
       }
 
+      console.log('Filtered data:', filteredData);
       return filteredData;
     },
     generateDifferences(primaryData, secondaryData, config) {
       const differences = [];
       
-      // Helper function to get nested field values
-      const getFieldValue = (data, fieldPath) => {
-        if (!data) return undefined;
+      // Check for _counts property in both primary and secondary data
+      if (primaryData?._counts || secondaryData?._counts) {
+        const primaryCounts = primaryData?._counts || {};
+        const secondaryCounts = secondaryData?._counts || {};
         
-        const parts = fieldPath.split('.');
-        let value = data;
+        // Get all unique keys from both objects
+        const allCountKeys = new Set([
+          ...Object.keys(primaryCounts),
+          ...Object.keys(secondaryCounts)
+        ]);
         
-        for (const part of parts) {
-          if (value === null || value === undefined) return undefined;
-          value = value[part];
-        }
-        
-        return value;
-      };
+        // Add differences for each count field
+        allCountKeys.forEach(key => {
+          const primaryCount = primaryCounts[key] || 0;
+          const secondaryCount = secondaryCounts[key] || 0;
+          
+          if (primaryCount !== secondaryCount) {
+            differences.push({
+              path: [key],
+              kind: 'E',
+              lhs: primaryCount,
+              rhs: secondaryCount
+            });
+          }
+        });
+      }
 
       // Compare flat and nested fields in the fields array
       for (const field of config.fields) {
-        const primaryValue = field.includes('.') ? getFieldValue(primaryData, field) : primaryData[field];
-        const secondaryValue = field.includes('.') ? getFieldValue(secondaryData, field) : secondaryData[field];
+        const primaryValue = field.includes('.') ? this.getFieldValue(primaryData, field) : primaryData[field];
+        const secondaryValue = field.includes('.') ? this.getFieldValue(secondaryData, field) : secondaryData[field];
         
         if (primaryValue !== secondaryValue) {
           differences.push({
@@ -881,8 +1031,8 @@ export default {
           // Skip if this field is already in the fields array to avoid duplication
           if (config.fields.includes(field)) continue;
           
-          const primaryValue = getFieldValue(primaryData, field);
-          const secondaryValue = getFieldValue(secondaryData, field);
+          const primaryValue = this.getFieldValue(primaryData, field);
+          const secondaryValue = this.getFieldValue(secondaryData, field);
           
           // For boolean fields, it's a match if the secondary value exists, regardless of primary
           const secondaryExists = ![null, undefined, '-'].includes(secondaryValue) && secondaryValue !== '';
@@ -931,28 +1081,47 @@ export default {
 
       // Compare array count fields
       for (const arrayField of config.arrayCountFields) {
-        const field = typeof arrayField === 'object' ? arrayField.field : arrayField;
-
-        // Skip if either object doesn't have the array
-        if (!primaryData[field] || !secondaryData[field]) {
-          if (primaryData[field] || secondaryData[field]) {
-            differences.push({
-              path: [field],
-              kind: 'E',
-              lhs: primaryData[field] ? primaryData[field].length : 0,
-              rhs: secondaryData[field] ? secondaryData[field].length : 0
-            });
+        console.log('Processing array count field:', arrayField);
+        
+        // Handle different field formats:
+        // 1. String: same field for both primary and secondary
+        // 2. Object with field property as string: same field for both
+        // 3. Object with field property as array: different fields for primary and secondary
+        let primaryField, secondaryField, displayName;
+        
+        if (typeof arrayField === 'object') {
+          if (Array.isArray(arrayField.field)) {
+            // Different fields for primary and secondary
+            [primaryField, secondaryField] = arrayField.field;
+          } else {
+            // Same field for both
+            primaryField = secondaryField = arrayField.field;
           }
-          continue;
+          displayName = arrayField.displayName || primaryField;
+        } else {
+          // String field name
+          primaryField = secondaryField = arrayField;
+          displayName = arrayField;
         }
 
-        // Compare array lengths
-        if (primaryData[field].length !== secondaryData[field].length) {
+        let primaryLength = 0;
+        let secondaryLength = 0;
+        
+        primaryLength = this.countNestedArrayItems(primaryData, primaryField);
+        secondaryLength = this.countNestedArrayItems(secondaryData, secondaryField);
+        
+
+        // If lengths differ, add to differences
+        if (primaryLength !== secondaryLength) {
+          const pathDisplay = Array.isArray(arrayField.field) ? 
+            `${displayName} (${primaryField}/${secondaryField})` : 
+            displayName;
+            
           differences.push({
-            path: [field],
+            path: [pathDisplay],
             kind: 'E',
-            lhs: primaryData[field].length,
-            rhs: secondaryData[field].length
+            lhs: primaryLength,
+            rhs: secondaryLength
           });
         }
       }
