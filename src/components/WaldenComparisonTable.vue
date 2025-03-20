@@ -374,6 +374,11 @@ export default {
       
       // Let OA Status pass if the new result is "better" or equal
       if (columnName === 'open_access.oa_status') {
+        if (primaryValue === "diamond" && secondaryValue === "gold") {
+          // Diamond isn'ton Walden yet
+          return true;
+        }
+        
         const rankedStatus = ['closed', 'green', 'bronze', 'hybrid', 'gold', 'diamond'];
         const primaryIndex = rankedStatus.indexOf(primaryValue);
         const secondaryIndex = rankedStatus.indexOf(secondaryValue);
