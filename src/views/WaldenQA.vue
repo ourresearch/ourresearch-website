@@ -345,7 +345,7 @@ export default {
               displayName: 'authorships (count)'
             },
             {
-              field: ['authorships.institutions', 'authorships.raw_affiliation_strings'],
+              field: 'authorships.raw_affiliation_strings',
               displayName: 'affiliations (count)'
             }
           ],
