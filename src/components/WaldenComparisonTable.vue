@@ -378,7 +378,7 @@ export default {
           // Diamond isn'ton Walden yet
           return true;
         }
-        
+      
         const rankedStatus = ['closed', 'green', 'bronze', 'hybrid', 'gold', 'diamond'];
         const primaryIndex = rankedStatus.indexOf(primaryValue);
         const secondaryIndex = rankedStatus.indexOf(secondaryValue);

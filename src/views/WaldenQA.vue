@@ -320,6 +320,10 @@ export default {
             primary: 'https://api.openalex.org/',
             secondary: 'https://api.openalex.org/v2/'
           },
+          bulkEndpoints: {
+            primary: 'https://openalex-elastic-api.herokuapp.com/works-batch',
+            secondary: 'https://openalex-elastic-api.herokuapp.com/v2/works-batch'
+          },
           labels: {
             primary: 'Prod',
             secondary: 'Walden'
@@ -856,19 +860,14 @@ export default {
         });
       }
     },
-    
     applyCustomConfig(comparison) {
       const config = this.customOpenAlexConfig;
       const primaryData = comparison.fullPrimaryData;
       const secondaryData = comparison.fullSecondaryData;
 
-      // Filter primary data
       comparison.primaryData = this.filterData(primaryData, config, true);
-
-      // Filter secondary data
       comparison.secondaryData = this.filterData(secondaryData, config, false);
 
-      // Generate differences
       comparison.differences = this.generateDifferences(
         comparison.primaryData, 
         comparison.secondaryData, 
@@ -958,22 +957,10 @@ export default {
           const value = this.getFieldValue(data, field);
           if (value) {
             setNestedValue(filteredData, field, value);
-            
-            // For array fields, also set a count property
-            if (Array.isArray(value)) {
-              if (!filteredData._counts) filteredData._counts = {};
-              filteredData._counts[displayName] = value.length;
-            }
           }
         } else if (data[field]) {
           // Handle direct fields
           filteredData[field] = data[field];
-          
-          // For array fields, also set a count property
-          if (Array.isArray(data[field])) {
-            if (!filteredData._counts) filteredData._counts = {};
-            filteredData._counts[displayName] = data[field].length;
-          }
         }
       }
 
