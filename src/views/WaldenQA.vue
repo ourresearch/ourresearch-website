@@ -457,10 +457,8 @@ export default {
       
       return value;
     },
-    
     // General method to count items in nested arrays
     countNestedArrayItems(data, fieldPath) {
-      
       if (!data) return 0;
       
       // If the field doesn't contain a dot, it's a simple array
@@ -519,7 +517,6 @@ export default {
         }))
       };
     },
-    
     getDefaultTab() {
       return parseInt(localStorage.getItem('unpaywallQaDefaultTab') || '0')
     },
@@ -587,7 +584,6 @@ export default {
         this.showBulkDialog = false;
       }
     },
-
     async fetchRandomSample(type) {
       this.error = null;
       this.isLoading = true;
