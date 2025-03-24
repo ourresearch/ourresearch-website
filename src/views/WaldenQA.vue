@@ -5,6 +5,12 @@
         <h1 class="text-h3 mb-6">Walden QA</h1>
 
         <v-card class="comparison-controls pa-3 mb-6" color="grey lighten-3" :loading="isLoading || isLoadingResults">
+          <template v-slot:progress>
+            <v-progress-linear
+              indeterminate
+              color="primary"
+            ></v-progress-linear>
+          </template>
           <v-card-title class="text-h5 d-flex align-center">
             Comparison:
             <v-radio-group
