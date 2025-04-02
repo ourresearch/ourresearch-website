@@ -41,6 +41,18 @@
               <v-icon left>mdi-cog</v-icon>
               Custom Config
             </v-btn>
+            
+            <!-- Add Custom Config button for Unpaywall -->
+            <v-btn
+              v-if="activeComparisonType === 'doi'"
+              color="secondary"
+              text
+              class="ml-4"
+              @click="showUnpaywallConfig = true"
+            >
+              <v-icon left>mdi-cog</v-icon>
+              Custom Config
+            </v-btn>
           </v-card-title>
 
           <v-card-text>
@@ -86,7 +98,7 @@
               <div class="d-flex align-center">
                 <div style="width: 400px;" class="mr-4">
                   <v-text-field
-                    v-model="activeComparisonType === 'doi' ? doi : openAlexId"
+                    v-model="activeIdInput"
                     :label="activeComparisonType === 'doi' ? 'Enter DOI' : 'Enter OpenAlex ID'"
                     outlined
                     background-color="white"
@@ -117,7 +129,7 @@
           <WaldenComparisonTable 
             v-if="comparisons.length > 0"
             :comparisons="comparisons"
-            :config="activeComparisonType === 'openalex' && customOpenAlexConfig ? customOpenAlexConfig : comparisonConfigs[activeComparisonType]"
+            :config="getActiveConfig()"
           />
 
           <!-- Only show individual comparisons in single mode -->
@@ -251,18 +263,26 @@
       </v-col>
     </v-row>
     
-    <!-- Add the OpenAlexConfigModal component -->
-    <OpenAlexConfigModal
+    <!-- Add the ConfigModal components -->
+    <ConfigModal
       v-model="showCustomConfig"
       :current-config="customOpenAlexConfig"
-      @save="updateCustomConfig"
+      config-type="openalex"
+      @update:config="updateCustomConfig"
+    />
+    
+    <ConfigModal
+      v-model="showUnpaywallConfig"
+      :current-config="customUnpaywallConfig"
+      config-type="unpaywall"
+      @update:config="updateUnpaywallConfig"
     />
   </v-container>
 </template>
 
 <script>
 import WaldenComparisonTable from '../components/WaldenComparisonTable.vue'
-import OpenAlexConfigModal from '../components/OpenAlexConfigModal.vue'
+import ConfigModal from '../components/ConfigModal.vue'
 import axios from 'axios'
 import { createTwoFilesPatch } from 'diff'
 import { html as diff2html } from 'diff2html'
@@ -272,7 +292,7 @@ export default {
   name: 'WaldenQA',
   components: {
     WaldenComparisonTable,
-    OpenAlexConfigModal
+    ConfigModal
   },
   data() {
     return {
@@ -363,6 +383,7 @@ export default {
         }
       },
       showCustomConfig: false,
+      showUnpaywallConfig: false,
       customOpenAlexConfig: {
         fields: [
           'display_name',
@@ -398,10 +419,56 @@ export default {
             ]
           }
         ]
+      },
+      customUnpaywallConfig: {
+        fields: [
+          'doi',
+          'title',
+          'published_date',
+          'year',
+          'journal_name',
+          'publisher',
+          'is_oa',
+          'oa_status',
+          'has_repository_copy'
+        ],
+        arrayCountFields: [
+          {
+            field: 'z_authors',
+            displayName: 'authors (count)'
+          },
+          {
+            field: 'oa_locations',
+            displayName: 'oa_locations (count)'
+          }
+        ],
+        nestedFields: [
+          {
+            group: 'best_oa_location',
+            fields: [
+              'url',
+              'url_for_pdf',
+              'version',
+              'license'
+            ]
+          }
+        ]
       }
     }
   },
   computed: {
+    activeIdInput: {
+      get() {
+        return this.activeComparisonType === 'doi' ? this.doi : this.openAlexId
+      },
+      set(value) {
+        if (this.activeComparisonType === 'doi') {
+          this.doi = value
+        } else {
+          this.openAlexId = value
+        }
+      }
+    },
     inlineJsonDiff() {
       if (!this.comparisons.length) return ''
       return this.comparisons[0].inlineJsonDiff
@@ -412,7 +479,7 @@ export default {
     }
   },
   created() {
-    // Initialize customOpenAlexConfig with default values
+    // Initialize custom configs with default values
     this.initializeCustomConfig();
   },
   methods: {
@@ -512,12 +579,24 @@ export default {
     },
     initializeCustomConfig() {
       // Initialize customOpenAlexConfig with the default values from comparisonConfigs
-      const defaultConfig = this.comparisonConfigs.openalex;
+      const defaultOpenAlexConfig = this.comparisonConfigs.openalex;
       this.customOpenAlexConfig = {
-        ...JSON.parse(JSON.stringify(defaultConfig)), // Deep copy all properties
-        fields: [...defaultConfig.fields],
-        arrayCountFields: [...defaultConfig.arrayCountFields],
-        nestedFields: defaultConfig.nestedFields.map(group => ({
+        ...JSON.parse(JSON.stringify(defaultOpenAlexConfig)), // Deep copy all properties
+        fields: [...defaultOpenAlexConfig.fields],
+        arrayCountFields: [...defaultOpenAlexConfig.arrayCountFields],
+        nestedFields: defaultOpenAlexConfig.nestedFields.map(group => ({
+          group: group.group,
+          fields: [...group.fields]
+        }))
+      };
+      
+      // Initialize customUnpaywallConfig with the default values from comparisonConfigs
+      const defaultUnpaywallConfig = this.comparisonConfigs.doi;
+      this.customUnpaywallConfig = {
+        ...JSON.parse(JSON.stringify(defaultUnpaywallConfig)), // Deep copy all properties
+        fields: [...defaultUnpaywallConfig.fields || []],
+        arrayCountFields: [],
+        nestedFields: defaultUnpaywallConfig.nestedFields.map(group => ({
           group: group.group,
           fields: [...group.fields]
         }))
@@ -852,6 +931,9 @@ export default {
         nestedFields: [...config.nestedFields]
       };
       
+      // Cache in localStorage
+      localStorage.setItem('customOpenAlexConfig', JSON.stringify(this.customOpenAlexConfig));
+      
       // If there are active comparisons, apply the new configuration immediately
       if (this.activeComparisonType === 'openalex' && this.comparisons.length > 0) {
         // Apply the new config to all current comparisons
@@ -862,8 +944,58 @@ export default {
         });
       }
     },
+    
+    updateUnpaywallConfig(config) {
+      // Ensure the custom config has all necessary properties from the default config
+      const defaultConfig = this.comparisonConfigs.doi;
+      this.customUnpaywallConfig = {
+        ...defaultConfig,
+        fields: [...config.fields],
+        booleanFields: [...(config.booleanFields || [])],
+        arrayCountFields: [...config.arrayCountFields],
+        nestedFields: [...config.nestedFields]
+      };
+      
+      // Cache in localStorage
+      localStorage.setItem('customUnpaywallConfig', JSON.stringify(this.customUnpaywallConfig));
+      
+      // If there are active comparisons, apply the new configuration immediately
+      if (this.activeComparisonType === 'doi' && this.comparisons.length > 0) {
+        // Apply the new config to all current comparisons
+        this.comparisons.forEach(comparison => {
+          if (comparison.fullPrimaryData && comparison.fullSecondaryData) {
+            this.applyCustomUnpaywallConfig(comparison);
+          }
+        });
+      }
+    },
+    
+    getActiveConfig() {
+      if (this.activeComparisonType === 'openalex' && this.customOpenAlexConfig) {
+        return this.customOpenAlexConfig;
+      } else if (this.activeComparisonType === 'doi' && this.customUnpaywallConfig) {
+        return this.customUnpaywallConfig;
+      } else {
+        return this.comparisonConfigs[this.activeComparisonType];
+      }
+    },
     applyCustomConfig(comparison) {
       const config = this.customOpenAlexConfig;
+      const primaryData = comparison.fullPrimaryData;
+      const secondaryData = comparison.fullSecondaryData;
+
+      comparison.primaryData = this.filterData(primaryData, config, true);
+      comparison.secondaryData = this.filterData(secondaryData, config, false);
+
+      comparison.differences = this.generateDifferences(
+        comparison.primaryData, 
+        comparison.secondaryData, 
+        config
+      );
+    },
+    
+    applyCustomUnpaywallConfig(comparison) {
+      const config = this.customUnpaywallConfig;
       const primaryData = comparison.fullPrimaryData;
       const secondaryData = comparison.fullSecondaryData;
 
