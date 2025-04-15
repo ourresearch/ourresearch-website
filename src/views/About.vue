@@ -113,15 +113,6 @@ export default {
       },
 
       {
-        name: "Nolan McCafferty",
-        img: require("@/assets/team/nolanheadshot.jpeg"),
-        title: "Software Engineer",
-        fte: "full-time",
-        categories: ["staff"],
-        bio: "Nolan is a software and data engineer with 8 years of experience. He has a bachelor’s degree in Computer Engineering from the University of Iowa and is an Iowa City native."
-      },
-
-      {
         name: "Brett Lockspeiser",
         img: require("@/assets/team/brett-lockspeiser.jpg"),
         title: "Senior Frontend Engineer & Product Owner",
