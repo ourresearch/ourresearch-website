@@ -268,14 +268,18 @@
       v-model="showCustomConfig"
       :current-config="customOpenAlexConfig"
       config-type="openalex"
+      :show-recent-records-prop="showRecentRecords"
       @update:config="updateCustomConfig"
+      @update:showRecentRecords="showRecentRecords = $event"
     />
     
     <ConfigModal
       v-model="showUnpaywallConfig"
       :current-config="customUnpaywallConfig"
       config-type="unpaywall"
+      :show-recent-records-prop="showRecentRecords"
       @update:config="updateUnpaywallConfig"
+      @update:showRecentRecords="showRecentRecords = $event"
     />
   </v-container>
 </template>
@@ -306,6 +310,7 @@ export default {
       isLoading: false,
       isLoadingResults: false,
       isBulkComparison: false,
+      showRecentRecords: false,
       comparisons: [],
       defaultTab: 0,
       missingDoiSummary: {
@@ -674,7 +679,22 @@ export default {
       this.isLoading = true;
       
       try {
-        const sampleEndpoint = this.comparisonConfigs[type].sampleEndpoint.replace(/:sampleSize/g, this.sampleSize);
+        let sampleEndpoint = this.comparisonConfigs[type].sampleEndpoint.replace(/:sampleSize/g, this.sampleSize);
+        if (this.showRecentRecords) {
+          // Calculate the day before yesterday
+          const now = new Date();
+          now.setDate(now.getDate() - 2);
+          const yyyy = now.getFullYear();
+          const mm = String(now.getMonth() + 1).padStart(2, '0');
+          const dd = String(now.getDate()).padStart(2, '0');
+          const fromCreatedDate = `${yyyy}-${mm}-${dd}`;
+          const apiKey = 'YWMKSvdNwfrknsOPtdqCPz';
+          if (type === 'doi') {
+            sampleEndpoint = `https://api.openalex.org/works?filter=indexed_in:crossref,from_created_date:${fromCreatedDate}&sample=${this.sampleSize}&api_key=${apiKey}`;
+          } else {
+            sampleEndpoint = `https://api.openalex.org/works?filter=from_created_date:${fromCreatedDate}&sample=${this.sampleSize}&per-page=${this.sampleSize}&select=id&api_key=${apiKey}`;
+          }
+        }
         const response = await axios.get(sampleEndpoint);
         const ids = type === 'doi'
           ? response.data.results.map(result => result.doi.replace('https://doi.org/', '')).join('\n')

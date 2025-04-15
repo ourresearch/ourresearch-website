@@ -10,6 +10,11 @@
       </v-card-title>
       
       <v-card-text>
+        <v-checkbox
+          v-model="showRecentRecords"
+          label="Show recent records"
+          class="mb-2"
+        />
         <p class="mb-4">Select the fields to include in the comparison:</p>
         
         <v-tabs v-model="activeTab">
@@ -96,6 +101,10 @@ export default {
       type: Boolean,
       default: false
     },
+    showRecentRecordsProp: {
+      type: Boolean,
+      default: false
+    },
     currentConfig: {
       type: Object,
       required: true
@@ -112,6 +121,7 @@ export default {
       selectedFields: [],
       selectedArrayFields: [],
       availableNestedFields: [],
+      showRecentRecords: this.showRecentRecordsProp,
       
       // Config maps for different types
       configMaps: {
@@ -294,6 +304,7 @@ export default {
       }
       
       this.$emit('update:config', config)
+      this.$emit('update:showRecentRecords', this.showRecentRecords)
       this.close()
     },
     
