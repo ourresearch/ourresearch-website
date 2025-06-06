@@ -172,6 +172,17 @@ export default {
       },
 
       {
+        name: "Juan Pablo Alperin (Chair)",
+        img: require("@/assets/team/Juan-Pablo-Alperin.jpg"),
+        title: "Advisory Board",
+        fte: "volunteer",
+        categories: ["advisory board"],
+        links: [
+        ],
+        bio: "Juan Pablo Alperin is an Associate Professor in Publishing, the Scientific Director of the Public Knowledge Project, and the Co-Director of the Scholarly Communications Lab at Simon Fraser University."
+      },
+
+      {
         name: "Eric Jeangirard",
         img: require("@/assets/team/eric-jeangirard.png"),
         title: "Advisory Board",
@@ -224,17 +235,6 @@ export default {
         links: [
         ],
         bio: "Amélie Church is co-director of Sorbonne University Library in Paris, France. She is in charge of implementing the University’s Open Science policy regarding open access to publications, open data and open research information. She participated in the elaboration of the Barcelona Declaration on Open Research Information, and is an elected representative at the board of HAL, the French national repository."
-      },
-
-      {
-        name: "Juan Pablo Alperin",
-        img: require("@/assets/team/Juan-Pablo-Alperin.jpg"),
-        title: "Advisory Board",
-        fte: "volunteer",
-        categories: ["advisory board"],
-        links: [
-        ],
-        bio: "Juan Pablo Alperin is an Associate Professor in Publishing, the Scientific Director of the Public Knowledge Project, and the Co-Director of the Scholarly Communications Lab at Simon Fraser University."
       },
 
       {
@@ -298,9 +298,13 @@ export default {
     displayPeople(category){
       const ret = this.people.filter(p => p.categories.includes(category))
       ret.sort(function(a, b){
-       const  aLastName = a.name.split(" ")[1]
-       const  bLastName = b.name.split(" ")[1]
+        const  aLastName = a.name.split(" ")[1]
+        const  bLastName = b.name.split(" ")[1]
 
+        if (b.name.includes("Juan Pablo")) {
+          return 1;
+        }
+       
         return (aLastName > bLastName) ? 1 : -1;
       })
       return ret
