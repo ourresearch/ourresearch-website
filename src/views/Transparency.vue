@@ -150,11 +150,6 @@
       think we met the criteria for this type of nonprofit. The IRS thought about it for a while, and then issued us
       this <a href="/IRS-determination.pdf">determination letter,</a> granting us 501(c)3 status.
     </p>
-    <p>Our staff, board, and advisory board are bound by our <a href="https://docs.google.com/document/d/1DTNMCW3a_M0T3bThobC5T6WQFon3F-HqcwtOplgTRTc/edit?usp=sharing">Conflict of Interest Policy</a>
-    </p>
-
-
-    <!--    <div class="text-h4" id="coffee">Coffeeshop orders</div>-->
 
   </v-container>
 </template>

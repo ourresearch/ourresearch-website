@@ -75,7 +75,7 @@
               <router-link to="/transparency">Transparency</router-link>
             </div>
             <div>
-              <router-link to="/accessibility">Accessibility</router-link>
+              <router-link to="/policies">Policies</router-link>
             </div>
           </v-col>
           <v-col cols="12" sm="2">

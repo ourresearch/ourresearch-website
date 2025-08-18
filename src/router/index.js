@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import Accessibility from "../views/Accessibility";
 import Transparency from "../views/Transparency";
 import Projects from "../views/Projects";
+import Policies from "../views/Policies";
 import WaldenQA from "../views/WaldenQA";
 import goTo from 'vuetify/es5/services/goto'
 
@@ -18,6 +19,7 @@ const routes = [
     {path: '/about', redirect: "/team"},
     {path: '/accessibility', component: Accessibility},
     {path: '/transparency', component: Transparency},
+    {path: '/policies', component: Policies},
     {path: '/projects', component: Projects},
     {
         path: '/team',

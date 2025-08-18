@@ -2,7 +2,7 @@
   "name": "ourresearch-website-2",
   "version": "0.1.0",
   "engines": {
-    "node": "17.2.0"
+    "node": "18.20.5"
   },
   "private": true,
   "scripts": {
