@@ -5,6 +5,7 @@ import Accessibility from "../views/Accessibility";
 import Transparency from "../views/Transparency";
 import Projects from "../views/Projects";
 import Policies from "../views/Policies";
+import Careers from "../views/Careers";
 import WaldenQA from "../views/WaldenQA";
 import goTo from 'vuetify/es5/services/goto'
 
@@ -21,6 +22,10 @@ const routes = [
     {path: '/transparency', component: Transparency},
     {path: '/policies', component: Policies},
     {path: '/projects', component: Projects},
+    {path: '/careers', component: Careers},
+    {path: '/careers/:jobKey', component: Careers, props: true},
+
+
     {
         path: '/team',
         name: 'About',
