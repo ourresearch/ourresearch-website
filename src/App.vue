@@ -71,9 +71,9 @@
             <div>
               <router-link to="/projects">Projects</router-link>
             </div>
-            <div>
+            <!-- <div>
               <router-link to="/careers">Careers</router-link>
-            </div>
+            </div> -->
             <div>
               <router-link to="/transparency">Transparency</router-link>
             </div>

@@ -22,7 +22,7 @@ const routes = [
     {path: '/transparency', component: Transparency},
     {path: '/policies', component: Policies},
     {path: '/projects', component: Projects},
-    {path: '/careers', component: Careers},
+    // {path: '/careers', component: Careers},
     {path: '/careers/:jobKey', component: Careers, props: true},
 
 
