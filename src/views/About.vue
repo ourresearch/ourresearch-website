@@ -112,14 +112,6 @@ export default {
         bio: "Using data to make better decisions drives Kyle. A former marine ecologist, he has spent the last 9 years working with governments and universities on developing and implementing data-driven research strategies. His spare time is split between his communities and the shorelines and mountains near Vancouver."
       },
 
-      {
-        name: "Brett Lockspeiser",
-        img: require("@/assets/team/brett-lockspeiser.jpg"),
-        title: "Senior Frontend Engineer & Product Owner",
-        fte: "full-time",
-        categories: ["staff"],
-        bio: "Brett Lockspeiser is a software engineer, product designer, and the co-founder of Sefaria, a non-profit organization building a free and open source digital library of Jewish texts. Brett began his career as a product manager at Google where he led the launch of the first Google News Archive. Brett studied Symbolic Systems at Stanford University."
-      },
 
       {
         name: "Steve Gruber",
