@@ -1,29 +1,28 @@
 const express = require('express');
-const path = require('path');
-const serveStatic = require('serve-static');
+const app = express();
 
-let app = express();
+// Let Express trust Heroku's proxy headers (important for HTTPS detection)
+app.enable('trust proxy');
 
+// Optional but recommended: force HTTPS
+app.use((req, res, next) => {
+  if (req.get('x-forwarded-proto') === 'http') {
+    return res.redirect(301, `https://${req.hostname}${req.originalUrl}`);
+  }
+  next();
+});
 
-// this was helpful for configs:
-// https://scotch.io/tutorials/creating-a-single-page-todo-app-with-node-and-angular
-app.use(serveStatic(__dirname + "/dist"));
-
-
-
-app.get('*', function (req, res) {
-    // if we want to always redirect to https, use this:
-    // https://medium.com/@seunghunsunmoonlee/how-to-enforce-https-redirect-http-to-https-on-heroku-deployed-apps-a87a653ba61e
-    // not going to implement for now because it's not essential and we're short on time.
-
-    if (req.hostname !== "ourresearch.org") {
-        res.redirect("https://ourresearch.org" + req.path)
-    }
-
-    res.sendfile('./dist/index.html');
+// Redirect all ourresearch.org traffic to openalex.org
+app.use((req, res) => {
+  const host = req.hostname?.toLowerCase();
+  if (host === 'ourresearch.org' || host === 'www.ourresearch.org') {
+    return res.redirect(301, `https://openalex.org${req.originalUrl}`);
+  }
+  // If some other hostname sneaks through, just return 404
+  res.status(404).send('Not Found');
 });
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
-    console.log('Listening on port ' + port)
+  console.log(`Redirector listening on port ${port}`);
 });
