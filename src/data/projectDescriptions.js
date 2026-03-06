@@ -11,7 +11,7 @@ export const projectsList = [
         datesActive: [2021, null],
         url: "https://openalex.org",
         githubUrl: "https://github.com/orgs/ourresearch/repositories?language=&q=openalex&sort=&type=public",
-        apiUrl: "https://docs.openalex.org",
+        apiUrl: "https://developers.openalex.org",
         description: "An open and comprehensive catalog of scholarly papers, authors, institutions, and more",
         goal: "Make the global research system—one of humankind's most beautiful creations—available to everyone, everywhere",
         // audience: [
